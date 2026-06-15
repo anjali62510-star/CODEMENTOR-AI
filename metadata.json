@@ -1,0 +1,6 @@
+{
+  "name": "CodeMentor AI",
+  "description": "Premium AI-powered career platform with GitHub Analyzer, DSA Tracker, AI Roadmap, and Interview Prep.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
