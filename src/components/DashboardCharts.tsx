@@ -186,10 +186,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
       </svg>
 
       {/* Centered Typography score metrics */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center select-none">
-        <span className="font-sans text-3xl font-extrabold tracking-tight text-white">{score}</span>
-        <span className="font-mono text-[9px] tracking-widest text-[#8E8E93] uppercase mt-0.5">percentile</span>
-      </div>
+        <span className="font-mono text-[9px] tracking-widest text-[#8E8E93] uppercase mt-0.5">{score}%</span>
     </div>
   );
 };

@@ -74,11 +74,14 @@ export const getDefaultDSA = (): DSAPicture => ({
   solvedCount: 34,
   totalCount: 450,
   byCategory: [
-    { category: 'Arrays & Hashing', solved: 15, total: 60 },
-    { category: 'Two Pointers', solved: 8, total: 30 },
-    { category: 'Sliding Window', solved: 5, total: 25 },
-    { category: 'Trees & Graphs', solved: 4, total: 85 },
-    { category: 'Dynamic Programming', solved: 2, total: 95 }
+    { category: 'Arrays', solved: 12, total: 60 },
+    { category: 'Strings', solved: 8, total: 50 },
+    { category: 'Linked Lists', solved: 5, total: 40 },
+    { category: 'Trees', solved: 4, total: 60 },
+    { category: 'Graphs', solved: 2, total: 60 },
+    { category: 'Dynamic Programming', solved: 1, total: 80 },
+    { category: 'Recursion', solved: 1, total: 50 },
+    { category: 'Greedy', solved: 1, total: 50 }
   ],
   recentSubmissions: [
     {
@@ -97,7 +100,22 @@ export const getDefaultDSA = (): DSAPicture => ({
       status: 'Accepted',
       timestamp: new Date(Date.now() - 3600000 * 48).toISOString()
     }
-  ]
+  ],
+  currentStreak: 5,
+  weeklyProgress: [
+    { day: 'Mon', solved: 2 },
+    { day: 'Tue', solved: 3 },
+    { day: 'Wed', solved: 1 },
+    { day: 'Thu', solved: 4 },
+    { day: 'Fri', solved: 2 },
+    { day: 'Sat', solved: 0 },
+    { day: 'Sun', solved: 1 }
+  ],
+  difficultyDistribution: {
+    Easy: 18,
+    Medium: 12,
+    Hard: 4
+  }
 });
 
 // Mock Mongoose-like Models

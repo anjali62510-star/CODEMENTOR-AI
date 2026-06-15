@@ -7,11 +7,14 @@ import {
   Loader2, 
   CheckCircle2, 
   XCircle, 
-  Command, 
   Terminal, 
   BookOpen, 
   Cpu, 
-  History 
+  History,
+  Flame,
+  Award,
+  Zap,
+  CheckCircle
 } from 'lucide-react';
 
 interface CodeFeedback {
@@ -107,7 +110,7 @@ export const DSATracker: React.FC = () => {
   }
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in pb-12">
       {/* Header */}
       <div className="border-b border-[#1C1C1E] pb-6">
         <h1 className="font-sans text-2xl font-extrabold tracking-tight text-white flex items-center gap-2.5 md:text-3xl">
@@ -119,7 +122,7 @@ export const DSATracker: React.FC = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Core Code Editor Panel */}
         <div className="lg:col-span-2 space-y-6">
           <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-6 flex flex-col shadow-xs">
@@ -129,13 +132,13 @@ export const DSATracker: React.FC = () => {
             </h3>
 
             {/* Select problem variables */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4 font-sans">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4 font-sans">
               <div className="flex flex-col gap-1">
                 <label className="text-[10px] font-mono text-[#8E8E93] uppercase tracking-wider">Problem template</label>
                 <select
                   value={problemName}
                   onChange={(e) => handleProblemChange(e.target.value)}
-                  className="bg-[#1C1C1E] border border-[#2D2D30] text-xs font-semibold text-white px-2 py-1.5 rounded-lg focus:outline-hidden"
+                  className="bg-[#1C1C1E] border border-[#2D2D30] text-xs font-semibold text-white px-2 py-1.8 rounded-lg focus:outline-hidden"
                 >
                   {sampleProblems.map(p => (
                     <option key={p.name} value={p.name}>{p.name}</option>
@@ -148,7 +151,7 @@ export const DSATracker: React.FC = () => {
                 <select
                   value={language}
                   onChange={(e) => setLanguage(e.target.value)}
-                  className="bg-[#1C1C1E] border border-[#2D2D30] text-xs font-semibold text-white px-2 py-1.5 rounded-lg focus:outline-hidden"
+                  className="bg-[#1C1C1E] border border-[#2D2D30] text-xs font-semibold text-white px-2 py-1.8 rounded-lg focus:outline-hidden"
                 >
                   <option value="TypeScript">TypeScript</option>
                   <option value="JavaScript">JavaScript</option>
@@ -160,7 +163,7 @@ export const DSATracker: React.FC = () => {
 
               <div className="flex flex-col gap-1">
                 <label className="text-[10px] font-mono text-[#8E8E93] uppercase tracking-wider">Difficulty</label>
-                <span className={`text-xs font-bold leading-none px-3.5 py-2 inline-flex items-center justify-center rounded-lg border text-center font-mono uppercase tracking-wider ${
+                <span className={`text-xs font-bold leading-none px-3.5 py-1.8 inline-flex items-center justify-center rounded-lg border text-center font-mono uppercase tracking-wider ${
                   difficulty === 'Easy' ? 'text-emerald-400 bg-emerald-500/5 border-emerald-500/25' :
                   difficulty === 'Medium' ? 'text-amber-400 bg-amber-500/5 border-amber-500/25' :
                   'text-rose-500 bg-rose-500/5 border-rose-500/25'
@@ -181,13 +184,13 @@ export const DSATracker: React.FC = () => {
               />
             </div>
 
-            <div className="flex items-center justify-between border-t border-[#1C1C1E] pt-4">
-              <span className="text-[10px] font-mono text-[#8E8E93]">Press compiler to analyze space & time metrics.</span>
+            <div className="flex items-center justify-between border-t border-[#1C1C1E]/70 pt-4">
+              <span className="text-[10.5px] font-mono text-[#8E8E93]">Press compiler to analyze space & time metrics.</span>
               <button
                 type="button"
                 onClick={handleCodeSubmit}
                 disabled={solving}
-                className="flex items-center justify-center gap-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black px-4 py-2.5 text-xs font-bold transition shadow-[0_0_15px_rgba(16,185,129,0.25)] disabled:opacity-50"
+                className="flex items-center justify-center gap-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black px-4.5 py-2 text-xs font-bold transition shadow-[0_0_15px_rgba(16,185,129,0.25)] disabled:opacity-50"
               >
                 {solving ? (
                   <>
@@ -204,7 +207,7 @@ export const DSATracker: React.FC = () => {
             </div>
 
             {error && (
-              <div className="mt-4 rounded-lg border border-rose-500/15 bg-rose-500/5 p-3.5 text-xs text-rose-400">
+              <div className="mt-4 rounded-lg border border-rose-500/15 bg-rose-500/5 p-3.5 text-xs text-rose-400 font-mono">
                 {error}
               </div>
             )}
@@ -218,7 +221,7 @@ export const DSATracker: React.FC = () => {
                   <Cpu className="h-4.5 w-4.5 text-emerald-400" />
                   <span>Complexity Audit results</span>
                 </div>
-                <span className={`text-xs font-bold px-2 py-0.5 rounded font-mono uppercase border ${
+                <span className={`text-[10.5px] font-extrabold px-2 py-0.5 rounded font-mono uppercase border ${
                   feedback.status === 'Accepted' ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20' : 'text-amber-400 bg-amber-500/10 border-amber-500/20'
                 }`}>
                   {feedback.status}
@@ -228,38 +231,57 @@ export const DSATracker: React.FC = () => {
               {/* Big space/time variables */}
               <div className="grid grid-cols-2 gap-4 font-mono select-all">
                 <div className="rounded-lg border border-[#262629] bg-[#1B1B1E]/40 p-4 text-center">
-                  <span className="block text-white font-extrabold text-lg">{feedback.timeComplexity}</span>
-                  <label className="text-[9px] uppercase tracking-wider text-[#8E8E93] mt-0.5 block">Time Complexity Scale</label>
+                  <span className="block text-white font-extrabold text-xl">{feedback.timeComplexity}</span>
+                  <label className="text-[9px] uppercase tracking-wider text-[#8E8E93] mt-1 block">Time Complexity Scale</label>
                 </div>
                 <div className="rounded-lg border border-[#262629] bg-[#1B1B1E]/40 p-4 text-center">
-                  <span className="block text-white font-extrabold text-lg">{feedback.spaceComplexity}</span>
-                  <label className="text-[9px] uppercase tracking-wider text-[#8E8E93] mt-0.5 block">Space Complexity Scale</label>
+                  <span className="block text-white font-extrabold text-xl">{feedback.spaceComplexity}</span>
+                  <label className="text-[9px] uppercase tracking-wider text-[#8E8E93] mt-1 block">Space Complexity Scale</label>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 font-mono select-all">
+                <div className="rounded-lg border border-[#262629] bg-[#1B1B1E]/40 p-3.5 text-center">
+                  <span className="block text-emerald-400 font-extrabold text-lg">{feedback.correctnessScore}%</span>
+                  <label className="text-[9px] uppercase tracking-wider text-[#8E8E93] mt-0.5 block">Correctness Audit</label>
+                </div>
+                <div className="rounded-lg border border-[#262629] bg-[#1B1B1E]/40 p-3.5 text-center">
+                  <span className="block text-emerald-400 font-extrabold text-lg">{feedback.performanceScore}%</span>
+                  <label className="text-[9px] uppercase tracking-wider text-[#8E8E93] mt-0.5 block">Efficiency Audit</label>
                 </div>
               </div>
 
               {/* Gaps / Critical issues details */}
               {feedback.criticalIssues.length > 0 && (
-                <div>
-                  <h4 className="font-sans font-bold text-white text-xs mb-2">Algorithmic Warnings</h4>
-                  <ul className="list-disc list-inside text-xs text-[#8E8E93] space-y-1 pl-1">
+                <div className="pt-2">
+                  <h4 className="font-mono text-[10px] uppercase tracking-wider text-rose-400 mb-2 flex items-center gap-1.5">
+                    <XCircle className="h-4 w-4" />
+                    <span>Algorithmic Warnings</span>
+                  </h4>
+                  <ul className="list-disc list-inside text-xs text-[#8E8E93] space-y-1.5 pl-1.5">
                     {feedback.criticalIssues.map((issue, idx) => (
-                      <li key={idx}>{issue}</li>
+                      <li key={idx} className="leading-relaxed">{issue}</li>
                     ))}
                   </ul>
                 </div>
               )}
 
               {/* Improvements details */}
-              <div>
-                <h4 className="font-sans font-bold text-white text-xs mb-2">Recommended Code Enhancements</h4>
-                <div className="space-y-2">
-                  {feedback.improvements.map((imp, idx) => (
-                    <p key={idx} className="text-xs text-[#8E8E93] leading-relaxed border-l-2 border-emerald-500/40 pl-3 select-all">
-                      {imp}
-                    </p>
-                  ))}
+              {feedback.improvements.length > 0 && (
+                <div className="pt-2">
+                  <h4 className="font-mono text-[10px] uppercase tracking-wider text-emerald-400 mb-2 flex items-center gap-1.5">
+                    <CheckCircle className="h-4 w-4" />
+                    <span>Recommended Code Enhancements</span>
+                  </h4>
+                  <div className="space-y-2.5">
+                    {feedback.improvements.map((imp, idx) => (
+                      <p key={idx} className="text-xs text-[#8E8E93] leading-relaxed border-l-2 border-emerald-500/45 pl-3 select-all">
+                        {imp}
+                      </p>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
         </div>
@@ -269,10 +291,19 @@ export const DSATracker: React.FC = () => {
           {/* General progress stats */}
           {dsaData && (
             <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-6 flex flex-col shadow-xs">
-              <h3 className="font-sans text-[#E5E5E7] font-semibold text-sm mb-4 border-b border-[#1C1C1E] pb-3 flex items-center gap-2">
-                <BookOpen className="h-4 w-4 text-[#8E8E93]" />
-                <span>Solved aggregates</span>
+              <h3 className="font-sans text-[#E5E5E7] font-semibold text-sm mb-4 border-b border-[#1C1C1E]/60 pb-3 flex items-center justify-between">
+                <span className="flex items-center gap-2">
+                  <BookOpen className="h-4 w-4 text-[#8E8E93]" />
+                  <span>Solved Aggregates</span>
+                </span>
+                
+                {/* Flame element for streak */}
+                <div className="flex items-center gap-1 text-orange-500 font-mono text-xs font-extrabold animate-pulse">
+                  <Flame className="h-4.5 w-4.5 fill-orange-500/10" />
+                  <span>{dsaData.currentStreak || 5}D STREAK</span>
+                </div>
               </h3>
+              
               <div className="flex items-baseline gap-1 font-sans">
                 <span className="text-4xl font-extrabold text-white tracking-tight">{dsaData.solvedCount}</span>
                 <span className="text-[#8E8E93] text-xs font-mono">/ {dsaData.totalCount} Problems</span>
@@ -284,17 +315,99 @@ export const DSATracker: React.FC = () => {
                   <div key={idx} className="flex flex-col gap-1.5 font-mono text-[10px]">
                     <div className="flex items-center justify-between text-[#E5E5E7] font-sans text-xs">
                       <span className="font-medium text-white/90">{cat.category}</span>
-                      <span className="font-semibold text-emerald-400 font-mono">{cat.solved} / {cat.total}</span>
+                      <span className="font-semibold text-emerald-400 font-mono">{cat.solved} <span className="text-[#8E8E93]">/ {cat.total}</span></span>
                     </div>
                     <div className="h-2 w-full rounded-full bg-[#1C1C1E] overflow-hidden">
                       <div 
-                        className="h-full rounded-full bg-emerald-500/80 transition-all duration-500" 
+                        className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-500" 
                         style={{ width: `${(cat.solved / cat.total) * 100}%` }}
                       />
                     </div>
                   </div>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Weekly Progress Bar Chart */}
+          {dsaData && dsaData.weeklyProgress && (
+            <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-6 flex flex-col shadow-xs">
+              <span className="block text-[10px] font-mono tracking-widest text-[#8E8E93] uppercase mb-4">Past Week Activity</span>
+              <div className="flex items-end justify-between h-32 pt-6 pb-2 px-3 border-b border-[#1C1C1E]/55 bg-[#0E0E10] rounded-lg">
+                {dsaData.weeklyProgress.map((wp, idx) => {
+                  const maxVal = Math.max(...(dsaData.weeklyProgress?.map(w => w.solved) || [1]), 4);
+                  const heightPercent = (wp.solved / maxVal) * 100;
+
+                  return (
+                    <div key={idx} className="flex flex-col items-center gap-2 group flex-1">
+                      <div className="relative w-full flex justify-center h-20 items-end">
+                        {wp.solved > 0 && (
+                          <span className="absolute -top-6 scale-0 group-hover:scale-110 transition-all bg-emerald-500 text-black text-[9px] font-bold px-1.5 py-0.5 rounded shadow-lg pointer-events-none font-mono">
+                            {wp.solved}
+                          </span>
+                        )}
+                        <div 
+                          className={`w-4.5 rounded-t-[3px] transition-all duration-500 ${
+                            wp.solved > 0 
+                              ? 'bg-gradient-to-t from-emerald-600 to-emerald-400 group-hover:from-emerald-500 group-hover:to-teal-300' 
+                              : 'bg-[#1C1C1E]'
+                          }`}
+                          style={{ height: `${heightPercent || 6}%`, minHeight: '4px' }}
+                        />
+                      </div>
+                      <span className="text-[10px] font-mono text-[#8E8E93] group-hover:text-white transition-colors">{wp.day}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Difficulty Distribution Chart Stack */}
+          {dsaData && dsaData.difficultyDistribution && (
+            <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-6 flex flex-col shadow-xs">
+              <span className="block text-[10px] font-mono tracking-widest text-[#8E8E93] uppercase mb-4">Difficulty Matrix</span>
+              
+              <div className="grid grid-cols-3 gap-3 mb-5 font-mono text-center">
+                <div className="bg-[#1C1C1E] rounded-lg p-2.5">
+                  <span className="block text-emerald-400 font-extrabold text-lg leading-tight">{dsaData.difficultyDistribution.Easy}</span>
+                  <span className="text-[9px] uppercase text-[#8E8E93]">Easy</span>
+                </div>
+                <div className="bg-[#1C1C1E] rounded-lg p-2.5">
+                  <span className="block text-amber-400 font-extrabold text-lg leading-tight">{dsaData.difficultyDistribution.Medium}</span>
+                  <span className="text-[9px] uppercase text-[#8E8E93]">Medium</span>
+                </div>
+                <div className="bg-[#1C1C1E] rounded-lg p-2.5">
+                  <span className="block text-rose-400 font-extrabold text-lg leading-tight">{dsaData.difficultyDistribution.Hard}</span>
+                  <span className="text-[9px] uppercase text-[#8E8E93]">Hard</span>
+                </div>
+              </div>
+
+              {/* Stacked Percentage bar */}
+              {(() => {
+                const easy = dsaData.difficultyDistribution?.Easy || 0;
+                const med = dsaData.difficultyDistribution?.Medium || 0;
+                const hard = dsaData.difficultyDistribution?.Hard || 0;
+                const total = easy + med + hard || 1;
+                const pEasy = (easy / total) * 100;
+                const pMed = (med / total) * 100;
+                const pHard = (hard / total) * 100;
+
+                return (
+                  <div className="space-y-2">
+                    <div className="h-2.5 w-full rounded-full bg-[#1C1C1E] overflow-hidden flex">
+                      <div className="h-full bg-emerald-500 transition-all duration-500" style={{ width: `${pEasy}%` }} title={`Easy ${Math.round(pEasy)}%`} />
+                      <div className="h-full bg-amber-500 transition-all duration-500 border-l border-[#141416]" style={{ width: `${pMed}%` }} title={`Medium ${Math.round(pMed)}%`} />
+                      <div className="h-full bg-rose-500 transition-all duration-500 border-l border-[#141416]" style={{ width: `${pHard}%` }} title={`Hard ${Math.round(pHard)}%`} />
+                    </div>
+                    <div className="flex items-center justify-between text-[10px] font-mono text-[#8E8E93]">
+                      <span>{Math.round(pEasy)}% Easy</span>
+                      <span>{Math.round(pMed)}% Med</span>
+                      <span>{Math.round(pHard)}% Hard</span>
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
           )}
 
@@ -305,7 +418,7 @@ export const DSATracker: React.FC = () => {
                 <History className="h-4.5 w-4.5 text-[#8E8E93]" />
                 <span>Submissions History</span>
               </h3>
-              <div className="space-y-3 max-h-[280px] overflow-y-auto">
+              <div className="space-y-3 max-h-[320px] overflow-y-auto">
                 {dsaData.recentSubmissions.map((sub) => (
                   <div key={sub.id} className="flex items-start justify-between border-b border-[#1C1C1E]/30 pb-2.5 last:border-0 last:pb-0">
                     <div className="flex flex-col gap-0.5">

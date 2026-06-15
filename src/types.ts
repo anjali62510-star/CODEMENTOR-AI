@@ -43,15 +43,32 @@ export interface User {
 
 export interface GitHubAnalysis {
   username: string;
+  name?: string;
+  avatarUrl?: string;
+  bio?: string;
+  company?: string;
+  location?: string;
+  followers?: number;
+  following?: number;
   lastAnalyzed: string;
   repositoriesCount: number;
   contributionsCount: number;
   starsCount: number;
+  pullRequestsCount?: number;
+  issuesCount?: number;
   languages: { name: string; percentage: number }[];
   readmeRating: string; // 'A' | 'B' | 'C' | 'D'
   recommendations: string[];
   recommendationsReasons: string[];
   readinessContribution: number;
+  topRepos?: { name: string; description: string; stars: number; forks: number; url: string; language?: string }[];
+  recentActivity?: { date: string; type: string; repo: string; message?: string }[];
+  strengths?: string[];
+  weaknesses?: string[];
+  missingSkills?: string[];
+  technologyRecommendations?: string[];
+  openSourceReadinessScore?: number;
+  heatmapData?: number[]; // grid array
 }
 
 export interface DSAPicture {
@@ -66,6 +83,9 @@ export interface DSAPicture {
     status: 'Accepted' | 'Wrong Answer' | 'Time Limit Exceeded';
     timestamp: string;
   }[];
+  currentStreak?: number;
+  weeklyProgress?: { day: string; solved: number }[];
+  difficultyDistribution?: { Easy: number; Medium: number; Hard: number };
 }
 
 export interface RoadmapStep {

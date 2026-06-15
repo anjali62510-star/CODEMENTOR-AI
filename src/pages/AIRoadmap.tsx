@@ -10,12 +10,18 @@ import {
   BookOpen, 
   Calendar,
   Compass,
-  ArrowRight
+  ArrowRight,
+  TrendingUp,
+  Cpu,
+  Bookmark
 } from 'lucide-react';
 
 export const AIRoadmap: React.FC = () => {
   const { user, apiFetch } = useAuth();
   const [timeline, setTimeline] = useState('12 weeks');
+  const [targetRole, setTargetRole] = useState(user?.onboarding?.targetRole || 'Software Engineer');
+  const [currentSkillLevel, setCurrentSkillLevel] = useState(user?.onboarding?.experienceLevel || 'beginner');
+  const [currentTechnologies, setCurrentTechnologies] = useState('React, JavaScript, HTML, CSS');
   const [roadmap, setRoadmap] = useState<AIRoadmapType | null>(null);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -26,6 +32,7 @@ export const AIRoadmap: React.FC = () => {
       const data = await apiFetch('/api/roadmap');
       if (data.roadmap) {
         setRoadmap(data.roadmap);
+        if (data.roadmap.role) setTargetRole(data.roadmap.role);
       }
     } catch (err) {
       console.error('No roadmap generated yet:', err);
@@ -43,7 +50,12 @@ export const AIRoadmap: React.FC = () => {
     try {
       const data = await apiFetch('/api/roadmap/generate', {
         method: 'POST',
-        body: JSON.stringify({ timeline })
+        body: JSON.stringify({ 
+          timeline,
+          targetRole,
+          currentSkillLevel,
+          currentTechnologies
+        })
       });
       setRoadmap(data.roadmap);
     } catch (err) {
@@ -81,6 +93,14 @@ export const AIRoadmap: React.FC = () => {
   const totalSteps = roadmap?.steps.length || 0;
   const progressPercentage = totalSteps > 0 ? Math.round((completedSteps / totalSteps) * 100) : 0;
 
+  const roleOptions = [
+    'Frontend Developer',
+    'Software Engineer',
+    'Data Analyst',
+    'Data Scientist',
+    'ML Engineer'
+  ];
+
   return (
     <div className="space-y-8 animate-fade-in pb-12">
       {/* Header */}
@@ -94,37 +114,104 @@ export const AIRoadmap: React.FC = () => {
             Generate custom, sequential skill stages and resource references matching targeted career positions using Gemini semantic blueprints.
           </p>
         </div>
+      </div>
 
-        {/* Configurations selector */}
-        <div className="flex items-center gap-2.5">
-          <select
-            value={timeline}
-            onChange={(e) => setTimeline(e.target.value)}
-            className="bg-[#1C1C1E] border border-[#2D2D30] text-xs font-semibold text-white px-2.5 py-1.8 rounded-lg focus:outline-hidden"
-          >
-            <option value="6 weeks">Speed Runway (6 Weeks)</option>
-            <option value="12 weeks">Standard Focus (12 Weeks)</option>
-            <option value="24 weeks">Full Comprehensive (24 Weeks)</option>
-          </select>
+      {/* Configuration Box */}
+      <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-6 shadow-xs space-y-4">
+        <h3 className="font-sans font-bold text-white text-sm flex items-center gap-2 mb-3">
+          <Cpu className="h-4 w-4 text-emerald-400" />
+          <span>Personalize Learning Preferences</span>
+        </h3>
 
-          <button
-            type="button"
-            onClick={handleGenerate}
-            disabled={generating}
-            className="flex items-center justify-center gap-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black px-4.5 py-1.8 text-xs font-bold transition shadow-[0_0_15px_rgba(16,185,129,0.25)] disabled:opacity-50"
-          >
-            {generating ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Generating Plan...</span>
-              </>
-            ) : (
-              <>
-                <Sparkles className="h-4 w-4" />
-                <span>Re-align Curriculum</span>
-              </>
-            )}
-          </button>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 font-sans text-xs">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] font-mono text-[#8E8E93] uppercase tracking-wider">Target Career Role</label>
+            <select
+              value={roleOptions.includes(targetRole) ? targetRole : 'Custom'}
+              onChange={(e) => {
+                if (e.target.value !== 'Custom') {
+                  setTargetRole(e.target.value);
+                }
+              }}
+              className="bg-[#1C1C1E] border border-[#2D2D30] text-xs font-semibold text-white px-2.5 py-2.5 rounded-lg focus:outline-hidden"
+            >
+              {roleOptions.map(opt => (
+                <option key={opt} value={opt}>{opt}</option>
+              ))}
+              <option value="Custom">Custom Target Role</option>
+            </select>
+          </div>
+
+          {!roleOptions.includes(targetRole) || targetRole === 'Custom' ? (
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-mono text-[#8E8E93] uppercase tracking-wider">Custom Role Title</label>
+              <input
+                type="text"
+                placeholder="e.g. DevOps Engineer"
+                value={targetRole === 'Custom' ? '' : targetRole}
+                onChange={(e) => setTargetRole(e.target.value)}
+                className="bg-[#1C1C1E] border border-[#2D2D30] text-xs font-semibold text-white px-3 py-2 rounded-lg focus:outline-hidden"
+              />
+            </div>
+          ) : null}
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] font-mono text-[#8E8E93] uppercase tracking-wider">Current Skill Level</label>
+            <select
+              value={currentSkillLevel}
+              onChange={(e) => setCurrentSkillLevel(e.target.value)}
+              className="bg-[#1C1C1E] border border-[#2D2D30] text-xs font-semibold text-white px-2.5 py-2.5 rounded-lg focus:outline-hidden"
+            >
+              <option value="beginner">Beginner (Little study background)</option>
+              <option value="intermediate">Intermediate (Built some scripts/projects)</option>
+              <option value="advanced">Advanced (Understand design & logic flows)</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] font-mono text-[#8E8E93] uppercase tracking-wider">Study Duration Limit</label>
+            <select
+              value={timeline}
+              onChange={(e) => setTimeline(e.target.value)}
+              className="bg-[#1C1C1E] border border-[#2D2D30] text-xs font-semibold text-white px-2.5 py-2.5 rounded-lg focus:outline-hidden"
+            >
+              <option value="6 weeks">Speed Runway (6 Weeks)</option>
+              <option value="12 weeks">Standard Focus (12 Weeks)</option>
+              <option value="24 weeks">Full Comprehensive (24 Weeks)</option>
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-1.5 md:col-span-2">
+            <label className="text-[10px] font-mono text-[#8E8E93] uppercase tracking-wider">Technologies Already Know</label>
+            <input
+              type="text"
+              placeholder="e.g. React, JavaScript, HTML, CSS"
+              value={currentTechnologies}
+              onChange={(e) => setCurrentTechnologies(e.target.value)}
+              className="bg-[#1C1C1E] border border-[#2D2D30] text-xs font-semibold text-white px-3.5 py-2 rounded-lg focus:outline-hidden placeholder-[#4C4C4F]"
+            />
+          </div>
+
+          <div className="flex items-end justify-start md:col-span-2">
+            <button
+              type="button"
+              onClick={handleGenerate}
+              disabled={generating}
+              className="w-full flex items-center justify-center gap-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black py-2.5 text-xs font-bold transition shadow-[0_0_15px_rgba(16,185,129,0.25)] disabled:opacity-50"
+            >
+              {generating ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span>Compiling Carrier Stages...</span>
+                </>
+              ) : (
+                <>
+                  <Sparkles className="h-4 w-4" />
+                  <span>Build Personalized AI Curriculum</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -169,13 +256,13 @@ export const AIRoadmap: React.FC = () => {
                 const isSyncing = syncingId === step.id;
 
                 return (
-                  <div key={step.id} className="relative group">
+                  <div key={step.id} className="relative group overflow-visible">
                     {/* Circle Node Tracker handle */}
                     <div className="absolute -left-[35px] top-1.5 z-10 flex h-6.5 w-6.5 items-center justify-center rounded-full bg-[#0E0E10] transition-colors">
                       {isSyncing ? (
                         <Loader2 className="h-4.5 w-4.5 animate-spin text-emerald-400" />
                       ) : isCompleted ? (
-                        <CheckCircle className="h-6 w-6 text-emerald-400 fill-emerald-500/10" />
+                        <CheckCircle className="h-6 w-6 text-emerald-400" />
                       ) : (
                         <Circle className="h-5.5 w-5.5 text-[#3D3D42] group-hover:text-emerald-400 border-none" />
                       )}
@@ -186,11 +273,11 @@ export const AIRoadmap: React.FC = () => {
                       rounded-xl border p-5 transition-all duration-300
                       ${isCompleted 
                         ? 'border-[#2D2D30]/65 bg-[#141416]/20 opacity-80' 
-                        : 'border-[#2D2D30] bg-[#141416]/75 hover:bg-[#18181B]'
+                        : 'border-[#2D2D30] bg-[#141416]/75 hover:bg-[#18181b]'
                       }
                     `}>
                       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2.5">
-                        <div>
+                        <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1.5 font-mono text-[10px]">
                             <span className="text-emerald-400 font-bold bg-emerald-500/10 px-1.8 py-0.5 rounded border border-emerald-500/15 uppercase">Stage 0{idx+1}</span>
                             <span className="text-[#8E8E93] flex items-center gap-1">
@@ -258,7 +345,7 @@ export const AIRoadmap: React.FC = () => {
           <Compass className="h-10 w-10 text-[#8E8E93] mx-auto mb-4 opacity-50" />
           <h3 className="font-sans font-bold text-white text-base">Plan your developmental pathways</h3>
           <p className="text-xs text-[#8E8E93] max-w-sm mx-auto mt-1 leading-relaxed">
-            Click "Generate Career Roadmap" to compile your multi-week AI modular career curriculum.
+            Click "Build Personalized AI Curriculum" to compile your multi-week AI modular career curriculum.
           </p>
         </div>
       )}
