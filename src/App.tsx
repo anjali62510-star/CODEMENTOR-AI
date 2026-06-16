@@ -14,7 +14,9 @@ import { InterviewPrep } from './pages/InterviewPrep';
 import { ResumeAnalyzer } from './pages/ResumeAnalyzer';
 import { ProfilePage } from './pages/ProfilePage';
 import { SettingsPage } from './pages/SettingsPage';
+import { AICareerCoach } from './pages/AICareerCoach';
 import { Menu } from 'lucide-react';
+import { ConfettiEmitter, FloatingMascot, XpGainToaster, BadgeUnlockModal } from './components/Celebration';
 
 const AppContent: React.FC = () => {
   const { user, loading } = useAuth();
@@ -69,6 +71,8 @@ const AppContent: React.FC = () => {
         return <DSATracker />;
       case 'roadmap':
         return <AIRoadmap />;
+      case 'coach':
+        return <AICareerCoach />;
       case 'opensource':
         return <OpenSource />;
       case 'interview':
@@ -85,7 +89,13 @@ const AppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090B] text-[#E5E5E7] select-none selection:bg-emerald-500 selection:text-black">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] select-none selection:bg-violet-500 selection:text-white transition-colors duration-300">
+      {/* Global Playful Animations Systems */}
+      <ConfettiEmitter />
+      <FloatingMascot />
+      <XpGainToaster />
+      <BadgeUnlockModal />
+
       {/* Sidebar navigation */}
       <Sidebar 
         activePage={activePage} 
@@ -95,20 +105,20 @@ const AppContent: React.FC = () => {
       />
 
       {/* Main app contents layer on Desktop has sidebar offsets */}
-      <div className="md:pl-64 flex flex-col min-h-screen">
+      <div className="md:pl-66 flex flex-col min-h-screen transition-all duration-300">
         {/* Mobile Header Bar */}
-        <header className="flex h-16 items-center justify-between border-b border-[#1C1C1E] bg-[#0E0E10] px-6 md:hidden">
+        <header className="flex h-16 items-center justify-between border-b border-slate-200/80 dark:border-[#1C1C1E] bg-white dark:bg-[#0E0E10] px-6 md:hidden transition-colors duration-300">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold text-sm">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-violet-500 to-fuchsia-500 text-white font-bold text-sm shadow-xs">
               C
             </div>
-            <span className="font-sans font-bold tracking-tight text-white text-sm">CodeMentor AI</span>
+            <span className="font-sans font-extrabold tracking-tight text-slate-900 dark:text-white text-sm">CodeMentor AI</span>
           </div>
 
           <button
             type="button"
             onClick={() => setSidebarOpen(true)}
-            className="rounded p-1.5 text-[#8E8E93] hover:bg-[#1C1C1E] hover:text-white"
+            className="rounded p-1.5 text-slate-500 dark:text-[#8E8E93] hover:bg-slate-100 dark:hover:bg-[#1C1C1E] hover:text-slate-800 dark:hover:text-white"
           >
             <Menu className="h-5.5 w-5.5" />
           </button>
