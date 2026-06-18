@@ -1,11 +1,14 @@
 # 🌊 CodeMentor AI
 
+<div align="center">
 
 ### Navigate Your Tech Career with AI-Powered Guidance
 
 An ocean-themed AI career development platform that helps students master DSA, analyze GitHub profiles, generate personalized roadmaps, prepare for interviews, and accelerate career growth.
 
 🚀 Built for NextGenHacks 2026
+
+🌐 Live Demo: https://codementor-ai-1-0ur4.onrender.com
 
 </div>
 
@@ -225,63 +228,14 @@ CodeMentor AI solves these challenges through intelligent recommendations, progr
 
 ---
 
-## 🎯 Future Enhancements
+## 🌐 Deployment
 
-* AI mock interviews
-* Community learning features
-* Competitive coding integration
-* Job recommendation engine
-* Advanced analytics dashboard
-* Personalized internship recommendations
+### 🚀 Live Project
+https://codementor-ai-1-0ur4.onrender.com
 
----
+### ⚙️ Hosting Platform
+- Render (Full Stack Deployment)
 
-## ⚙️ Installation
-
-Clone the repository:
-
+### 🧱 Build Command
 ```bash
-git clone https://github.com/your-username/CODEMENTOR-AI.git
-```
-
-Navigate to the project:
-
-```bash
-cd CODEMENTOR-AI
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Start development server:
-
-```bash
-npm run dev
-```
-
----
-
-## 🏆 Built For
-
-### NextGenHacks 2026
-
-A beginner-friendly hackathon focused on innovation, creativity, learning, and building impactful solutions.
-
----
-
-## 👩‍💻 Developer
-
-**Anjali Rajput**
-
-Passionate about technology, AI, open source, and helping students navigate their software engineering journey through intelligent tools and meaningful experiences.
-
----
-
-## ⭐ Support
-
-If you like this project, consider giving it a star and sharing feedback!
-
-🌊 Navigate your future with CodeMentor AI.
+npm install && npm run build
