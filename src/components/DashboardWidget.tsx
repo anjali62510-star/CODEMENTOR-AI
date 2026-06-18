@@ -29,49 +29,49 @@ export const DashboardWidget: React.FC<DashboardWidgetProps> = ({
     switch (widgetId) {
       case 'github':
         return {
-          gradient: 'from-sky-400 via-[#60A5FA] to-blue-500',
-          bgLight: 'bg-sky-50 dark:bg-sky-500/10',
-          textHover: 'group-hover:text-sky-500 dark:group-hover:text-sky-300',
-          textAccent: 'text-sky-500 dark:text-sky-400',
-          borderLight: 'border-sky-100 dark:border-sky-500/20',
-          badge: 'GitHub Explorer ⭐️'
+          gradient: 'from-[#00B8D9] via-[#0F4C81] to-[#0A2540]',
+          bgLight: 'bg-cyan-50 dark:bg-cyan-950/20',
+          textHover: 'group-hover:text-cyan-500 dark:group-hover:text-cyan-300',
+          textAccent: 'text-[#00B8D9]',
+          borderLight: 'border-cyan-100 dark:border-[#123456]',
+          badge: 'Ocean Current Analyst 🌊'
         };
       case 'dsa':
         return {
-          gradient: 'from-emerald-400 via-teal-400 to-emerald-500',
-          bgLight: 'bg-emerald-50 dark:bg-emerald-500/10',
-          textHover: 'group-hover:text-emerald-500 dark:group-hover:text-emerald-300',
-          textAccent: 'text-emerald-500 dark:text-emerald-400',
-          borderLight: 'border-emerald-100 dark:border-emerald-500/20',
-          badge: 'DSA Warrior 🔥'
+          gradient: 'from-[#2DD4BF] via-[#00B8D9] to-[#0F4C81]',
+          bgLight: 'bg-teal-50 dark:bg-teal-950/20',
+          textHover: 'group-hover:text-teal-500 dark:group-hover:text-teal-300',
+          textAccent: 'text-[#2DD4BF]',
+          borderLight: 'border-teal-150 dark:border-[#123456]',
+          badge: 'Arrays Reef Navigator 🧭'
         };
       case 'resume':
         return {
-          gradient: 'from-[#A78BFA] via-[#C084FC] to-purple-600',
-          bgLight: 'bg-purple-50 dark:bg-purple-500/10',
-          textHover: 'group-hover:text-purple-500 dark:group-hover:text-purple-300',
-          textAccent: 'text-purple-500 dark:text-purple-400',
-          borderLight: 'border-purple-100 dark:border-purple-500/20',
-          badge: 'Resume Master 🏆'
+          gradient: 'from-[#0F4C81] via-[#00B8D9] to-[#67E8F9]',
+          bgLight: 'bg-blue-50 dark:bg-blue-950/20',
+          textHover: 'group-hover:text-[#0F4C81] dark:group-hover:text-cyan-200',
+          textAccent: 'text-[#0F4C81] dark:text-cyan-300',
+          borderLight: 'border-blue-100 dark:border-[#123456]',
+          badge: 'ATS Sonar Master 📡'
         };
       case 'interview':
         return {
-          gradient: 'from-cyan-400 via-sky-400 to-blue-500',
-          bgLight: 'bg-cyan-50 dark:bg-cyan-500/10',
-          textHover: 'group-hover:text-cyan-500 dark:group-hover:text-cyan-300',
-          textAccent: 'text-cyan-500 dark:text-cyan-400',
-          borderLight: 'border-cyan-100 dark:border-cyan-500/20',
-          badge: 'Interview Champ 👑'
+          gradient: 'from-[#67E8F9] via-[#00B8D9] to-[#2DD4BF]',
+          bgLight: 'bg-cyan-50 dark:bg-cyan-950/20',
+          textHover: 'group-hover:text-cyan-600 dark:group-hover:text-cyan-200',
+          textAccent: 'text-cyan-500 dark:text-cyan-300',
+          borderLight: 'border-cyan-150 dark:border-[#123456]',
+          badge: 'Captain Mentor Companion 🎓'
         };
       case 'opensource':
       default:
         return {
-          gradient: 'from-orange-400 via-amber-400 to-red-500',
-          bgLight: 'bg-orange-50 dark:bg-orange-500/10',
-          textHover: 'group-hover:text-orange-500 dark:group-hover:text-orange-300',
-          textAccent: 'text-orange-500 dark:text-orange-450',
-          borderLight: 'border-orange-100 dark:border-orange-500/20',
-          badge: 'OpenSource Hero 🌟'
+          gradient: 'from-amber-400 via-[#2DD4BF] to-[#0F4C81]',
+          bgLight: 'bg-amber-50 dark:bg-[#123456]/20',
+          textHover: 'group-hover:text-amber-500 dark:group-hover:text-amber-300',
+          textAccent: 'text-amber-500 dark:text-amber-450',
+          borderLight: 'border-amber-100 dark:border-[#123456]',
+          badge: 'Nautical Contributor ⚓'
         };
     }
   };
@@ -83,7 +83,7 @@ export const DashboardWidget: React.FC<DashboardWidgetProps> = ({
       whileHover={{ y: -6, scale: 1.01 }}
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       id={`widget-card-${id}`}
-      className="flex flex-col rounded-3xl border border-slate-200/80 dark:border-[#2D2D30]/60 bg-white dark:bg-[#1E293B]/40 p-6 shadow-xs hover:shadow-md transition-all duration-300 relative overflow-hidden group mr-0.5"
+      className="premium-card flex flex-col p-6 relative overflow-hidden group mr-0.5"
     >
       {/* Decorative top color accent bar */}
       <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${config.gradient}`} />

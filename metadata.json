@@ -1,6 +1,6 @@
 {
   "name": "CodeMentor AI",
-  "description": "Premium AI-powered career platform with GitHub Analyzer, DSA Tracker, AI Roadmap, and Interview Prep.",
+  "description": "Navigate Your Voyage to Success. Immersive ocean-themed career companion for mapping sequential study voyages, analyzing code registries, and passing Captain mock audits.",
   "requestFramePermissions": ["microphone"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

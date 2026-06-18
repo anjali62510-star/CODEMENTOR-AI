@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Bot, Sparkles, Flame, Star, Award, Zap, Target, Rocket } from 'lucide-react';
+import { Bot, Sparkles, Flame, Star, Award, Zap, BookOpen, Target, Rocket, Anchor, Compass } from 'lucide-react';
 
 // Custom Event Triggers for easy integration
 export const triggerConfetti = (duration = 3000) => {
@@ -35,8 +35,8 @@ export const ConfettiEmitter: React.FC = () => {
     const handleConfettiEvent = (e: Event) => {
       const customEvent = e as CustomEvent;
       const duration = customEvent.detail?.duration || 3000;
-      const emojis = ['⭐', '🚀', '✨', '🔥', '🏆', '💎', '🌱', '🎓'];
-      const colors = ['#8B5CF6', '#EC4899', '#10B981', '#3B82F6', '#F59E0B', '#F43F5E'];
+      const emojis = ['🐠', '🐬', '🐢', '🦈', '🐋', '⚓', '🌊', '✨', '🏝️', '🚢'];
+      const colors = ['#00B8D9', '#2DD4BF', '#0F4C81', '#67E8F9', '#10B981', '#06B6D4', '#0891B2'];
 
       const newParticles: ConfettiParticle[] = Array.from({ length: 60 }).map((_, idx) => {
         const isEmoji = Math.random() > 0.4;
@@ -150,11 +150,11 @@ export const AnimatedCountUp: React.FC<{ value: number; duration?: number; suffi
 export const MotivationalBanner: React.FC = () => {
   const [activeMessageIdx, setActiveMessageIdx] = useState(0);
   const messages = [
-    { text: "🚀 One Step Closer to Your Dream Career. Let's practice active interview structures!", icon: Rocket, color: 'text-sky-500' },
-    { text: "🔥 7-Day Coding Streak Active! Your career readiness score exceeds 82% of peers.", icon: Flame, color: 'text-orange-500' },
-    { text: "✨ Keep Your Coding Streak Alive - Practice 2 more binary tree exercises!", icon: Star, color: 'text-amber-400' },
-    { text: "🤖 CodeMentor AI: Resume grade increased to 'Excellent' with AST pattern optimizations.", icon: Bot, color: 'text-violet-500 font-extrabold' },
-    { text: "🌱 Learn. Build. Grow. Nurture production-ready open source merges.", icon: Star, color: 'text-emerald-500' }
+    { text: "⚓ One wave closer to your dream harbor. Chart your next learning destination!", icon: Anchor, color: 'text-cyan-500' },
+    { text: "🔥 Lighthouse Level rising! Your career compass bearing exceeds 82% of peers.", icon: Flame, color: 'text-orange-500' },
+    { text: "🌊 Keep your coding streak alive — sail through 2 more algorithm reefs today!", icon: Sparkles, color: 'text-cyan-400' },
+    { text: "🧭 Captain Mentor: Resume SONAR grade upgraded to 'Excellent' depth rating.", icon: Compass, color: 'text-teal-500 font-extrabold' },
+    { text: "🏝️ Learn. Build. Explore. Grow your skill island archipelago.", icon: Star, color: 'text-emerald-500' }
   ];
 
   useEffect(() => {
@@ -167,7 +167,7 @@ export const MotivationalBanner: React.FC = () => {
   const CurrentIcon = messages[activeMessageIdx].icon;
 
   return (
-    <div className="w-full overflow-hidden border border-slate-200 dark:border-[#2D2D30]/60 bg-white dark:bg-[#1E293B]/40 rounded-2xl py-3 px-6 shadow-xs flex items-center justify-between select-none relative">
+    <div className="w-full overflow-hidden border border-[#D2E1ED] dark:border-[#123456]/60 bg-white dark:bg-[#061524]/60 rounded-2xl py-3 px-6 shadow-xs flex items-center justify-between select-none relative premium-card">
       <AnimatePresence mode="wait">
         <motion.div
           key={activeMessageIdx}
@@ -182,9 +182,9 @@ export const MotivationalBanner: React.FC = () => {
         </motion.div>
       </AnimatePresence>
 
-      <span className="hidden sm:inline-flex items-center gap-1.5 font-mono text-[9px] font-black uppercase text-violet-600 dark:text-[#8E8E93] bg-violet-100 dark:bg-slate-800 border border-violet-200 dark:border-[#1C1C1E] px-2.5 py-1 rounded-lg">
-        <Sparkles className="h-3 w-3 text-violet-500 animate-pulse" />
-        <span>Mentorship Live</span>
+      <span className="hidden sm:inline-flex items-center gap-1.5 font-mono text-[9px] font-black uppercase text-cyan-600 dark:text-cyan-400 bg-cyan-100 dark:bg-cyan-950/30 border border-cyan-200 dark:border-cyan-800/40 px-2.5 py-1 rounded-lg">
+        <Sparkles className="h-3 w-3 text-cyan-500 animate-pulse" />
+        <span>Ocean Guide Live</span>
       </span>
     </div>
   );
@@ -197,32 +197,29 @@ export const FloatingMascot: React.FC = () => {
   const [bubbleText, setBubbleText] = useState('');
   const [isHovered, setIsHovered] = useState(false);
 
-  const robotQuotes = [
-    "👋 Hey coder! You are 78% ready for key Systems Orchestration roles!",
-    "💡 Tip: Want to boost your index? Solve a recursion puzzle in the DSA Sandbox!",
-    "🚀 Commits look great this week. Keep that continuous integration active!",
-    "🎯 Stay steady: Just 1 interview prep screen will complete your active milestone!",
-    "🏆 Keep learning! Every compiled algorithm trains your predictive model.",
-    "🌱 Growing stronger every day. Your open-source merges are super charming!"
+  const captainQuotes = [
+    "⚓ Ahoy! Your career compass bearing is strong — keep sailing toward deeper waters!",
+    "🧭 Tip: Solve a recursion puzzle at Arrays Reef to boost your DSA tide level!",
+    "🌊 Your commit currents look great this week. Maintain that velocity, sailor!",
+    "🏝️ Just 1 interview prep session will unlock the next harbor milestone!",
+    "🐬 Every algorithm you solve adds life to your ocean. The dolphins approve!",
+    "🚢 Your skill islands are growing — chart course for the AI/ML archipelago next!"
   ];
 
   const handleMascotClick = () => {
-    const randomQuote = robotQuotes[Math.floor(Math.random() * robotQuotes.length)];
+    const randomQuote = captainQuotes[Math.floor(Math.random() * captainQuotes.length)];
     setBubbleText(randomQuote);
     setShowSpeechBubble(true);
-    // Trigger confetti for extra dopamine
     triggerConfetti(1500);
 
-    // Hide bubble after 5 seconds
     setTimeout(() => {
       setShowSpeechBubble(false);
     }, 5500);
   };
 
   useEffect(() => {
-    // Show hello bubble initially
     const timer = setTimeout(() => {
-      setBubbleText("👋 Hi! I'm CodeMascot. Click me for a direct motivation boost!");
+      setBubbleText("⚓ Ahoy! I'm Captain Mentor, your Ocean Guide. Click me for navigation tips!");
       setShowSpeechBubble(true);
       setTimeout(() => setShowSpeechBubble(false), 6000);
     }, 3000);
@@ -238,31 +235,26 @@ export const FloatingMascot: React.FC = () => {
             initial={{ opacity: 0, scale: 0.8, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 10 }}
-            className="mb-3 max-w-[220px] bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-800 p-3.5 rounded-2xl rounded-br-none shadow-[2px_8px_20px_rgba(0,0,0,0.12)] text-[11px] font-sans font-extrabold text-slate-800 dark:text-slate-100 select-text relative"
+            className="mb-3 max-w-[240px] bg-white dark:bg-[#061524] border border-cyan-200 dark:border-[#123456] p-3.5 rounded-2xl rounded-br-none shadow-[2px_8px_20px_rgba(0,184,217,0.12)] text-[11px] font-sans font-extrabold text-[#0A2540] dark:text-cyan-100 select-text relative"
           >
             {bubbleText}
-            {/* Custom arrow decoration */}
-            <div className="absolute right-[14px] bottom-[-6px] w-3 h-3 bg-white dark:bg-[#1E293B] border-r border-b border-slate-200 dark:border-slate-800 rotate-45" />
+            <div className="absolute right-[14px] bottom-[-6px] w-3 h-3 bg-white dark:bg-[#061524] border-r border-b border-cyan-200 dark:border-[#123456] rotate-45" />
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Mascot Element */}
       <motion.button
-        whileHover={{ scale: 1.12, rotate: [0, -5, 5, 0] }}
+        whileHover={{ scale: 1.12, rotate: [0, -3, 3, 0] }}
         whileTap={{ scale: 0.92 }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={handleMascotClick}
-        className="w-13 h-13 rounded-full bg-gradient-to-tr from-violet-500 via-indigo-600 to-sky-500 text-white flex items-center justify-center shadow-lg cursor-pointer hover:shadow-violet-500/25 relative focus:outline-hidden group border border-white/20"
+        className="w-14 h-14 rounded-full bg-gradient-to-tr from-[#0F4C81] via-[#00B8D9] to-[#2DD4BF] text-white flex items-center justify-center shadow-lg cursor-pointer hover:shadow-cyan-500/25 relative focus:outline-hidden group border border-cyan-300/30"
+        title="Captain Mentor — Ocean Guide AI"
       >
-        <Bot className="w-6.5 h-6.5 group-hover:animate-bounce" />
-        
-        {/* Soft glowing heartbeat ring */}
-        <div className="absolute inset-0 rounded-full bg-violet-400 opacity-20 animate-ping pointer-events-none" />
-        
-        {/* Adorable sprout overlay 🌱 */}
-        <span className="absolute -top-1.5 -right-1.5 text-base bg-emerald-500/95 text-white p-0.5 rounded-full shadow-xs border border-white">🌱</span>
+        <span className="text-2xl group-hover:animate-bounce">⚓</span>
+        <div className="absolute inset-0 rounded-full bg-cyan-400 opacity-15 animate-ping pointer-events-none" />
+        <span className="absolute -top-1 -right-1 text-sm bg-[#0F4C81] text-cyan-300 p-0.5 rounded-full shadow-xs border border-cyan-400/30">🧭</span>
       </motion.button>
     </div>
   );
@@ -309,14 +301,14 @@ export const XpGainToaster: React.FC = () => {
             initial={{ opacity: 0, x: 50, scale: 0.9 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 50, scale: 0.9 }}
-            className="bg-slate-900 border border-violet-500/30 text-white rounded-xl py-2.5 px-4 flex items-center gap-3 shadow-md font-sans text-xs select-none"
+            className="bg-[#061524] border border-cyan-500/30 text-white rounded-xl py-2.5 px-4 flex items-center gap-3 shadow-md font-sans text-xs select-none"
           >
-            <div className="bg-violet-500/20 text-violet-400 p-1.5 rounded-lg border border-violet-500/30">
-              <Zap className="h-4 w-4 fill-violet-400" />
+            <div className="bg-cyan-500/20 text-cyan-400 p-1.5 rounded-lg border border-cyan-500/30">
+              <Zap className="h-4 w-4 fill-cyan-400" />
             </div>
             <div>
-              <div className="font-extrabold text-[#E5E5E7] flex items-center gap-1.5">
-                <span className="text-emerald-400">+{t.amount} XP</span> Earned
+              <div className="font-extrabold text-cyan-100 flex items-center gap-1.5">
+                <span className="text-[#2DD4BF]">+{t.amount} XP</span> Earned
               </div>
               <span className="text-[10px] text-[#8E8E93] font-bold">{t.reason}</span>
             </div>

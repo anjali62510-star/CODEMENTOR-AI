@@ -8,19 +8,13 @@ import {
   Code2, 
   FileCheck, 
   Sparkles, 
-  TrendingUp, 
-  Map, 
-  MessageSquareCode, 
-  Rocket, 
-  Star, 
-  Award, 
-  CheckCircle2, 
-  Bot, 
-  LineChart, 
-  Terminal,
-  Activity,
-  Layers,
-  Sparkle
+  Compass, 
+  Ship, 
+  Sun, 
+  Moon,
+  Anchor,
+  Radio,
+  Waves
 } from 'lucide-react';
 
 interface LandingPageProps {
@@ -28,7 +22,7 @@ interface LandingPageProps {
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
-  const { user } = useAuth();
+  const { user, theme, toggleTheme } = useAuth();
   const featuresRef = useRef<HTMLDivElement>(null);
 
   const handleStart = () => {
@@ -47,406 +41,332 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
     featuresRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Motion variants for smooth fade-in slide-up
-  const containerVariants = {
+  const staggerContainer = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15
-      }
+      transition: { staggerChildren: 0.12 }
     }
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 35 },
+  const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
     visible: { 
       opacity: 1, 
       y: 0, 
-      transition: { type: "spring", stiffness: 100, damping: 20 } 
+      transition: { type: 'spring', stiffness: 90, damping: 18 } 
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0E0E10] text-slate-900 dark:text-[#E5E5E7] selection:bg-violet-500 selection:text-white transition-colors duration-300 relative overflow-hidden">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#030D18] text-[#0A2540] dark:text-[#F8FAFC] selection:bg-[#00B8D9] selection:text-white transition-colors duration-300 relative overflow-hidden font-sans">
       
-      {/* SaaS Style Glowing Orbs & Subtle Gradients */}
-      <div className="absolute top-[-200px] left-[-100px] h-[600px] w-[600px] rounded-full bg-violet-300/15 dark:bg-violet-500/5 blur-[120px] pointer-events-none" />
-      <div className="absolute top-[30%] right-[-100px] h-[500px] w-[500px] rounded-full bg-sky-200/20 dark:bg-sky-500/5 blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-[10%] left-[20%] h-[400px] w-[400px] rounded-full bg-emerald-200/10 dark:bg-emerald-500/5 blur-[130px] pointer-events-none" />
+      {/* Ocean Current Matrix Overlay */}
+      <div className="absolute inset-0 ocean-grid opacity-80 pointer-events-none" />
 
-      {/* Floating Animated Coding Backdrop Elements */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        {/* Floating Rocket */}
-        <motion.div 
-          animate={{ 
-            y: [0, -25, 0], 
-            rotate: [15, 20, 15],
-            x: [0, 10, 0]
-          }}
-          transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-          className="absolute top-[18%] left-[6%] opacity-20 dark:opacity-30 text-violet-500 hidden md:block"
-        >
-          <Rocket className="h-10 w-10" />
-        </motion.div>
-
-        {/* Floating Code Bracket */}
-        <motion.div 
-          animate={{ 
-            y: [0, 20, 0], 
-            rotate: [-10, 10, -10]
-          }}
-          transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-          className="absolute top-[45%] left-[4%] opacity-25 dark:opacity-30 text-emerald-500 hidden md:block"
-        >
-          <Code2 className="h-11 w-11" />
-        </motion.div>
-
-        {/* Floating Medal/Award */}
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.15, 1],
-            rotate: [0, 15, 0]
-          }}
-          transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
-          className="absolute bottom-[28%] left-[8%] opacity-20 dark:opacity-25 text-yellow-500 hidden md:flex items-center gap-1"
-        >
-          <Award className="h-9 w-9" />
-        </motion.div>
-
-        {/* Floating Yellow Star */}
-        <motion.div 
-          animate={{ 
-            scale: [0.8, 1.3, 0.8],
-            opacity: [0.3, 0.9, 0.3]
-          }}
-          transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-          className="absolute top-[12%] right-[12%] text-yellow-400 hidden lg:block"
-        >
-          <Star className="h-6 w-6 fill-current" />
-        </motion.div>
-
-        {/* Floating GitHub Logo */}
-        <motion.div 
-          animate={{ 
-            y: [0, -15, 0],
-            rotate: [360, 340, 360]
-          }}
-          transition={{ repeat: Infinity, duration: 10, ease: "linear" }}
-          className="absolute top-[52%] right-[5%] opacity-20 dark:opacity-30 text-sky-500 hidden lg:block"
-        >
-          <Github className="h-10 w-10" />
-        </motion.div>
-
-        {/* Floating Sparkling Stars */}
-        <motion.div 
-          animate={{ scale: [1, 1.4, 1], opacity: [0.4, 1, 0.4] }}
-          transition={{ repeat: Infinity, duration: 3 }}
-          className="absolute top-[32%] left-[45%] text-pink-400 hidden xl:block"
-        >
-          <Sparkle className="h-5 w-5 fill-current" />
-        </motion.div>
-      </div>
+      {/* Cinematic Depth Glows */}
+      <div className="absolute top-0 left-1/4 h-[550px] w-[550px] rounded-full bg-[#00B8D9]/10 dark:bg-[#67E8F9]/5 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-1/3 right-1/12 h-[450px] w-[450px] rounded-full bg-[#2DD4BF]/10 dark:bg-[#2DD4BF]/5 blur-[100px] pointer-events-none" />
 
       {/* Navigation Header */}
-      <header className="mx-auto max-w-7xl px-6 md:px-8 relative z-10 transition-all duration-300">
-        <div className="flex h-20 items-center justify-between border-b border-slate-200/60 dark:border-slate-800/50">
+      <header className="mx-auto max-w-7xl px-6 md:px-8 relative z-20">
+        <div className="flex h-20 items-center justify-between border-b border-[#D2E1ED] dark:border-[#123456]">
           <div className="flex items-center gap-3">
             <CodeMentorLogo size={38} animated={true} />
             <div className="flex flex-col">
-              <span className="font-display font-black tracking-tight text-slate-850 dark:text-white text-base">CodeMentor</span>
-              <span className="text-violet-600 dark:text-violet-400 font-extrabold px-1.5 py-0.2 rounded-md bg-violet-500/10 border border-violet-400/20 text-[9px] mt-0.5 tracking-wider uppercase font-mono w-fit">AI</span>
+              <span className="font-display font-black tracking-tight text-[#0A2540] dark:text-white text-base">Ocean Explorer</span>
+              <span className="text-[#0F4C81] dark:text-[#67E8F9] font-extrabold px-1.5 py-0.2 rounded bg-cyan-100/60 dark:bg-cyan-500/10 border border-cyan-200/50 dark:border-cyan-450/20 text-[8px] mt-0.5 tracking-wider uppercase font-mono w-fit">COMMAND DECK</span>
             </div>
           </div>
 
           <div className="flex items-center gap-4">
+            {/* Minimalist Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              type="button"
+              className="p-2.5 rounded-xl border border-[#D2E1ED] dark:border-[#123456] bg-white dark:bg-[#061524] text-[#5C768D] dark:text-cyan-400 hover:text-[#00B8D9] dark:hover:text-white hover:bg-[#EAF2F8] dark:hover:bg-[#123456]/40 transition-all cursor-pointer shadow-xs focus:outline-hidden"
+              title={`Switch target to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+            >
+              {theme === 'dark' ? (
+                <Sun className="h-4.5 w-4.5 text-cyan-400 animate-pulse" />
+              ) : (
+                <Moon className="h-4.5 w-4.5 text-[#0F4C81]" />
+              )}
+            </button>
+
             <button 
               type="button"
               onClick={() => onNavigate('login')}
-              className="text-sm font-bold text-slate-600 dark:text-[#8E8E93] hover:text-slate-950 dark:hover:text-white transition-colors cursor-pointer"
+              className="text-xs font-bold text-[#0F4C81] dark:text-cyan-400 hover:text-[#00B8D9] dark:hover:text-white transition-colors cursor-pointer px-3 py-1.5"
             >
-              Sign In
+              Log In
             </button>
             <button 
               type="button"
               onClick={handleStart}
-              className="rounded-2xl border-b-4 border-violet-750 dark:border-violet-800 bg-violet-600 hover:bg-violet-500 text-white text-xs font-black px-5 py-2.5 transition-all cursor-pointer hover:translate-y-[1px] active:translate-y-[3px] active:border-b-0 shadow-md hover:shadow-violet-600/15"
+              className="rounded-xl bg-gradient-to-r from-[#00B8D9] to-[#2DD4BF] text-white text-xs font-bold px-5 py-2.5 transition-all cursor-pointer shadow-xs hover:shadow-cyan-500/30 hover:translate-y-[-1px] active:translate-y-0"
             >
-              Get Started Free
+              ⚓ Start Your Voyage
             </button>
           </div>
         </div>
       </header>
 
-      {/* Main SaaS Responsive Hero Split */}
-      <main className="mx-auto max-w-7xl px-6 py-12 md:py-20 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      {/* Main Hero Split Area */}
+      <main className="mx-auto max-w-7xl px-6 py-16 md:py-24 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* Left Side Info Section */}
+          {/* Left Side Content Column */}
           <motion.div 
-            variants={containerVariants}
+            variants={staggerContainer}
             initial="hidden"
             animate="visible"
-            className="lg:col-span-7 text-left space-y-6"
+            className="lg:col-span-6 space-y-6 text-left"
           >
             <motion.div 
-              variants={itemVariants}
-              className="inline-flex items-center gap-2 rounded-full border border-violet-500/15 dark:border-violet-500/25 bg-violet-500/8 dark:bg-violet-500/5 px-4.5 py-1.5 font-sans text-xs font-bold tracking-wide text-violet-600 dark:text-violet-400"
+              variants={fadeUp}
+              className="inline-flex items-center gap-2 rounded-full border border-cyan-500/15 dark:border-cyan-400/20 bg-cyan-500/10 dark:bg-cyan-500/5 px-4 py-1.5 text-xs font-semibold text-[#0F4C81] dark:text-cyan-300"
             >
-              <Sparkles className="h-3.5 w-3.5 text-violet-500 animate-pulse" />
-              <span>Next-Gen Career Optimization Platform</span>
+              <Sparkles className="h-3.5 w-3.5 text-[#00B8D9]" />
+              <span>NAVIGATE YOUR JOURNEY TO SUCCESS</span>
             </motion.div>
 
             <motion.h1 
-              variants={itemVariants}
-              className="font-display text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl md:text-6xl leading-[1.12]"
+              variants={fadeUp}
+              className="font-display text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.1] text-[#0A2540] dark:text-white"
             >
-              Learn Smarter.<br />
-              Build Faster.<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-sky-500 to-emerald-500 dark:from-violet-400 dark:via-sky-400 dark:to-emerald-400">Get Hired. 🚀</span>
+              Navigate Your <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00B8D9] via-[#0F4C81] to-[#2DD4BF] dark:from-[#67E8F9] dark:via-cyan-400 dark:to-teal-300">
+                Developer Journey.
+              </span>
             </motion.h1>
 
             <motion.p 
-              variants={itemVariants}
-              className="text-base sm:text-lg text-slate-600 dark:text-[#8E8E93] max-w-2xl leading-relaxed font-normal"
+              variants={fadeUp}
+              className="text-base sm:text-lg text-[#5C768D] dark:text-cyan-100 max-w-xl leading-relaxed"
             >
-              Track your DSA journey, analyze your GitHub profile, improve your resume, discover open-source opportunities, and get personalized AI career guidance—all in one platform.
+              Track your DSA progress, analyze your GitHub profile, improve your resume, discover open-source opportunities, and receive AI-powered career guidance—all from one intelligent ocean-inspired platform.
             </motion.p>
 
-            {/* Action Buttons styled like modern Duolingo/SaaS widgets */}
+            {/* Actions Block */}
             <motion.div 
-              variants={itemVariants}
+              variants={fadeUp}
               className="pt-2 flex flex-col sm:flex-row items-center gap-4 max-w-md sm:max-w-none"
             >
               <button 
                 type="button"
                 onClick={handleStart}
-                className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-2xl border-b-4 border-emerald-600 bg-emerald-500 hover:bg-emerald-450 text-white font-black text-sm px-8 py-4 transition-all cursor-pointer hover:translate-y-[1px] active:translate-y-[3px] active:border-b-0 shadow-lg hover:shadow-emerald-500/20"
+                className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00B8D9] to-[#0F4C81] text-white font-bold text-sm px-7 py-3.5 transition-all cursor-pointer shadow-md hover:shadow-cyan-500/20 hover:scale-102 active:scale-100"
               >
-                <span>Get Started Now</span>
-                <ArrowRight className="h-4.5 w-4.5" />
+                <Anchor className="h-4.5 w-4.5 text-cyan-200" />
+                <span>⚓ Start Your Journey</span>
+                <ArrowRight className="h-4.5 w-4.5 text-cyan-300" />
               </button>
               
               <button 
                 type="button"
                 onClick={handleScrollToFeatures}
-                className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-2xl border border-slate-200 dark:border-[#202024] bg-white dark:bg-[#141416]/70 hover:bg-slate-50 dark:hover:bg-[#1C1C1E] font-bold text-sm px-8 py-4 text-slate-705 dark:text-[#E2E2E2] transition-all hover:translate-y-[-1.5px] cursor-pointer shadow-xs"
+                className="flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl border border-[#D2E1ED] dark:border-[#123456] bg-white dark:bg-[#061524] hover:bg-[#EAF2F8] dark:hover:bg-[#123456]/40 font-bold text-[#0F4C81] dark:text-cyan-400 text-sm px-7 py-3.5 transition-all cursor-pointer shadow-xs"
               >
-                <span>Explore Features</span>
+                <Compass className="h-4.5 w-4.5 text-[#00B8D9]" />
+                <span>🧭 Explore Features</span>
               </button>
             </motion.div>
 
-            {/* Micro Indicators */}
+            {/* Marine Navigation Reading Coordinates */}
             <motion.div 
-              variants={itemVariants}
-              className="pt-6 grid grid-cols-3 gap-4 border-t border-slate-200/65 dark:border-slate-800/40 text-left max-w-lg"
+              variants={fadeUp}
+              className="pt-8 grid grid-cols-3 gap-6 border-t border-[#D2E1ED] dark:border-[#123456]/60 max-w-lg font-mono"
             >
               <div>
-                <span className="block text-2xl font-black text-violet-600 dark:text-violet-400">100%</span>
-                <span className="text-[10.5px] font-bold text-slate-400 dark:text-[#8E8E93] uppercase tracking-wider">Official API Analytics</span>
+                <span className="block text-xl sm:text-2xl font-black text-[#00B8D9] dark:text-cyan-400">04° 12' N</span>
+                <span className="text-[9px] font-bold text-[#5C768D] dark:text-cyan-300 uppercase tracking-widest mt-1 block">Ocean Latitude</span>
               </div>
               <div>
-                <span className="block text-2xl font-black text-sky-500">Real-Time</span>
-                <span className="text-[10.5px] font-bold text-slate-400 dark:text-[#8E8E93] uppercase tracking-wider">DSA Compilation</span>
+                <span className="block text-xl sm:text-2xl font-black text-[#2DD4BF]">73° 50' W</span>
+                <span className="text-[9px] font-bold text-[#5C768D] dark:text-cyan-300 uppercase tracking-widest mt-1 block">Course Heading</span>
               </div>
               <div>
-                <span className="block text-2xl font-black text-emerald-500">Gemini</span>
-                <span className="text-[10.5px] font-bold text-slate-400 dark:text-[#8E8E93] uppercase tracking-wider">Coaching Intelligence</span>
+                <span className="block text-xl sm:text-2xl font-black text-[#0F4C81] dark:text-cyan-300">98% KPI</span>
+                <span className="text-[9px] font-bold text-[#5C768D] dark:text-cyan-300 uppercase tracking-widest mt-1 block">Voyage Yield</span>
               </div>
             </motion.div>
-
           </motion.div>
 
-          {/* Right Side Stunning Dashboard Preview - SaaS style */}
+          {/* Right Side IMMERSIVE CINEMATIC OCEAN & LIGHTHOUSE INTERACTIVE VISUAL */}
           <motion.div 
-            initial={{ opacity: 0, x: 50, scale: 0.95 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, type: "spring" }}
-            className="lg:col-span-5 relative"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-6 relative flex items-center justify-center min-h-[400px] lg:min-h-[500px]"
           >
-            {/* Visual Glass Card Container */}
-            <div className="relative rounded-3xl border border-slate-200 dark:border-[#2D2D30]/75 bg-white dark:bg-[#101012]/95 p-5 md:p-6 shadow-[0_20px_60px_rgba(109,40,217,0.07)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.65)] overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-tr from-violet-500/2 to-cyan-500/2 pointer-events-none" />
-
-              {/* Mac Mock Window Header */}
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-[#1C1C1E] pb-3.5 mb-5 select-none">
-                <div className="flex items-center gap-1.5ClassName lg:gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-                  <span className="ml-2 font-mono text-[10px] font-bold text-slate-400 dark:text-[#8E8E93]">codementor_analytics_v4</span>
-                </div>
-                {/* Active Score Badge */}
-                <span className="rounded-lg bg-emerald-500/10 px-2.5 py-0.5 font-mono text-[9px] font-extrabold tracking-tight text-emerald-600 dark:text-emerald-400 border border-emerald-500/15 animate-pulse">
-                  STREAK: 12 DAYS 🔥
-                </span>
-              </div>
-
-              {/* Mock Dashboard Layout Contents */}
-              <div className="space-y-4">
-                
-                {/* Component 1: GitHub Stats Card */}
-                <div className="rounded-2xl border border-slate-150 dark:border-[#232326] bg-slate-50/50 dark:bg-[#16161A]/60 p-3.5 flex items-center justify-between gap-3 transform transition-transform duration-300 hover:translate-y-[-2px]">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-xl bg-violet-100 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400 flex items-center justify-center font-bold">
-                      <Github className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-extrabold text-slate-800 dark:text-white leading-tight">GitHub Analytics Score</h4>
-                      <p className="text-[10.5px] font-semibold text-slate-400 dark:text-[#8E8E93] mt-0.5">Verified public repositories</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-base font-black text-violet-600 dark:text-violet-400 block">88%</span>
-                    <span className="text-[9px] font-extrabold tracking-wider text-emerald-500 uppercase">Excellent</span>
-                  </div>
-                </div>
-
-                {/* Component 2: DSA Tracker Timeline with interactive checks */}
-                <div className="rounded-2xl border border-slate-150 dark:border-[#232326] bg-slate-50/50 dark:bg-[#16161A]/60 p-3.5 transform transition-transform duration-300 hover:translate-y-[-2px]">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <Code2 className="h-4.5 w-4.5 text-sky-500" />
-                      <span className="text-xs font-black text-slate-800 dark:text-white">DSA Milestone Progress</span>
-                    </div>
-                    <span className="text-[10px] font-mono font-bold text-sky-550 dark:text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded-md">8 / 10 Milestones complete</span>
-                  </div>
-                  
-                  {/* Progress Line */}
-                  <div className="h-2.5 w-full bg-slate-200 dark:bg-slate-850 rounded-full overflow-hidden">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      animate={{ width: "80%" }}
-                      transition={{ duration: 1.2, delay: 0.5 }}
-                      className="h-full bg-gradient-to-r from-sky-400 to-sky-550 rounded-full"
-                    />
-                  </div>
-                </div>
-
-                {/* Component 3: AI Insights Bubble */}
-                <div className="rounded-2xl border border-violet-100 dark:border-violet-950/50 bg-violet-500/5 p-3.5 relative flex gap-3 transform transition-transform duration-300 hover:translate-y-[-2px]">
-                  <div className="h-7 w-7 rounded-lg bg-violet-100 dark:bg-violet-950/30 text-violet-600 dark:text-violet-400 flex items-center justify-center shrink-0 mt-0.5">
-                    <Bot className="h-4 w-4 animate-bounce" />
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-[11px] font-bold text-slate-800 dark:text-[#E2E2E2]">AICareerCoach recommendation:</p>
-                    <p className="text-[10px] text-slate-500 dark:text-[#8E8E93] leading-relaxed font-medium">
-                      "Complete 2 dynamic-programming loops today or configure GitHub Actions to elevate your Readiness Index!"
-                    </p>
-                  </div>
-                </div>
-
-                {/* Component 4: Achievement Badges Row */}
-                <div className="grid grid-cols-2 gap-3 pt-1">
-                  <div className="rounded-xl border border-slate-150 dark:border-[#232326] bg-slate-50/50 dark:bg-[#16161A]/40 p-2.5 flex items-center gap-2.5">
-                    <div className="h-8 w-8 rounded-full bg-amber-100 dark:bg-amber-950/20 text-yellow-500 flex items-center justify-center text-xs">
-                      🏆
-                    </div>
-                    <div>
-                      <span className="block text-[10.5px] font-black text-slate-800 dark:text-white leading-tight">DSA Warrior</span>
-                      <span className="text-[9px] font-bold text-slate-400 dark:text-[#8E8E93] uppercase">Unlocked</span>
-                    </div>
-                  </div>
-
-                  <div className="rounded-xl border border-slate-150 dark:border-[#232326] bg-slate-50/50 dark:bg-[#16161A]/40 p-2.5 flex items-center gap-2.5">
-                    <div className="h-8 w-8 rounded-full bg-sky-100 dark:bg-sky-950/20 text-sky-500 flex items-center justify-center text-xs">
-                      💎
-                    </div>
-                    <div>
-                      <span className="block text-[10.5px] font-black text-slate-800 dark:text-white leading-tight">GIT Explorer</span>
-                      <span className="text-[9px] font-bold text-slate-400 dark:text-[#8E8E93] uppercase">Unlocked</span>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-              
-              {/* Overlapping Absolute Micro Icons */}
-              <div className="absolute bottom-4 right-4 h-6 w-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-md text-xs font-bold animate-bounce scale-110">
-                ⭐
-              </div>
+            {/* Cinematic background compass mesh */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20 dark:opacity-30">
+              <svg width="100%" height="100%" viewBox="0 0 400 400" fill="none" className="max-w-[400px] animate-spin" style={{ animationDuration: '60s' }}>
+                <circle cx="200" cy="200" r="180" stroke="#00B8D9" strokeWidth="1" strokeDasharray="5,15" />
+                <circle cx="200" cy="200" r="140" stroke="#2DD4BF" strokeWidth="1.5" strokeDasharray="2,8" />
+                <line x1="200" y1="0" x2="200" y2="400" stroke="#00B8D9" strokeWidth="0.5" />
+                <line x1="0" y1="200" x2="400" y2="200" stroke="#00B8D9" strokeWidth="0.5" />
+              </svg>
             </div>
 
-            {/* Glowing Background Radial Ring */}
-            <div className="absolute -inset-1.5 rounded-[40px] bg-gradient-to-r from-violet-500 to-sky-500 opacity-20 blur-xl -z-10 group-hover:opacity-30 transition-all duration-500" />
+            {/* Simulated Marine Canvas with Lighthouse, Sea Current, and Sailing Vessel */}
+            <div className="w-full relative rounded-3xl border border-[#D2E1ED] dark:border-[#123456] bg-gradient-to-b from-[#EAF2F8] to-[#FFFFFF] dark:from-[#061524] dark:to-[#030D18] p-6 shadow-2xl overflow-hidden min-h-[380px] flex flex-col justify-between">
+              
+              {/* Oceanic Coordinates Display */}
+              <div className="flex justify-between items-center text-[10px] font-mono text-[#5C768D] dark:text-cyan-400/80 border-b border-[#D2E1ED]/50 dark:border-[#123456]/40 pb-3">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-cyan-400 animate-ping" />
+                  <span>BEACON_FEED_ONLINE</span>
+                </div>
+                <span>SATELLITE SECTOR: 4-DSA</span>
+              </div>
+
+              {/* Lighthouse & Wave Center Stage Art */}
+              <div className="relative py-12 flex items-center justify-center">
+                {/* Flashing Lighthouse Laser Compass Beam */}
+                <motion.div 
+                  className="absolute left-[30%] top-[25%] h-[80px] w-[300px] origin-left bg-gradient-to-r from-cyan-400/30 via-transparent to-transparent -z-10"
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
+                  style={{ transformOrigin: "0% 50%" }}
+                />
+
+                {/* Animated Sailboat floating on the wave */}
+                <motion.div 
+                  className="absolute left-[38%] top-[45%] text-[#00B8D9] z-10"
+                  animate={{ 
+                    y: [1, -5, 1], 
+                    rotate: [2, -4, 2] 
+                  }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <Ship className="h-10 w-10 text-[#00B8D9] drop-shadow-[0_0_15px_rgba(0,184,217,0.4)]" />
+                </motion.div>
+
+                {/* Highly Stylized SVG Lighthouse Illustration */}
+                <div className="absolute left-[15%] top-[10%] flex flex-col items-center">
+                  {/* Glowing Beacon Crown */}
+                  <motion.div 
+                    className="h-6 w-6 rounded-full bg-cyan-300 dark:bg-cyan-200 blur-md"
+                    animate={{ scale: [0.8, 1.4, 0.8], opacity: [0.6, 1, 0.6] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  {/* Lighthouse Cap */}
+                  <div className="h-2 w-5 bg-[#0F4C81] dark:bg-[#67E8F9] rounded-t-sm" />
+                  {/* Gallery Deck */}
+                  <div className="h-1.5 w-8 bg-[#0A2540] dark:bg-[#00B8D9] rounded-xs" />
+                  {/* Cabin Screen */}
+                  <div className="h-4 w-4 bg-yellow-200 border border-[#0A2540]" />
+                  {/* Tower Body */}
+                  <div className="h-24 w-7 bg-gradient-to-b from-white via-[#0F4C81]/20 to-[#0A2540] border-l border-r border-[#D2E1ED]" />
+                  {/* Rocks Base */}
+                  <div className="h-6 w-14 bg-[#50667C] dark:bg-[#123456] rounded-t-xl" />
+                </div>
+              </div>
+
+              {/* Dynamic Coastal Voyage Progress Track widget */}
+              <div className="space-y-3 relative z-15 bg-[#F8FAFC]/50 dark:bg-[#061524]/80 p-4 rounded-xl border border-[#D2E1ED] dark:border-[#123456]">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-[#0F4C81] dark:text-cyan-300 flex items-center gap-2">
+                    <Waves className="h-4 w-4 text-[#00B8D9]" />
+                    <span>Current Crossing: React to Python Island</span>
+                  </span>
+                  <span className="text-[10px] font-mono text-[#00B8D9] font-black">74% Charted</span>
+                </div>
+                <div className="h-1.5 w-full bg-slate-200 dark:bg-[#123456]/65 rounded-full overflow-hidden">
+                  <div className="h-full w-[74%] bg-gradient-to-r from-[#0F4C81] to-[#00B8D9] rounded-full animate-pulse" />
+                </div>
+              </div>
+
+            </div>
+
+             {/* Dynamic Glow aura behind the frame */}
+             <div className="absolute -inset-2 rounded-[36px] bg-gradient-to-r from-[#00B8D9] to-[#2DD4BF] opacity-10 dark:opacity-20 blur-xl -z-10 pointer-events-none" />
           </motion.div>
 
         </div>
       </main>
 
-      {/* Structured Features List Element to Scroll Down To */}
+      {/* Structured Features Segment - Handcrafted Ocean Grid */}
       <section 
         id="features-section" 
         ref={featuresRef} 
-        className="scroll-mt-6 border-t border-slate-200/70 dark:border-[#202022] bg-white/60 dark:bg-[#0C0C0E] py-20 px-6 transition-colors duration-300"
+        className="scroll-mt-8 border-t border-[#D2E1ED] dark:border-[#123456] bg-white dark:bg-[#061524] py-20 px-6 transition-colors duration-300"
       >
         <div className="mx-auto max-w-7xl">
-          <div className="text-center max-w-3xl mx-auto space-y-4">
-            <label className="text-[10px] font-black tracking-widest text-violet-600 dark:text-violet-400 uppercase bg-violet-500/10 dark:bg-violet-500/5 border border-violet-500/10 px-3.5 py-1 rounded-full">
-              Full Spectrum Engineering Suite
-            </label>
-            <h2 className="font-display text-3xl font-extrabold text-slate-900 dark:text-white sm:text-4xl">
-              Professional Tools For Aspiring Engineers
+          
+          <div className="text-center max-w-2xl mx-auto space-y-3 mb-16">
+            <span className="text-[10px] font-extrabold tracking-widest text-[#00B8D9] uppercase bg-cyan-100/60 dark:bg-[#0A2540] border border-cyan-200/50 dark:border-cyan-500/20 px-4 py-1.5 rounded-full">
+              ⚓ IMMERSIVE VOYAGE SUITE
+            </span>
+            <h2 className="font-display text-3xl font-black text-[#0A2540] dark:text-white sm:text-4xl tracking-tight">
+              Chart Your Technical Navigation Route
             </h2>
-            <p className="text-sm sm:text-base text-slate-500 dark:text-[#8E8E93]">
-              CodeMentor AI continuously audits profiles across multiple technical axes to compose a recruiting-ready diagnostic review.
+            <p className="text-sm font-semibold text-[#5C768D] dark:text-[#84A9C8] leading-relaxed">
+              We replace trivial status dials with ocean-inspired diagnostic telemetry. Analyze your public code currents and map skills as interactive physical islands.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             
-            {/* Box 1 */}
-            <div className="rounded-2xl border border-slate-150 dark:border-[#222224] bg-white dark:bg-[#111113] p-7 shadow-xs hover:border-violet-500/45 dark:hover:border-violet-500/25 transition-all duration-300 hover:scale-[1.015]">
-              <div className="h-11 w-11 rounded-xl bg-violet-100 dark:bg-violet-950/30 text-violet-600 dark:text-violet-400 flex items-center justify-center mb-5 border border-violet-500/10">
-                <Github className="h-5.5 w-5.5" />
+            {/* Feature 1: GitHub / Code Ocean Analytics */}
+            <div className="premium-card p-8 space-y-5 transition-all text-left">
+              <div className="h-10 w-10 rounded-xl bg-cyan-100 dark:bg-cyan-950/40 border border-cyan-200 dark:border-cyan-900/20 text-[#00B8D9] flex items-center justify-center">
+                <Github className="h-5 w-5" />
               </div>
-              <h3 className="text-base font-extrabold text-slate-850 dark:text-white">GitHub Audit Engine</h3>
-              <p className="text-xs text-slate-500 dark:text-[#8E8E93] mt-3 leading-relaxed font-medium">
-                Uses public REST APIs to evaluate file staging, license compliance, testing blocks, and code complexity scores. No fictional placeholders allowed.
-              </p>
+              <div>
+                <h3 className="text-base font-black text-[#0A2540] dark:text-white">Code Ocean Analytics</h3>
+                <p className="text-xs text-[#5C768D] dark:text-cyan-100 font-semibold mt-2.5 leading-relaxed">
+                  Analyze your public sea currents and repo density. Get reports detailing repository clarity, commit velocity, and missing license documentation coordinates.
+                </p>
+              </div>
             </div>
 
-            {/* Box 2 */}
-            <div className="rounded-2xl border border-slate-150 dark:border-[#222224] bg-white dark:bg-[#111113] p-7 shadow-xs hover:border-sky-500/45 dark:hover:border-sky-500/25 transition-all duration-300 hover:scale-[1.015]">
-              <div className="h-11 w-11 rounded-xl bg-sky-100 dark:bg-sky-950/30 text-sky-600 dark:text-sky-400 flex items-center justify-center mb-5 border border-sky-500/10">
-                <Code2 className="h-5.5 w-5.5" />
+            {/* Feature 2: Sea Lane Tracker */}
+            <div className="premium-card p-8 lg:translate-y-4 space-y-5 transition-all border-cyan-500/10 dark:border-cyan-500/5 hover:border-cyan-500/30 text-left">
+              <div className="h-10 w-10 rounded-xl bg-teal-100 dark:bg-teal-950/40 border border-teal-250 dark:border-teal-900/20 text-[#2DD4BF] flex items-center justify-center">
+                <Code2 className="h-5 w-5" />
               </div>
-              <h3 className="text-base font-extrabold text-slate-850 dark:text-white">DSA Interactive Sandbox</h3>
-              <p className="text-xs text-slate-500 dark:text-[#8E8E93] mt-3 leading-relaxed font-medium">
-                Submit and compile high-complexity algorithms inside an isolated diagnostic panel. Instantly assess runtime parameters and space complexity.
-              </p>
+              <div>
+                <h3 className="text-base font-black text-[#0A2540] dark:text-white">Sea Lane DSA Tracker</h3>
+                <p className="text-xs text-[#5C768D] dark:text-cyan-100 font-semibold mt-2.5 leading-relaxed">
+                  Solve algorithms across arrays reefs and tree forest islands. Record compiler latency ratings as you navigate deep optimization sea layers.
+                </p>
+              </div>
             </div>
 
-            {/* Box 3 */}
-            <div className="rounded-2xl border border-slate-150 dark:border-[#222224] bg-white dark:bg-[#111113] p-7 shadow-xs hover:border-emerald-500/45 dark:hover:border-emerald-500/25 transition-all duration-300 hover:scale-[1.015]">
-              <div className="h-11 w-11 rounded-xl bg-emerald-100 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-5 border border-emerald-500/10">
-                <FileCheck className="h-5.5 w-5.5" />
+            {/* Feature 3: Recruiter Radar */}
+            <div className="premium-card p-8 space-y-5 transition-all text-left">
+              <div className="h-10 w-10 rounded-xl bg-blue-105 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/20 text-[#0F4C81] flex items-center justify-center">
+                <FileCheck className="h-5 w-5" />
               </div>
-              <h3 className="text-base font-extrabold text-slate-850 dark:text-white">Star Resume Refactorer</h3>
-              <p className="text-xs text-slate-500 dark:text-[#8E8E93] mt-3 leading-relaxed font-medium">
-                Upload or copy resume bullets. The system evaluates ATS scoring index and leverages Gemini to construct metrics-oriented action statements.
-              </p>
+              <div>
+                <h3 className="text-base font-black text-[#0A2540] dark:text-white">Recruiter Radar ATS</h3>
+                <p className="text-xs text-[#5C768D] dark:text-cyan-100 font-semibold mt-2.5 leading-relaxed">
+                  Scans resumes via nautical diagnostic sonar to discover missing career signals, ATS keyword blockages, and target tech industry coordinates.
+                </p>
+              </div>
             </div>
 
           </div>
         </div>
       </section>
 
-      {/* Trust Band */}
-      <section className="border-t border-slate-200 dark:border-slate-800/60 bg-white/40 dark:bg-[#0E0E10]/40 py-12 text-center relative z-10 transition-colors duration-300">
-        <label className="font-mono text-[9px] tracking-widest text-slate-450 dark:text-[#8E8E93] uppercase font-bold">Built using advanced intelligence</label>
-        <div className="mx-auto mt-5 flex flex-wrap max-w-4xl justify-center gap-x-12 gap-y-4 px-6 font-display font-extrabold text-sm sm:text-base text-slate-400 dark:text-[#5E5E65] cursor-default select-none">
-          <span className="hover:text-violet-600 dark:hover:text-white transition-colors">Gemini Models</span>
-          <span className="hover:text-violet-600 dark:hover:text-white transition-colors">TypeScript 5.0</span>
-          <span className="hover:text-violet-600 dark:hover:text-white transition-colors">Express CJS</span>
-          <span className="hover:text-violet-600 dark:hover:text-white transition-colors">Vite Engine</span>
-          <span className="hover:text-violet-600 dark:hover:text-white transition-colors">Local MongoDB JSON Store</span>
+      {/* Bottom Core Technologies */}
+      <section className="border-t border-[#D2E1ED] dark:border-[#123456] bg-slate-50 dark:bg-[#030D18]/80 py-12 text-center transition-colors">
+        <label className="text-[10px] font-bold tracking-widest text-[#5C768D] dark:text-cyan-400 uppercase font-mono">Ocean Explorer Fleet Core</label>
+        <div className="mx-auto mt-4.5 flex flex-wrap max-w-4xl justify-center gap-x-12 gap-y-4 px-6 font-display font-extrabold text-xs sm:text-sm text-[#0F4C81] sm:text-[#5C768D] dark:text-slate-400 select-none">
+          <span className="hover:text-cyan-500 transition-colors">⚓ Gemini Models Command</span>
+          <span className="hover:text-cyan-500 transition-colors">🌊 Sea currents telemetry</span>
+          <span className="hover:text-cyan-500 transition-colors">🧭 Marine Compass Engine</span>
+          <span className="hover:text-cyan-500 transition-colors">⛵ Lighthouse Node Stack</span>
         </div>
       </section>
 
-      {/* Simple Footer */}
-      <footer className="border-t border-slate-200 dark:border-[#202022] py-8 text-center bg-slate-100/30 dark:bg-[#0E0E10] text-[10.5px] text-slate-450 dark:text-[#5E5E65] font-semibold relative z-10 transition-colors duration-300">
-        <p>&copy; {new Date().getFullYear()} CodeMentor AI. Structured for premium cloud engineering guidance.</p>
+      {/* Footer */}
+      <footer className="border-t border-[#D2E1ED] dark:border-[#123456] py-8 text-center bg-white dark:bg-[#030D18] text-[10px] text-[#5C768D] font-bold">
+        <p>&copy; {new Date().getFullYear()} Ocean Explorer - Navigate Your Developer Voyage. All rights reserved.</p>
       </footer>
     </div>
   );

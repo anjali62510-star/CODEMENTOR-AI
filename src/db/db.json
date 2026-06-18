@@ -1,0 +1,334 @@
+{
+  "users": [
+    {
+      "_id": "ofcg3xkyk",
+      "name": "Anjali Rajput",
+      "email": "anjali62510@gmail.com",
+      "onboarded": true,
+      "scores": {
+        "careerReadiness": 6,
+        "github": 0,
+        "dsa": 10,
+        "resume": 20,
+        "interviewReadiness": 0,
+        "openSource": 0
+      },
+      "settings": {
+        "theme": "dark",
+        "emailNotifications": true
+      },
+      "createdAt": "2026-06-17T11:01:15.309Z",
+      "passwordHash": "$2b$10$2JykQF/tc/dI18w/bSjISuhjMryCl3lqBaXAtVDTz6rFGNEqCNT3.",
+      "onboarding": {
+        "targetRole": "Fullstack Software Engineer",
+        "experienceLevel": "beginner",
+        "preferredIndustry": "Tech SaaS",
+        "weeklyHours": 15
+      }
+    },
+    {
+      "_id": "df743gc7m",
+      "name": "roshni",
+      "email": "roshni92510@gmail.com",
+      "onboarded": true,
+      "scores": {
+        "careerReadiness": 6,
+        "github": 0,
+        "dsa": 10,
+        "resume": 20,
+        "interviewReadiness": 0,
+        "openSource": 0
+      },
+      "settings": {
+        "theme": "dark",
+        "emailNotifications": true
+      },
+      "createdAt": "2026-06-18T06:49:56.264Z",
+      "weeklyXp": [
+        {
+          "day": "Mon",
+          "xp": 45
+        },
+        {
+          "day": "Tue",
+          "xp": 80
+        },
+        {
+          "day": "Wed",
+          "xp": 120
+        },
+        {
+          "day": "Thu",
+          "xp": 60
+        },
+        {
+          "day": "Fri",
+          "xp": 150
+        },
+        {
+          "day": "Sat",
+          "xp": 30
+        },
+        {
+          "day": "Sun",
+          "xp": 95
+        }
+      ],
+      "passwordHash": "$2b$10$0/FH4fi0A3UqFapj10MkV.JuXpeLRJLbgpBccoKhW3jRYApcz2w5a",
+      "onboarding": {
+        "targetRole": "Fullstack Software Engineer",
+        "experienceLevel": "beginner",
+        "preferredIndustry": "AI / Cognitive Automations",
+        "githubUsername": "https://github.com/anjali62510-star",
+        "weeklyHours": 15
+      }
+    }
+  ],
+  "githubAnalyses": [],
+  "dsaTracker": {
+    "ofcg3xkyk": {
+      "solvedCount": 34,
+      "totalCount": 450,
+      "byCategory": [
+        {
+          "category": "Arrays",
+          "solved": 12,
+          "total": 60
+        },
+        {
+          "category": "Strings",
+          "solved": 8,
+          "total": 50
+        },
+        {
+          "category": "Linked Lists",
+          "solved": 5,
+          "total": 40
+        },
+        {
+          "category": "Trees",
+          "solved": 4,
+          "total": 60
+        },
+        {
+          "category": "Graphs",
+          "solved": 2,
+          "total": 60
+        },
+        {
+          "category": "Dynamic Programming",
+          "solved": 1,
+          "total": 80
+        },
+        {
+          "category": "Recursion",
+          "solved": 1,
+          "total": 50
+        },
+        {
+          "category": "Greedy",
+          "solved": 1,
+          "total": 50
+        }
+      ],
+      "recentSubmissions": [
+        {
+          "id": "sub-1",
+          "problemName": "Two Sum",
+          "difficulty": "Easy",
+          "language": "TypeScript",
+          "status": "Accepted",
+          "timestamp": "2026-06-18T03:29:29.487Z"
+        },
+        {
+          "id": "sub-2",
+          "problemName": "Longest Consecutive Sequence",
+          "difficulty": "Medium",
+          "language": "JavaScript",
+          "status": "Accepted",
+          "timestamp": "2026-06-16T05:29:29.488Z"
+        }
+      ],
+      "currentStreak": 5,
+      "weeklyProgress": [
+        {
+          "day": "Mon",
+          "solved": 2
+        },
+        {
+          "day": "Tue",
+          "solved": 3
+        },
+        {
+          "day": "Wed",
+          "solved": 1
+        },
+        {
+          "day": "Thu",
+          "solved": 4
+        },
+        {
+          "day": "Fri",
+          "solved": 2
+        },
+        {
+          "day": "Sat",
+          "solved": 0
+        },
+        {
+          "day": "Sun",
+          "solved": 1
+        }
+      ],
+      "difficultyDistribution": {
+        "Easy": 18,
+        "Medium": 12,
+        "Hard": 4
+      },
+      "activityDates": [
+        "2026-06-18",
+        "2026-06-17",
+        "2026-06-16",
+        "2026-06-15",
+        "2026-06-14",
+        "2026-06-12",
+        "2026-06-11",
+        "2026-06-08",
+        "2026-06-08",
+        "2026-06-07",
+        "2026-06-04",
+        "2026-06-03",
+        "2026-05-31",
+        "2026-05-31",
+        "2026-05-31",
+        "2026-05-28",
+        "2026-05-27",
+        "2026-05-24"
+      ]
+    },
+    "df743gc7m": {
+      "solvedCount": 34,
+      "totalCount": 450,
+      "byCategory": [
+        {
+          "category": "Arrays",
+          "solved": 12,
+          "total": 60
+        },
+        {
+          "category": "Strings",
+          "solved": 8,
+          "total": 50
+        },
+        {
+          "category": "Linked Lists",
+          "solved": 5,
+          "total": 40
+        },
+        {
+          "category": "Trees",
+          "solved": 4,
+          "total": 60
+        },
+        {
+          "category": "Graphs",
+          "solved": 2,
+          "total": 60
+        },
+        {
+          "category": "Dynamic Programming",
+          "solved": 1,
+          "total": 80
+        },
+        {
+          "category": "Recursion",
+          "solved": 1,
+          "total": 50
+        },
+        {
+          "category": "Greedy",
+          "solved": 1,
+          "total": 50
+        }
+      ],
+      "recentSubmissions": [
+        {
+          "id": "sub-1",
+          "problemName": "Two Sum",
+          "difficulty": "Easy",
+          "language": "TypeScript",
+          "status": "Accepted",
+          "timestamp": "2026-06-18T04:52:25.298Z"
+        },
+        {
+          "id": "sub-2",
+          "problemName": "Longest Consecutive Sequence",
+          "difficulty": "Medium",
+          "language": "JavaScript",
+          "status": "Accepted",
+          "timestamp": "2026-06-16T06:52:25.309Z"
+        }
+      ],
+      "currentStreak": 5,
+      "weeklyProgress": [
+        {
+          "day": "Mon",
+          "solved": 2
+        },
+        {
+          "day": "Tue",
+          "solved": 3
+        },
+        {
+          "day": "Wed",
+          "solved": 1
+        },
+        {
+          "day": "Thu",
+          "solved": 4
+        },
+        {
+          "day": "Fri",
+          "solved": 2
+        },
+        {
+          "day": "Sat",
+          "solved": 0
+        },
+        {
+          "day": "Sun",
+          "solved": 1
+        }
+      ],
+      "difficultyDistribution": {
+        "Easy": 18,
+        "Medium": 12,
+        "Hard": 4
+      },
+      "activityDates": [
+        "2026-06-18",
+        "2026-06-17",
+        "2026-06-16",
+        "2026-06-15",
+        "2026-06-14",
+        "2026-06-12",
+        "2026-06-11",
+        "2026-06-08",
+        "2026-06-08",
+        "2026-06-07",
+        "2026-06-04",
+        "2026-06-03",
+        "2026-05-31",
+        "2026-05-31",
+        "2026-05-31",
+        "2026-05-28",
+        "2026-05-27",
+        "2026-05-24"
+      ]
+    }
+  },
+  "roadmaps": {},
+  "openSource": [],
+  "interviews": [],
+  "resumes": []
+}

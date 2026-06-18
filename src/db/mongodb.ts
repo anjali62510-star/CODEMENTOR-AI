@@ -115,7 +115,27 @@ export const getDefaultDSA = (): DSAPicture => ({
     Easy: 18,
     Medium: 12,
     Hard: 4
-  }
+  },
+  activityDates: [
+    new Date().toISOString().split('T')[0],
+    new Date(Date.now() - 86400000).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 2).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 3).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 4).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 6).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 7).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 10).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 10).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 11).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 14).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 15).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 18).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 18).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 18).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 21).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 22).toISOString().split('T')[0],
+    new Date(Date.now() - 86400000 * 25).toISOString().split('T')[0]
+  ]
 });
 
 // Mock Mongoose-like Models
@@ -165,6 +185,15 @@ export const UserDB = {
         emailNotifications: true
       },
       createdAt: new Date().toISOString(),
+      weeklyXp: [
+        { day: 'Mon', xp: 45 },
+        { day: 'Tue', xp: 80 },
+        { day: 'Wed', xp: 120 },
+        { day: 'Thu', xp: 60 },
+        { day: 'Fri', xp: 150 },
+        { day: 'Sat', xp: 30 },
+        { day: 'Sun', xp: 95 }
+      ],
       passwordHash: data.password // we will hash this in the auth route
     };
     db.users.push(newUser);

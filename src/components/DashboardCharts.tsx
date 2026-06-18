@@ -33,13 +33,17 @@ export const MetricLineChart: React.FC<LineChartProps> = ({ data, height = 200 }
       <svg viewBox={`0 0 400 ${height}`} className="w-full h-full overflow-visible">
         <defs>
           <linearGradient id="chart-glow" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="var(--accent-primary)" stopOpacity="0.2" />
+            <stop offset="0%" stopColor="var(--accent-primary)" stopOpacity="0.25" />
             <stop offset="100%" stopColor="var(--accent-primary)" stopOpacity="0" />
           </linearGradient>
           <linearGradient id="line-grad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="var(--accent-primary)" />
-            <stop offset="50%" stopColor="var(--accent-secondary)" />
-            <stop offset="100%" stopColor="var(--accent-success)" />
+            <stop offset="0%" stopColor="#0F4C81" />
+            <stop offset="50%" stopColor="#00B8D9" />
+            <stop offset="100%" stopColor="#2DD4BF" />
+          </linearGradient>
+          <linearGradient id="wave-fill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#00B8D9" stopOpacity="0.15" />
+            <stop offset="100%" stopColor="#0F4C81" stopOpacity="0.02" />
           </linearGradient>
         </defs>
 
@@ -63,15 +67,16 @@ export const MetricLineChart: React.FC<LineChartProps> = ({ data, height = 200 }
           );
         })}
 
-        {/* Shaded Area */}
+        {/* Wave-style shaded area beneath tide line */}
+        <path d={areaD} fill="url(#wave-fill)" />
         <path d={areaD} fill="url(#chart-glow)" />
 
-        {/* Connected Line Path */}
+        {/* Connected tide line path with wave-like stroke */}
         <path 
           d={pathD} 
           fill="none" 
           stroke="url(#line-grad)" 
-          strokeWidth="4" 
+          strokeWidth="3.5" 
           strokeLinecap="round"
           strokeLinejoin="round"
         />
@@ -82,10 +87,10 @@ export const MetricLineChart: React.FC<LineChartProps> = ({ data, height = 200 }
             <circle 
               cx={p.x} 
               cy={p.y} 
-              r="6.5" 
+              r="5.5" 
               fill="var(--bg-secondary)" 
-              stroke="var(--accent-secondary)" 
-              strokeWidth="3.5" 
+              stroke="#00B8D9" 
+              strokeWidth="2.5" 
               className="transition duration-150 group-hover:scale-125"
             />
             {/* Tooltip on Hover */}
@@ -215,7 +220,7 @@ export const PolarCategoriesChart: React.FC<PolarCategoriesProps> = ({ categorie
           </div>
           <div className="h-2 w-full rounded-full bg-slate-200 dark:bg-[#1C1C1E] overflow-hidden border border-transparent">
             <div 
-              className="h-full rounded-full bg-gradient-to-r from-violet-500 via-sky-400 to-emerald-400 transition-all duration-700" 
+              className="h-full rounded-full bg-gradient-to-r from-[#0F4C81] via-[#00B8D9] to-[#2DD4BF] transition-all duration-700" 
               style={{ width: `${cat.score}%` }}
             />
           </div>

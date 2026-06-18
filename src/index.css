@@ -4,46 +4,47 @@
 @variant dark (&:where(.dark, .dark *));
 
 :root {
-  --bg-primary: #F8FAFC;
+  --bg-primary: #F8FAFC; /* Pearl White */
   --bg-secondary: #FFFFFF;
-  --bg-tertiary: #F1F5F9;
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #64748B;
-  --border-color: #E2E8F0;
+  --bg-tertiary: #EAF2F8; /* Soft coastal pearl */
+  --text-primary: #0A2540; /* Deep Ocean Blue */
+  --text-secondary: #0F4C81; /* Atlantic Blue */
+  --text-muted: #5C768D; /* Nautical Slate */
+  --border-color: #D2E1ED; /* Shoreline sand-blue border */
   --card-bg: #FFFFFF;
-  --card-border: #E2E8F0;
+  --card-border: #D2E1ED;
   
-  --color-lavender: #A78BFA;
-  --color-sky: #60A5FA;
-  --color-mint: #34D399;
-  --color-pink: #F9A8D4;
-  --color-yellow: #FCD34D;
+  --color-lavender: #00B8D9; /* Ocean Cyan */
+  --color-sky: #67E8F9; /* Aqua */
+  --color-mint: #2DD4BF; /* Seafoam Green */
+  --color-pink: #EC4899;
+  --color-yellow: #F5F5DC; /* Sand Beige */
   
-  --accent-primary: #A78BFA;
-  --accent-secondary: #60A5FA;
-  --accent-success: #34D399;
+  --accent-primary: #00B8D9; /* Ocean Cyan */
+  --accent-secondary: #0F4C81; /* Atlantic Blue */
+  --accent-success: #2DD4BF; /* Seafoam Green */
 }
 
 .dark {
-  --bg-primary: #0F172A;
-  --bg-secondary: #111827;
-  --bg-tertiary: #1E293B;
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-  --border-color: #1E293B;
-  --card-bg: #1E293B;
-  --card-border: #334155;
+  /* Midnight Ocean Theme — deep sea, not flat black */
+  --bg-primary: #030D18; /* Abyss Deep Sea */
+  --bg-secondary: #061524; /* Deep Ocean Blue */
+  --bg-tertiary: #0A2540; /* Deep mid-depth Ocean */
+  --text-primary: #F8FAFC; /* Pearl White */
+  --text-secondary: #67E8F9; /* Aqua */
+  --text-muted: #5C8BB8; /* Bright Sea foam tone */
+  --border-color: #123456; /* Depth twilight boundaries */
+  --card-bg: #061524;
+  --card-border: #123456;
   
-  --accent-primary: #8B5CF6;
-  --accent-secondary: #38BDF8;
-  --accent-success: #34D399;
+  --accent-primary: #67E8F9; /* Aqua */
+  --accent-secondary: #00B8D9; /* Ocean Cyan */
+  --accent-success: #2DD4BF; /* Seafoam Green */
 }
 
 @theme {
   --font-sans: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Sora", sans-serif;
+  --font-display: "Outfit", "Sora", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 }
 
@@ -71,7 +72,317 @@
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Duolingo / Figma rounded card style */
+/* Professional Sea Voyage themed cards - gently floats as if suspended over water */
+.premium-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  animation: float-deck 6s ease-in-out infinite;
+  box-shadow: 0 10px 30px -10px rgba(10, 37, 64, 0.06), 0 8px 12px -8px rgba(10, 37, 64, 0.03);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Stagger floating delays to avoid synchronous bobbing (looks robotic) */
+.premium-card:nth-child(even) {
+  animation-delay: -2s;
+}
+.premium-card:nth-child(3n) {
+  animation-delay: -4s;
+}
+
+.premium-card:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-5px) scale(1.005);
+  box-shadow: 0 20px 40px -8px rgba(0, 184, 217, 0.15), 0 12px 18px -8px rgba(0, 184, 217, 0.08);
+  animation-play-state: paused; /* stabilize list on direct interaction pointer placement */
+}
+
+.dark .premium-card {
+  box-shadow: 0 10px 30px -10px rgba(3, 13, 24, 0.6), 0 8px 12px -8px rgba(3, 13, 24, 0.5);
+}
+
+.dark .premium-card:hover {
+  box-shadow: 0 20px 40px -8px rgba(103, 232, 249, 0.12), 0 12px 18px -8px rgba(103, 232, 249, 0.06);
+}
+
+@keyframes float-deck {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3.5px);
+  }
+}
+
+/* Custom interactive wave background pattern */
+.ocean-grid {
+  background-image: radial-gradient(rgba(0, 184, 217, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.dark .ocean-grid {
+  background-image: radial-gradient(rgba(103, 232, 249, 0.02) 1px, transparent 0);
+}
+
+.ocean-wave-gradient {
+  background: linear-gradient(135deg, rgba(15, 76, 129, 0.05) 0%, rgba(0, 184, 217, 0.05) 100%);
+}
+
+.dark .ocean-wave-gradient {
+  background: linear-gradient(135deg, rgba(6, 21, 36, 0.8) 0%, rgba(10, 37, 64, 0.95) 100%);
+}
+
+/* Subtly styled glass pane inspired by clear coastal water */
+.glass-pane {
+  background: rgba(248, 250, 252, 0.85); /* Pearl White overlay */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(210, 225, 237, 0.7);
+}
+
+.dark .glass-pane {
+  background: rgba(6, 21, 36, 0.8);
+  border: 1px solid rgba(18, 52, 86, 0.5);
+}
+
+/* Ocean Nautical Button gradient */
+.linear-border-button {
+  background: linear-gradient(180deg, rgba(103, 232, 249, 0.2) 0%, rgba(0, 184, 217, 0.8) 100%);
+  border: 1px solid rgba(103, 232, 249, 0.3);
+  box-shadow: 0 2px 4px rgba(10, 37, 64, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+.linear-border-button:hover {
+  background: linear-gradient(180deg, rgba(103, 232, 249, 0.3) 0%, rgba(0, 184, 217, 0.9) 100%);
+  box-shadow: 0 4px 12px rgba(0, 184, 217, 0.2);
+}
+
+/* Sea Voyage ship progress indicator badge */
 .duo-card {
-  border-radius: 24px;
+  border-radius: 16px;
+}
+
+/* Water ripple effect on hover — expands from cursor entry point */
+.water-ripple {
+  width: 0;
+  height: 0;
+  transform: translate(-50%, -50%);
+  animation: ripple-expand 0.85s ease-out forwards;
+}
+
+@keyframes ripple-expand {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.6;
+  }
+  100% {
+    width: 280px;
+    height: 280px;
+    opacity: 0;
+  }
+}
+
+/* Soft water reflection beneath floating panels */
+.premium-card::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 10%;
+  right: 10%;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 184, 217, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.dark .premium-card::after {
+  background: radial-gradient(ellipse, rgba(103, 232, 249, 0.08) 0%, transparent 70%);
+}
+
+/* Ocean wave keyframes shared across components */
+@keyframes wave-slow {
+  0%, 100% { transform: translateX(0) scaleY(1); }
+  50% { transform: translateX(-4%) scaleY(1.1); }
+}
+
+@keyframes wave-fast {
+  0%, 100% { transform: translateX(0) scaleY(1.05); }
+  50% { transform: translateX(3%) scaleY(0.95); }
+}
+
+/* Ship rocking at harbor dockyard */
+@keyframes ship-rock {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  33% { transform: translateY(-2px) rotate(0.5deg); }
+  66% { transform: translateY(-1px) rotate(-0.5deg); }
+}
+
+.ship-rock:hover {
+  animation: ship-rock 2s ease-in-out infinite;
+}
+
+/* Midnight ocean moon glow utility */
+.midnight-moon {
+  background: radial-gradient(circle at 85% 12%, rgba(200, 220, 255, 0.06) 0%, transparent 25%);
+}
+
+/* Glowing plankton particle pulse */
+@keyframes plankton-glow {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.3); }
+}
+
+.plankton-particle {
+  animation: plankton-glow var(--plankton-duration, 6s) ease-in-out infinite;
+  animation-delay: var(--plankton-delay, 0s);
+}
+
+/* Lighthouse beam sweep for dark mode */
+@keyframes lighthouse-beam {
+  0% { transform: rotate(0deg); opacity: 0.15; }
+  50% { opacity: 0.25; }
+  100% { transform: rotate(360deg); opacity: 0.15; }
+}
+
+.lighthouse-beam {
+  animation: lighthouse-beam 12s linear infinite;
+  transform-origin: bottom center;
+}
+
+/* ─── Ocean Design System: Forms & Buttons ─── */
+.ocean-label {
+  display: block;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.ocean-input {
+  width: 100%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.ocean-input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(0, 184, 217, 0.12);
+}
+
+.ocean-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+.ocean-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  color: white;
+  background: linear-gradient(135deg, #0F4C81 0%, #00B8D9 50%, #2DD4BF 100%);
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(0, 184, 217, 0.2);
+}
+
+.ocean-btn-primary:hover:not(:disabled) {
+  opacity: 0.95;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 184, 217, 0.3);
+}
+
+.ocean-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ocean-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.ocean-btn-secondary:hover {
+  border-color: var(--accent-primary);
+  background: var(--bg-secondary);
+}
+
+.ocean-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent-primary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ocean-btn-ghost:hover {
+  background: rgba(0, 184, 217, 0.08);
+}
+
+/* Accessibility & performance modes */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+.performance-mode .premium-card {
+  animation: none;
+}
+
+.performance-mode .plankton-particle,
+.performance-mode .lighthouse-beam {
+  display: none;
+}
+
+.high-contrast {
+  --border-color: #00B8D9;
+  --text-muted: #67E8F9;
+}
+
+[data-font-size="small"] { font-size: 14px; }
+[data-font-size="large"] { font-size: 18px; }
+
+/* Aurora night theme variant */
+[data-theme-variant="aurora-night"].dark {
+  --bg-primary: #020810;
+  --accent-primary: #34D399;
 }

@@ -1,10 +1,25 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { ArrowRight } from 'lucide-react';
+import { motion } from 'motion/react';
+import {
+  OceanAuthLayout,
+  OceanFormCard,
+  OceanInput,
+  OceanButton,
+  OceanErrorBanner,
+} from '../components/ocean/OceanUI';
 
 interface SignupProps {
   onNavigate: (route: string) => void;
 }
+
+const UNLOCK_PREVIEWS = [
+  { emoji: '🏝️', label: 'Skill Islands', desc: 'React, Python, AI archipelago' },
+  { emoji: '⚓', label: 'Career Ship', desc: 'Canoe → Legendary Fleet' },
+  { emoji: '🧭', label: 'Career Compass', desc: 'Direction & readiness bearing' },
+  { emoji: '🐬', label: 'Ocean Creatures', desc: 'Achievement ecosystem' },
+];
 
 export const Signup: React.FC<SignupProps> = ({ onNavigate }) => {
   const { signup } = useAuth();
@@ -17,16 +32,15 @@ export const Signup: React.FC<SignupProps> = ({ onNavigate }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !password) {
-      setError('Please fill in complete coordinates');
+      setError('Please fill in all voyage credentials');
       return;
     }
     setError(null);
     setIsSubmitting(true);
     try {
       await signup(name, email, password);
-      onNavigate('onboarding'); // Immediately route to Onboarding workflow on registration
+      onNavigate('onboarding');
     } catch (err: any) {
-      console.error(err);
       setError(err.message || 'Signup request was rejected');
     } finally {
       setIsSubmitting(false);
@@ -34,109 +48,89 @@ export const Signup: React.FC<SignupProps> = ({ onNavigate }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center bg-[#09090B] text-[#E5E5E7] py-12 sm:px-6 lg:px-8 relative selection:bg-emerald-500 selection:text-black">
-      {/* Background glow highlights */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[350px] w-[350px] rounded-full bg-[#10B981]/5 blur-[100px] pointer-events-none" />
-
-      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center z-10">
-        <div 
-          onClick={() => onNavigate('landing')}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold text-xl cursor-pointer"
-        >
-          C
-        </div>
-        <h2 className="mt-5 text-2xl font-extrabold tracking-tight text-white font-sans sm:text-3xl">
-          Create platform credentials
-        </h2>
-        <p className="mt-1.5 text-xs text-[#8E8E93]">
-          Initialize your profile and track structural career readiness
-        </p>
-      </div>
-
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md z-10 px-4 sm:px-0">
-        <div className="bg-[#141416]/85 border border-[#2D2D30] rounded-xl py-8 px-6 sm:px-8 shadow-[2px_8px_30px_rgba(0,0,0,0.5)] backdrop-blur-md">
-          {error && (
-            <div className="mb-5 rounded-lg border border-rose-500/20 bg-rose-500/5 p-3.5 text-xs text-rose-400 flex items-start gap-2">
-              <span className="font-bold">Error:</span>
-              <p className="flex-1">{error}</p>
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div>
-              <label htmlFor="name" className="block text-xs font-mono uppercase tracking-wider text-[#AEAEB2] mb-1.5">
-                Full Name
-              </label>
-              <input
-                id="name"
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Ada Lovelace"
-                className="w-full bg-[#1C1C1E] border border-[#2D2D30] rounded-lg px-3.5 py-2 text-sm text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-xs font-mono uppercase tracking-wider text-[#AEAEB2] mb-1.5">
-                Email Address
-              </label>
-              <input
-                id="email"
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="ada@example.com"
-                className="w-full bg-[#1C1C1E] border border-[#2D2D30] rounded-lg px-3.5 py-2 text-sm text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-xs font-mono uppercase tracking-wider text-[#AEAEB2] mb-1.5">
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Minimum 6 characters"
-                className="w-full bg-[#1C1C1E] border border-[#2D2D30] rounded-lg px-3.5 py-2 text-sm text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black py-2.5 text-xs font-semibold tracking-wide transition-all duration-200 shadow-[0_0_15px_rgba(16,185,129,0.15)] disabled:opacity-50"
-            >
-              {isSubmitting ? (
-                <span>Registering Account...</span>
-              ) : (
-                <>
-                  <span>Create Account & Onboard</span>
-                  <ArrowRight className="h-4 w-4" />
-                </>
-              )}
-            </button>
-          </form>
-
-          <div className="mt-6 pt-5 border-t border-[#1C1C1E] text-center text-xs">
-            <span className="text-[#8E8E93]">Already registered?</span>{' '}
-            <button
-              type="button"
-              onClick={() => onNavigate('login')}
-              className="font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
-            >
-              Sign In Here
-            </button>
+    <OceanAuthLayout
+      title="Begin Your Voyage"
+      subtitle="Chart your course to a dream software engineering career."
+      badge="NEW EXPLORER"
+      onLogoClick={() => onNavigate('landing')}
+      sideContent={
+        <div className="space-y-5">
+          <p className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#00B8D9]">
+            What you'll unlock
+          </p>
+          <div className="grid grid-cols-2 gap-3">
+            {UNLOCK_PREVIEWS.map((item, i) => (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="rounded-xl border border-[#D2E1ED] dark:border-[#123456] bg-white/60 dark:bg-[#061524]/60 p-3"
+              >
+                <span className="text-xl block mb-1">{item.emoji}</span>
+                <span className="text-[10px] font-black text-[#0A2540] dark:text-white block">{item.label}</span>
+                <span className="text-[9px] text-[#5C768D] dark:text-cyan-400 font-semibold">{item.desc}</span>
+              </motion.div>
+            ))}
           </div>
+          {/* Animated route map dots */}
+          <svg viewBox="0 0 300 60" className="w-full h-12 opacity-50">
+            <path d="M10,30 Q80,10 150,30 T290,30" fill="none" stroke="#00B8D9" strokeWidth="1.5" strokeDasharray="4 4" />
+            {['⚓', '🏝️', '🧭', '🚢'].map((e, i) => (
+              <text key={i} x={10 + i * 90} y="35" fontSize="14" textAnchor="middle">{e}</text>
+            ))}
+          </svg>
         </div>
-      </div>
-    </div>
+      }
+    >
+      <OceanFormCard>
+        {error && <OceanErrorBanner message={error} />}
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <OceanInput
+            id="name"
+            label="Explorer Name"
+            type="text"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Captain Ada Lovelace"
+          />
+          <OceanInput
+            id="email"
+            label="Harbor Email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="explorer@ocean.dev"
+          />
+          <OceanInput
+            id="password"
+            label="Voyage Passkey"
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Minimum 6 characters"
+          />
+          <OceanButton type="submit" loading={isSubmitting}>
+            <span>Launch Your Expedition</span>
+            <ArrowRight className="h-4 w-4" />
+          </OceanButton>
+        </form>
+        <div className="mt-6 pt-5 border-t border-[#D2E1ED] dark:border-[#123456] text-center text-xs">
+          <span className="text-[#5C768D] dark:text-cyan-400">Already sailing?</span>{' '}
+          <button
+            type="button"
+            onClick={() => onNavigate('login')}
+            className="font-bold text-[#00B8D9] hover:text-[#2DD4BF] transition-colors"
+          >
+            Welcome Back, Captain →
+          </button>
+        </div>
+      </OceanFormCard>
+    </OceanAuthLayout>
   );
 };
+
 export default Signup;

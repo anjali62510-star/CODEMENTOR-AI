@@ -5,6 +5,8 @@ interface AuthContextType {
   user: User | null;
   token: string | null;
   loading: boolean;
+  theme: 'dark' | 'light';
+  toggleTheme: () => void;
   login: (email: string, password: string) => Promise<void>;
   signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -21,6 +23,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(localStorage.getItem('codementor_token'));
   const [loading, setLoading] = useState(true);
+  const [theme, setThemeState] = useState<'dark' | 'light'>('dark');
 
   // Set the visual theme class on html node
   const applyTheme = (theme: 'dark' | 'light') => {
@@ -31,6 +34,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const initAuth = async () => {
+      let activeTheme: 'dark' | 'light' = 'dark';
       if (token) {
         try {
           const res = await fetch('/api/auth/me', {
@@ -41,7 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           if (res.ok) {
             const data = await res.json();
             setUser(data.user);
-            applyTheme(data.user.settings?.theme || 'dark');
+            activeTheme = data.user.settings?.theme || 'dark';
           } else {
             // Token expired or invalid
             logout();
@@ -49,7 +53,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } catch (err) {
           console.error('Error validating auth session:', err);
         }
+      } else {
+        activeTheme = (localStorage.getItem('codementor_guest_theme') || 'dark') as 'dark' | 'light';
       }
+      setThemeState(activeTheme);
+      applyTheme(activeTheme);
       setLoading(false);
     };
 
@@ -69,7 +77,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem('codementor_token', data.token);
     setToken(data.token);
     setUser(data.user);
-    applyTheme(data.user.settings?.theme || 'dark');
+    const userTheme = data.user.settings?.theme || 'dark';
+    setThemeState(userTheme);
+    applyTheme(userTheme);
   };
 
   const signup = async (name: string, email: string, password: string) => {
@@ -85,16 +95,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.setItem('codementor_token', data.token);
     setToken(data.token);
     setUser(data.user);
-    applyTheme(data.user.settings?.theme || 'dark');
+    const userTheme = data.user.settings?.theme || 'dark';
+    setThemeState(userTheme);
+    applyTheme(userTheme);
   };
 
   const logout = () => {
     localStorage.removeItem('codementor_token');
     setToken(null);
     setUser(null);
-    // Standard default
-    const root = window.document.documentElement;
-    root.classList.add('dark');
+    const guestTheme = (localStorage.getItem('codementor_guest_theme') || 'dark') as 'dark' | 'light';
+    setThemeState(guestTheme);
+    applyTheme(guestTheme);
   };
 
   const onboard = async (onboardingData: UserOnboarding) => {
@@ -143,7 +155,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       throw new Error(data.error || 'Settings update failed');
     }
     setUser(data.user);
-    applyTheme(settings.theme);
+    if (settings.theme) {
+      setThemeState(settings.theme);
+      applyTheme(settings.theme);
+    }
+  };
+
+  const toggleTheme = async () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setThemeState(nextTheme);
+    applyTheme(nextTheme);
+    if (user && token) {
+      try {
+        await updateSettings({
+          ...user.settings,
+          theme: nextTheme
+        });
+      } catch (err) {
+        console.error('Failed to sync theme preferences to server settings:', err);
+      }
+    } else {
+      localStorage.setItem('codementor_guest_theme', nextTheme);
+    }
   };
 
   const refreshUser = async () => {
@@ -181,6 +214,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       user,
       token,
       loading,
+      theme,
+      toggleTheme,
       login,
       signup,
       logout,

@@ -16,8 +16,13 @@ import {
   Github,
   ChevronRight,
   Filter,
-  CheckSquare
+  Waves,
+  Anchor,
+  Compass,
+  Ship
 } from 'lucide-react';
+import { triggerConfetti, triggerXpGain, triggerBadgeUnlock } from '../components/Celebration';
+import { OceanPageShell, OceanPageHeader, OceanLoadingScreen } from '../components/ocean/OceanUI';
 
 interface RecommendedIssue {
   repoName: string;
@@ -55,7 +60,16 @@ export const OpenSource: React.FC = () => {
   const [recsError, setRecsError] = useState<string | null>(null);
 
   const techFilters = ['React', 'Node.js', 'Python', 'Java', 'AI/ML', 'Data Science'];
+  
+  // Ocean-themed filter categories
   const categoryFilters = ['Good First Issues', 'GSSoC Projects', 'Hacktoberfest Repositories', 'Beginner-friendly repositories'];
+
+  const getOceanicCategoryLabel = (label: string) => {
+    if (label === 'Good First Issues') return 'Calm Shallows (Good First Issues) ⛵';
+    if (label === 'GSSoC Projects') return 'Mid-Currents (GSSoC Ports) 🌀';
+    if (label === 'Hacktoberfest Repositories') return 'High Winds (Hacktoberfest) 🌊';
+    return 'Coastal Gaps (Beginner Friendly) 🐚';
+  };
 
   const fetchContributions = async () => {
     try {
@@ -118,6 +132,15 @@ export const OpenSource: React.FC = () => {
       // Reload contributions to get the freshly-created tracking code
       await fetchContributions();
       await refreshUser(); // Update overall user score
+
+      // Gamification trigger celebrations
+      if (status === 'merged') {
+        triggerConfetti(3500);
+        triggerXpGain(25, `Logged PR: ${repository}`);
+        triggerBadgeUnlock('OSS Fleet Admiral 🌟', 'Logged a successfully merged open-source code patch on Github!', 'trophy');
+      } else {
+        triggerXpGain(10, `Logged Draft PR: ${repository}`);
+      }
       
       // Reset form fields
       setRepository('');
@@ -133,95 +156,80 @@ export const OpenSource: React.FC = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex h-full items-center justify-center font-mono text-xs text-[#8E8E93]">
-        Evaluating Open Source commits...
-      </div>
-    );
+    return <OceanLoadingScreen message="Syncing open source voyages..." />;
   }
 
   const consolidatedScore = user?.scores?.openSource || 0;
   const mergedPrsCount = contributions.filter(c => c.status === 'merged').length;
 
   return (
-    <div className="space-y-8 animate-fade-in pb-12">
-      {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between border-b border-[#1C1C1E] pb-6">
-        <div>
-          <h1 className="font-sans text-2xl font-extrabold tracking-tight text-white flex items-center gap-2.5 md:text-3xl">
-            <Flame className="h-7 w-7 text-emerald-400" />
-            <span>Open Source Hub</span>
-          </h1>
-          <p className="text-xs text-[#8E8E93] mt-1.5 leading-relaxed">
-            Discover beginner-friendly open-source issues, filter by technical stack, and track/log pull-request outcomes to establish a prominent public shipping history.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {activeTab === 'log' && (
-            <button
-              type="button"
-              onClick={() => setShowForm(!showForm)}
-              className="flex items-center justify-center gap-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black px-4 py-2.5 text-xs font-bold transition shadow-[0_0_15px_rgba(16,185,129,0.25)]"
-            >
+    <OceanPageShell>
+      <OceanPageHeader
+        title="Open Source Bay"
+        subtitle="Discover contribution harbors, track PR merges, and build your collaborative fleet history."
+        icon={Flame}
+        badge="VOYAGE DISCOVERIES"
+        action={
+          activeTab === 'log' ? (
+            <button type="button" onClick={() => setShowForm(!showForm)} className="ocean-btn-primary !w-auto px-5">
               {showForm ? <X className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
-              <span>{showForm ? 'Cancel Logging' : 'Log Merged PR'}</span>
+              {showForm ? 'Cancel' : 'Log Voyage'}
             </button>
-          )}
-        </div>
-      </div>
+          ) : undefined
+        }
+      />
 
       {/* Tabs */}
-      <div className="flex border-b border-[#1C1C1E] pb-px">
+      <div className="flex border-b border-[#D2E1ED] dark:border-[#123456]/30 pb-px font-sans">
         <button
           onClick={() => setActiveTab('recommendations')}
-          className={`px-5 py-3 text-xs font-bold tracking-tight border-b-2 transition ${
+          className={`px-5 py-3 text-xs font-bold tracking-tight border-b-2 transition cursor-pointer ${
             activeTab === 'recommendations'
-              ? 'border-emerald-500 text-emerald-400 bg-emerald-500/5'
-              : 'border-transparent text-[#8E8E93] hover:text-white'
+              ? 'border-[#00B8D9] text-[#00B8D9] bg-cyan-100/10 dark:border-cyan-405 dark:text-cyan-300 dark:bg-cyan-500/5'
+              : 'border-transparent text-[#5C768D] dark:text-cyan-600 hover:text-[#0A2540] dark:hover:text-white'
           }`}
         >
-          <div className="flex items-center gap-2">
-            <Sparkles className="h-4 w-4" />
-            <span>AI Code Recommendation Engine</span>
+          <div className="flex items-center gap-2 font-semibold">
+            <Sparkles className="h-4 w-4 text-[#00B8D9]" />
+            <span>Tidal Voyage Suggestions</span>
           </div>
         </button>
         <button
           onClick={() => setActiveTab('log')}
-          className={`px-5 py-3 text-xs font-bold tracking-tight border-b-2 transition ${
+          className={`px-5 py-3 text-xs font-bold tracking-tight border-b-2 transition cursor-pointer ${
             activeTab === 'log'
-              ? 'border-emerald-500 text-emerald-400 bg-emerald-500/5'
-              : 'border-transparent text-[#8E8E93] hover:text-white'
+              ? 'border-[#00B8D9] text-[#00B8D9] bg-cyan-100/10 dark:border-cyan-405 dark:text-cyan-300 dark:bg-cyan-500/5'
+              : 'border-transparent text-[#5C768D] dark:text-cyan-600 hover:text-[#0A2540] dark:hover:text-white'
           }`}
         >
-          <div className="flex items-center gap-2">
-            <GitPullRequest className="h-4 w-4" />
-            <span>Verifications Log ({contributions.length})</span>
+          <div className="flex items-center gap-2 font-semibold">
+            <GitPullRequest className="h-4 w-4 text-[#00B8D9]" />
+            <span>Captain's Log ({contributions.length})</span>
           </div>
         </button>
       </div>
 
       {activeTab === 'recommendations' ? (
-        <div className="space-y-6">
+        <div className="space-y-6 animate-fade-in">
           {/* Controls Bar */}
-          <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-6 space-y-4">
-            <div className="flex items-center gap-2 text-white text-xs font-bold border-b border-[#1C1C1E] pb-3 mb-2">
-              <Filter className="h-4.5 w-4.5 text-emerald-400" />
-              <span>Configure Engine Parameters</span>
+          <div className="premium-card p-6 space-y-4 shadow-xs bg-white dark:bg-[#061524]/60">
+            <div className="flex items-center gap-2 text-[#0A2540] dark:text-white text-xs font-bold border-b border-[#D2E1ED]/30 dark:border-[#123456]/40 pb-3 mb-2 font-sans">
+              <Filter className="h-4.5 w-4.5 text-[#00B8D9]" />
+              <span>Configure Voyage Finder Parameters</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-sans">
               <div>
-                <label className="block text-[10px] font-mono text-[#8E8E93] uppercase tracking-wider mb-2">Primary Technology Filter</label>
+                <label className="block text-[10px] font-mono text-[#5C768D] dark:text-cyan-405 uppercase tracking-wider mb-2 font-black">Primary Technology Filter</label>
                 <div className="flex flex-wrap gap-2">
                   {techFilters.map((tech) => (
                     <button
                       key={tech}
                       onClick={() => setSelectedTech(tech)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition border cursor-pointer ${
                         selectedTech === tech
-                          ? 'bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 font-semibold'
-                          : 'bg-[#1C1C1E] border border-[#2D2D30] text-[#8E8E93] hover:text-white'
+                          ? 'bg-cyan-100/20 border-cyan-200 text-[#00B8D9] dark:bg-cyan-500/10 dark:border-[#00B8D9]/40'
+                          : 'bg-slate-50 border-[#D2E1ED] text-[#5C768D] dark:bg-[#030D18]/30 dark:border-[#123456] dark:text-cyan-405 dark:hover:text-white'
                       }`}
                     >
                       {tech}
@@ -231,40 +239,40 @@ export const OpenSource: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-[10px] font-mono text-[#8E8E93] uppercase tracking-wider mb-2">Issue/Project Domain</label>
+                <label className="block text-[10px] font-mono text-[#5C768D] dark:text-cyan-405 uppercase tracking-wider mb-2 font-black font-semibold">Voyage currents category</label>
                 <div className="flex flex-wrap gap-2">
                   {categoryFilters.map((cat) => (
                     <button
                       key={cat}
                       onClick={() => setSelectedCategory(cat)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition border cursor-pointer ${
                         selectedCategory === cat
-                          ? 'bg-emerald-500/10 border border-emerald-500/40 text-emerald-400 font-semibold'
-                          : 'bg-[#1C1C1E] border border-[#2D2D30] text-[#8E8E93] hover:text-white'
+                          ? 'bg-cyan-100/20 border-cyan-200 text-[#00B8D9] dark:bg-cyan-500/10 dark:border-[#00B8D9]/40'
+                          : 'bg-slate-50 border-[#D2E1ED] text-[#5C768D] dark:bg-[#030D18]/30 dark:border-[#123456] dark:text-cyan-405 dark:hover:text-white'
                       }`}
                     >
-                      {cat}
+                      {getOceanicCategoryLabel(cat)}
                     </button>
                   ))}
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-end pt-2 border-t border-[#1C1C1E]">
+            <div className="flex justify-end pt-3 border-t border-slate-100 dark:border-[#123456]/40">
               <button
                 onClick={fetchRecommendations}
                 disabled={loadingRecs}
-                className="flex items-center gap-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black px-4 py-2 text-xs font-bold transition"
+                className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#00B8D9] to-[#0F4C81] text-white px-4 py-2 text-xs font-bold transition cursor-pointer shadow-xs"
               >
                 {loadingRecs ? (
                   <>
-                    <Loader2 className="h-4 w-4 animate-spin text-black" />
+                    <Loader2 className="h-4 w-4 animate-spin text-white" />
                     <span>Analyzing Github registries...</span>
                   </>
                 ) : (
                   <>
                     <Sparkles className="h-4 w-4" />
-                    <span>Recalculate Recommendations</span>
+                    <span>Query Deep Registries</span>
                   </>
                 )}
               </button>
@@ -273,149 +281,149 @@ export const OpenSource: React.FC = () => {
 
           {/* Recs Result Section */}
           {loadingRecs ? (
-            <div className="py-16 text-center">
-              <Loader2 className="h-8 w-8 animate-spin text-emerald-400 mx-auto mb-4" />
-              <p className="text-xs font-mono text-[#8E8E93]">Querying public project graphs for matching issues...</p>
+            <div className="py-16 text-center font-mono">
+              <Loader2 className="h-8 w-8 animate-spin text-[#00B8D9] mx-auto mb-4" />
+              <p className="text-xs text-[#5C768D] dark:text-cyan-400 font-extrabold uppercase animate-pulse">Querying public project graphs for matching issues...</p>
             </div>
           ) : recsError ? (
-            <div className="rounded-xl border border-rose-500/10 bg-rose-500/5 p-6 text-center">
-              <p className="text-xs text-rose-400">{recsError}</p>
+            <div className="rounded-xl border border-rose-500/15 bg-rose-500/5 p-6 text-center">
+              <p className="text-xs text-rose-500 dark:text-rose-450 font-semibold">{recsError}</p>
             </div>
           ) : recommendations.length > 0 ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-sans">
               {recommendations.map((rec, index) => (
-                <div key={index} className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-6 flex flex-col justify-between hover:border-emerald-500/30 transition-all duration-300">
+                <div key={index} className="premium-card p-6 flex flex-col justify-between hover:border-cyan-500/35 transition-all duration-300 shadow-xs bg-white dark:bg-[#061524]/60">
                   <div className="space-y-4">
                     {/* Repository details */}
                     <div className="flex items-start justify-between">
                       <div>
                         <div className="flex items-center gap-2">
-                          <Github className="h-4.5 w-4.5 text-white" />
-                          <a href={rec.repoUrl} target="_blank" rel="noreferrer" className="text-sm font-bold text-white hover:text-emerald-400 font-mono transition-colors">
+                          <Github className="h-4.5 w-4.5 text-[#0A2540] dark:text-white" />
+                          <a href={rec.repoUrl} target="_blank" rel="noreferrer" className="text-sm font-black text-[#0A2540] dark:text-white hover:text-[#00B8D9] font-mono transition-colors">
                             {rec.repoName}
                           </a>
                         </div>
-                        <p className="text-xs text-[#8E8E93] mt-1 pr-6 leading-relaxed">
+                        <p className="text-xs text-[#5C768D] dark:text-cyan-200 mt-1 pr-6 leading-relaxed font-semibold">
                           {rec.repoDescription}
                         </p>
                       </div>
-                      <span className="text-[10px] font-mono text-amber-400 bg-amber-500/5 px-2 py-0.5 rounded border border-amber-500/10 shrink-0">
+                      <span className="text-[10px] font-mono font-bold text-amber-600 bg-amber-50 dark:text-amber-400 dark:bg-amber-500/10 px-2 py-0.5 rounded border border-amber-200 dark:border-amber-500/20 shrink-0 select-all font-mono">
                         ⭐ {rec.stars.toLocaleString()}
                       </span>
                     </div>
 
                     {/* Active issue detail */}
-                    <div className="rounded-lg border border-[#1C1C1E] bg-[#0E0E10] p-4.5 space-y-2.5">
+                    <div className="rounded-2xl border border-[#D2E1ED] bg-[#F8FAFC] dark:border-[#123456] dark:bg-[#030D18]/50 p-4.5 space-y-2.5">
                       <div className="flex items-center justify-between gap-3">
-                        <span className="font-mono text-[9.5px] uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/15 px-2 py-0.5 rounded">
-                          Active Issue
+                        <span className="font-mono text-[9.5px] uppercase tracking-wider text-cyan-800 bg-cyan-100/50 dark:text-cyan-400 dark:bg-cyan-500/10 border border-cyan-200 dark:border-cyan-500/20 px-2 py-0.5 rounded font-black">
+                          Active Map Quest
                         </span>
-                        <span className={`text-[9.5px] font-bold font-mono px-2 py-0.5 rounded uppercase ${
+                        <span className={`text-[9.5px] font-black font-mono px-2 py-0.5 rounded uppercase ${
                           rec.difficulty === 'Easy' 
-                            ? 'text-emerald-400 bg-emerald-500/5 border border-emerald-500/10'
+                            ? 'text-teal-600 bg-teal-50 dark:text-[#2DD4BF] dark:bg-teal-500/10'
                             : rec.difficulty === 'Medium'
-                            ? 'text-amber-400 bg-amber-500/5 border border-amber-500/10'
-                            : 'text-rose-400 bg-rose-500/5 border border-rose-500/10'
+                            ? 'text-amber-605 bg-amber-50 dark:text-amber-400 dark:bg-amber-500/10'
+                            : 'text-rose-650 bg-rose-50 dark:text-rose-450 dark:bg-rose-500/10'
                         }`}>
                           {rec.difficulty} Difficulty
                         </span>
                       </div>
-                      <h4 className="font-sans text-xs font-bold text-white leading-snug">
+                      <h4 className="text-xs font-black text-[#0A2540] dark:text-white leading-snug">
                         {rec.issueTitle}
                       </h4>
-                      <p className="text-xs text-[#AEAEB2] leading-relaxed">
+                      <p className="text-xs text-[#5C768D] dark:text-cyan-100 leading-relaxed font-semibold">
                         {rec.issueDescription}
                       </p>
                     </div>
 
                     {/* Step guidance */}
-                    <div className="space-y-2 font-sans pl-1">
-                      <h5 className="text-[10.5px] font-bold text-emerald-400 uppercase tracking-widest font-mono">Suggested Contribution Path</h5>
-                      <p className="text-xs text-[#8E8E93] leading-relaxed select-all">
+                    <div className="space-y-1.5 pl-1">
+                      <h5 className="text-[10.5px] font-black text-cyan-800 dark:text-cyan-300 uppercase tracking-widest font-mono">Suggested Sailing Course</h5>
+                      <p className="text-xs text-[#5C768D] dark:text-cyan-100 leading-relaxed select-all font-semibold">
                         {rec.contributionGuidelines}
                       </p>
                     </div>
                   </div>
 
-                  <div className="pt-5 border-t border-[#1C1C1E] mt-5 flex justify-end">
+                  <div className="pt-4 border-t border-slate-100 dark:border-[#123456]/40 mt-5 flex justify-end">
                     <a
                       href={rec.repoUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="flex items-center gap-1.5 text-xs font-bold text-white hover:text-emerald-400 transition"
+                      className="flex items-center gap-1.5 text-xs font-bold text-[#0F4C81] dark:text-white hover:text-[#00B8D9] transition cursor-pointer"
                     >
-                      <span>Open Issue on Github</span>
-                      <ChevronRight className="h-4 w-4" />
+                      <span>Embark on Github</span>
+                      <ChevronRight className="h-4 w-4 text-[#00B8D9]" />
                     </a>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="rounded-xl border border-[#2D2D30] border-dashed p-10 text-center">
-              <Sparkles className="h-8 w-8 text-[#8E8E93] mx-auto mb-3 opacity-50" />
-              <p className="text-xs text-[#8E8E93]">No recommended issue items generated yet.</p>
+            <div className="premium-card p-10 text-center border-dashed border-2 bg-white dark:bg-[#061524]/30 border-[#D2E1ED] dark:border-[#123456]">
+              <Sparkles className="h-8 w-8 text-[#00B8D9] mx-auto mb-3 opacity-50 animate-pulse" />
+              <p className="text-xs text-[#5C768D] font-bold">No recommended issue items generated yet.</p>
             </div>
           )}
         </div>
       ) : (
         /* Log view */
-        <div className="space-y-8">
+        <div className="space-y-8 animate-fade-in">
           {/* Inline Form to Log Contribution */}
           {showForm && (
-            <div className="rounded-xl border border-emerald-500/15 bg-gradient-to-br from-[#141416] to-[#0E0E10] p-6 shadow-sm max-w-2xl">
-              <h3 className="font-sans text-base font-bold text-white mb-2.5 flex items-center gap-2">
-                <GitPullRequest className="text-emerald-400 h-4.5 w-4.5" />
-                <span>Verify Contribution Details</span>
+            <div className="premium-card p-6 shadow-xs max-w-2xl font-sans bg-white dark:bg-[#061524]/60">
+              <h3 className="text-base font-black text-[#0A2540] dark:text-white mb-2 ml-1.5 flex items-center gap-2">
+                <GitPullRequest className="text-[#00B8D9] h-5 w-5" />
+                <span>Verify Voyage Details</span>
               </h3>
-              <p className="text-xs text-[#8E8E93] mb-5">Provide coordinates of your merged or open pull requests to establish shipping habits score indices.</p>
+              <p className="text-xs text-[#5C768D] dark:text-cyan-300 mb-5 ml-1.5 font-semibold">Provide coordinates of your merged or open pull requests to establish sailing habit metrics.</p>
 
               <form onSubmit={handleAddContribution} className="space-y-4 font-sans">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-mono text-[#8E8E93] uppercase tracking-wider mb-1.5">Repository (e.g. facebook/react)</label>
+                    <label className="block text-[10px] font-mono text-[#5C768D] dark:text-cyan-405 uppercase tracking-wider mb-1.5 font-bold">Repository (e.g. facebook/react)</label>
                     <input
                       type="text"
                       required
                       placeholder="facebook/react"
                       value={repository}
                       onChange={(e) => setRepository(e.target.value)}
-                      className="w-full bg-[#1C1C1E] border border-[#2D2D30] rounded-lg px-3 py-2 text-xs text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
+                      className="w-full bg-[#F8FAFC] dark:bg-[#030D18] border border-[#D2E1ED] dark:border-[#123456] rounded-xl px-4 py-2.5 text-xs text-[#0A2540] dark:text-white focus:outline-hidden focus:border-[#00B8D9] transition-colors"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-mono text-[#8E8E93] uppercase tracking-wider mb-1.5">PR URL Link</label>
+                    <label className="block text-[10px] font-mono text-[#5C768D] dark:text-cyan-405 uppercase tracking-wider mb-1.5 font-bold">PR URL Link</label>
                     <input
                       type="url"
                       required
                       placeholder="https://github.com/facebook/react/pull/24890"
                       value={prUrl}
                       onChange={(e) => setPrUrl(e.target.value)}
-                      className="w-full bg-[#1C1C1E] border border-[#2D2D30] rounded-lg px-3 py-2 text-xs text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
+                      className="w-full bg-[#F8FAFC] dark:bg-[#030D18] border border-[#D2E1ED] dark:border-[#123456] rounded-xl px-4 py-2.5 text-xs text-[#0A2540] dark:text-white focus:outline-hidden focus:border-[#00B8D9] transition-colors"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-mono text-[#8E8E93] uppercase tracking-wider mb-1.5">Brief Description of Patch</label>
+                  <label className="block text-[10px] font-mono text-[#5C768D] dark:text-cyan-405 uppercase tracking-wider mb-1.5 font-bold">Brief Description of Patch</label>
                   <input
                     type="text"
                     required
                     placeholder="fix: eliminate memory leakage cycles inside SSR layout reconciliation context"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full bg-[#1C1C1E] border border-[#2D2D30] rounded-lg px-3 py-2 text-xs text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
+                    className="w-full bg-[#F8FAFC] dark:bg-[#030D18] border border-[#D2E1ED] dark:border-[#123456] rounded-xl px-4 py-2.5 text-xs text-[#0A2540] dark:text-white focus:outline-hidden focus:border-[#00B8D9] transition-colors"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-mono text-[#8E8E93] uppercase tracking-wider mb-1.5">Primary Language</label>
+                    <label className="block text-[10px] font-mono text-[#5C768D] dark:text-cyan-405 uppercase tracking-wider mb-1.5 font-bold">Primary Language</label>
                     <select
                       value={language}
                       onChange={(e) => setLanguage(e.target.value)}
-                      className="w-full bg-[#1C1C1E] border border-[#2D2D30] rounded-lg px-3 py-2 text-xs text-white focus:outline-hidden focus:border-emerald-500 transition"
+                      className="w-full bg-[#F8FAFC] dark:bg-[#030D18] border border-[#D2E1ED] dark:border-[#123456] rounded-xl px-3.5 py-2.5 text-xs text-[#0A2540] dark:text-white focus:outline-hidden focus:border-[#00B8D9] transition"
                     >
                       <option value="React">React</option>
                       <option value="TypeScript">TypeScript</option>
@@ -427,11 +435,11 @@ export const OpenSource: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-mono text-[#8E8E93] uppercase tracking-wider mb-1.5">PR Current Status</label>
+                    <label className="block text-[10px] font-mono text-[#5C768D] dark:text-cyan-405 uppercase tracking-wider mb-1.5 font-bold">PR Current Status</label>
                     <select
                       value={status}
                       onChange={(e) => setStatus(e.target.value as any)}
-                      className="w-full bg-[#1C1C1E] border border-[#2D2D30] rounded-lg px-3 py-2 text-xs text-white focus:outline-hidden focus:border-emerald-500 transition"
+                      className="w-full bg-[#F8FAFC] dark:bg-[#030D18] border border-[#D2E1ED] dark:border-[#123456] rounded-xl px-3.5 py-2.5 text-xs text-[#0A2540] dark:text-white focus:outline-hidden focus:border-[#00B8D9] transition"
                     >
                       <option value="merged">Merged (+25 pts)</option>
                       <option value="open">Open / Under Review (+10 pts)</option>
@@ -441,8 +449,8 @@ export const OpenSource: React.FC = () => {
                 </div>
 
                 {error && (
-                  <div className="text-xs text-rose-400 bg-rose-500/5 border border-rose-500/10 p-3 rounded-lg flex items-center gap-2">
-                    <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                  <div className="text-xs text-rose-500 dark:text-rose-450 bg-rose-50 dark:bg-rose-500/5 border border-rose-200 dark:border-rose-500/10 p-3.5 rounded-xl flex items-center gap-2 font-bold">
+                    <AlertCircle className="h-4.5 w-4.5 flex-shrink-0" />
                     <p>{error}</p>
                   </div>
                 )}
@@ -450,11 +458,11 @@ export const OpenSource: React.FC = () => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black py-2.5 text-xs font-bold transition shadow-[0_0_15px_rgba(16,185,129,0.2)] disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00B8D9] to-[#0F4C81] text-white py-3 text-xs font-bold transition shadow-xs disabled:opacity-50 cursor-pointer"
                 >
                   {submitting ? (
                     <>
-                      <Loader2 className="h-4 w-4 animate-spin animate-fade-in" />
+                      <Loader2 className="h-4 w-4 animate-spin" />
                       <span>Verifying PR Coordinates...</span>
                     </>
                   ) : (
@@ -469,60 +477,60 @@ export const OpenSource: React.FC = () => {
           )}
 
           {/* Analytics Mini Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-[11px] text-[#8E8E93]">
-            <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-5 shadow-xs">
-              <Activity className="h-4 w-4 text-[#8E8E93] mb-2" />
-              <span className="text-white block font-sans text-xl font-extrabold">{mergedPrsCount}</span>
-              <span className="uppercase tracking-wider text-[9px]">Total Merged Contributions</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-[11px] text-[#5C768D] dark:text-cyan-400 font-black">
+            <div className="premium-card p-5 shadow-xs bg-white dark:bg-[#061524]/60">
+              <Activity className="h-4.5 w-4.5 text-[#00B8D9] mb-2" />
+              <span className="text-[#0A2540] dark:text-white block font-sans text-xl font-black">{mergedPrsCount}</span>
+              <span className="uppercase tracking-wider text-[9px] font-black">Total Merged Contributions</span>
             </div>
-            <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-5 shadow-xs">
-              <Award className="h-4 w-4 text-[#8E8E93] mb-2" />
-              <span className="text-white block font-sans text-xl font-extrabold">{consolidatedScore}</span>
-              <span className="uppercase tracking-wider text-[9px]">Consolidated OS Habits Index</span>
+            <div className="premium-card p-5 shadow-xs bg-white dark:bg-[#061524]/60">
+              <Award className="h-4.5 w-4.5 text-[#00B8D9] mb-2" />
+              <span className="text-[#0A2540] dark:text-white block font-sans text-xl font-black">{consolidatedScore}</span>
+              <span className="uppercase tracking-wider text-[9px] font-black">OS Habits Index</span>
             </div>
-            <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-5 shadow-xs">
-              <Calendar className="h-4 w-4 text-[#8E8E93] mb-2" />
-              <span className="text-emerald-400 block font-sans text-xl font-extrabold">Active Mapping</span>
-              <span className="uppercase tracking-wider text-[9px]">Employer Verification state</span>
+            <div className="premium-card p-5 shadow-xs bg-white dark:bg-[#061524]/60">
+              <Calendar className="h-4.5 w-4.5 text-[#00B8D9] mb-2" />
+              <span className="text-teal-600 block font-sans text-xl font-black uppercase">Active Mapping</span>
+              <span className="uppercase tracking-wider text-[9px] font-black">Verification status</span>
             </div>
           </div>
 
           {/* Main Logs List */}
-          <div>
-            <h2 className="font-sans text-base font-bold text-white mb-4">Logged Pull Requests History</h2>
+          <div className="font-sans">
+            <h2 className="font-display font-black text-[#0A2540] dark:text-white text-base mb-4">Logged Pull Requests History</h2>
 
             {contributions.length > 0 ? (
-              <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-5 shadow-xs">
+              <div className="premium-card p-5 shadow-xs bg-white dark:bg-[#061524]/60">
                 <div className="space-y-4">
                   {contributions.map((cont) => (
-                    <div key={cont._id} className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#1C1C1E]/50 pb-4 last:border-0 last:pb-0 gap-3">
+                    <div key={cont._id} className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 dark:border-[#123456]/30 pb-4 last:border-0 last:pb-0 gap-3">
                       <div className="flex items-start gap-4">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#1C1C1E] border border-[#2D2D30] text-emerald-400 shrink-0">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 dark:bg-[#030D18] border border-cyan-100 dark:border-cyan-900/40 text-[#00B8D9] shrink-0">
                           <GitPullRequest className="h-5 w-5" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2.5 flex-wrap">
-                            <span className="font-mono text-xs font-bold text-white">{cont.repoName}</span>
-                            <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded uppercase font-semibold ${
+                            <span className="font-mono text-xs font-bold text-[#0A2540] dark:text-white">{cont.repoName}</span>
+                            <span className={`font-mono text-[9px] px-1.5 py-0.5 rounded uppercase font-extrabold ${
                               cont.status === 'merged'
-                                ? 'text-emerald-400 bg-emerald-500/10 border border-emerald-500/15'
+                                ? 'text-teal-600 bg-teal-50 dark:text-[#2DD4BF] dark:bg-teal-500/10'
                                 : cont.status === 'open'
-                                ? 'text-amber-400 bg-amber-500/15 border border-amber-500/20'
-                                : 'text-gray-400 bg-gray-500/10'
+                                ? 'text-amber-500 bg-amber-50 dark:text-amber-400 dark:bg-amber-500/15'
+                                : 'text-zinc-500 bg-zinc-50 dark:text-zinc-400 dark:bg-zinc-500/10'
                             }`}>
                               {cont.status}
                             </span>
                           </div>
-                          <h4 className="font-sans text-sm font-semibold text-[#E5E5E7] mt-1 pr-6 leading-snug">{cont.description}</h4>
+                          <h4 className="font-sans text-sm font-semibold text-[#5C768D] dark:text-[#E2E8F0] mt-1 pr-6 leading-snug">{cont.description}</h4>
                         </div>
                       </div>
 
                       <div className="sm:text-right shrink-0">
-                        <span className="inline-flex items-center gap-1 text-emerald-400 font-mono text-[10.5px] font-bold bg-[#1C1C1E] px-2.5 py-1 rounded border border-[#2D2D30]">
+                        <span className="inline-flex items-center gap-1 text-teal-600 bg-teal-50 dark:text-[#2DD4BF] dark:bg-[#030D18] px-2.5 py-1 rounded-xl border border-teal-200 dark:border-cyan-900/35 font-mono text-[10.5px] font-bold">
                           <CheckCircle className="h-3.5 w-3.5" />
                           <span>{cont.status === 'merged' ? '+25 pts' : cont.status === 'open' ? '+10 pts' : '0 pts'}</span>
                         </span>
-                        <span className="block text-[9px] text-[#8E8E93] font-mono font-medium tracking-tight mt-1">
+                        <span className="block text-[9px] text-[#5C768D] dark:text-slate-505 font-mono font-bold tracking-tight mt-1.5">
                           Ref: {new Date(cont.createdAt).toLocaleDateString()}
                         </span>
                       </div>
@@ -531,18 +539,19 @@ export const OpenSource: React.FC = () => {
                 </div>
               </div>
             ) : (
-              <div className="rounded-xl border border-[#2D2D30] border-dashed bg-[#141416]/10 p-12 text-center">
-                <GitPullRequest className="h-10 w-10 text-[#8E8E93] mx-auto mb-4 opacity-50" />
-                <h3 className="font-sans font-bold text-white text-base">Register merged PR coordinates</h3>
-                <p className="text-xs text-[#8E8E93] max-w-sm mx-auto mt-1 leading-relaxed">
-                  Log your active or merged GitHub pull requests to calculate your score multiplier. Recruiters value consistent coding habits.
+              <div className="premium-card p-12 text-center border-dashed border-2 bg-white dark:bg-[#061524]/60 border-[#D2E1ED] dark:border-[#123456]">
+                <GitPullRequest className="h-10 w-10 text-[#00B8D9] mx-auto mb-4 opacity-50" />
+                <h3 className="font-display font-black text-[#0A2540] dark:text-white text-base">Register merged PR coordinates</h3>
+                <p className="text-xs text-[#5C768D] dark:text-cyan-300 max-w-sm mx-auto mt-1 leading-relaxed font-semibold">
+                  Log your active or merged GitHub pull requests to calculate your score multiplier. Recruiters value consistent sailing habits.
                 </p>
               </div>
             )}
           </div>
         </div>
       )}
-    </div>
+    </OceanPageShell>
   );
 };
+
 export default OpenSource;

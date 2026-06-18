@@ -39,6 +39,8 @@ export interface User {
   profile?: UserProfile;
   settings: UserSettings;
   createdAt: string;
+  weeklyXp?: { day: string; xp: number }[];
+  streak?: number;
 }
 
 export interface GitHubAnalysis {
@@ -86,6 +88,7 @@ export interface DSAPicture {
   currentStreak?: number;
   weeklyProgress?: { day: string; solved: number }[];
   difficultyDistribution?: { Easy: number; Medium: number; Hard: number };
+  activityDates?: string[];
 }
 
 export interface RoadmapStep {

@@ -2,11 +2,13 @@ import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'motion/react';
 import { SidebarLogo } from './Logo';
+import { CareerShip } from './CareerShip';
 import { 
-  LayoutDashboard, 
-  Github, 
-  Code2, 
-  Map, 
+  Anchor, 
+  Waves, 
+  Compass, 
+  Ship, 
+  Radio, 
   Flame, 
   MessageSquareCode, 
   FileSearch, 
@@ -14,7 +16,6 @@ import {
   Settings as SettingsIcon,
   LogOut,
   X,
-  Bot,
   Sun,
   Moon,
   Sparkles
@@ -28,95 +29,82 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isOpen, setIsOpen }) => {
-  const { user, logout, updateSettings } = useAuth();
+  const { user, logout, theme, toggleTheme } = useAuth();
 
-  const currentTheme = user?.settings?.theme || 'dark';
-
-  const toggleTheme = async () => {
-    if (!user) return;
-    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    try {
-      await updateSettings({
-        theme: nextTheme,
-        emailNotifications: user?.settings?.emailNotifications !== false
-      });
-    } catch (err) {
-      console.error('Failed to toggle theme:', err);
-    }
-  };
+  const currentTheme = theme;
 
   const menuItems = [
     { 
       id: 'dashboard', 
-      label: 'Dashboard', 
-      icon: LayoutDashboard,
-      gradient: 'from-violet-500 to-fuchsia-500',
-      glow: 'shadow-violet-500/25 dark:shadow-violet-500/40',
-      textColor: 'text-violet-500'
+      label: 'Command Deck', 
+      icon: Anchor,
+      gradient: 'from-[#0A2540] to-[#0F4C81]',
+      glow: 'shadow-[#00B8D9]/25 dark:shadow-[#00B8D9]/40',
+      textColor: 'text-cyan-500'
     },
     { 
       id: 'github', 
-      label: 'GitHub Analyzer', 
-      icon: Github,
-      gradient: 'from-sky-500 to-blue-600',
-      glow: 'shadow-sky-500/25 dark:shadow-sky-500/40',
-      textColor: 'text-sky-500'
+      label: 'Code Ocean Analytics', 
+      icon: Waves,
+      gradient: 'from-[#0F4C81] to-[#00B8D9]',
+      glow: 'shadow-cyan-500/25 dark:shadow-cyan-500/40',
+      textColor: 'text-cyan-400'
     },
     { 
       id: 'dsa', 
-      label: 'DSA Tracker', 
-      icon: Code2,
-      gradient: 'from-emerald-400 to-teal-500',
-      glow: 'shadow-emerald-500/25 dark:shadow-emerald-500/40',
-      textColor: 'text-emerald-500'
+      label: 'Sea Lane Tracker', 
+      icon: Compass,
+      gradient: 'from-[#00B8D9] to-[#2DD4BF]',
+      glow: 'shadow-teal-500/25 dark:shadow-teal-500/40',
+      textColor: 'text-teal-400'
     },
     { 
       id: 'roadmap', 
-      label: 'AI Roadmap', 
-      icon: Map,
-      gradient: 'from-amber-400 to-orange-500',
-      glow: 'shadow-amber-500/25 dark:shadow-amber-500/40',
-      textColor: 'text-amber-500'
+      label: 'Navigation Route', 
+      icon: Ship,
+      gradient: 'from-[#67E8F9] to-[#00B8D9]',
+      glow: 'shadow-cyan-500/25 dark:shadow-cyan-500/40',
+      textColor: 'text-cyan-400'
     },
     { 
       id: 'coach', 
-      label: 'AI Career Coach', 
-      icon: Bot,
-      gradient: 'from-pink-400 to-rose-500',
-      glow: 'shadow-pink-500/25 dark:shadow-pink-500/40',
-      textColor: 'text-pink-500'
+      label: 'Ocean Guide AI', 
+      icon: Radio,
+      gradient: 'from-[#0F4C81] to-[#67E8F9]',
+      glow: 'shadow-cyan-500/25 dark:shadow-cyan-500/40',
+      textColor: 'text-cyan-500'
     },
     { 
       id: 'opensource', 
-      label: 'Open Source', 
+      label: 'Voyage Discoveries', 
       icon: Flame,
-      gradient: 'from-orange-500 to-red-600',
+      gradient: 'from-orange-400 to-amber-500',
       glow: 'shadow-orange-500/25 dark:shadow-orange-500/40',
       textColor: 'text-orange-500'
     },
     { 
       id: 'interview', 
-      label: 'Interview Prep', 
+      label: 'Harbor Interview Prep', 
       icon: MessageSquareCode,
-      gradient: 'from-cyan-400 to-blue-500',
-      glow: 'shadow-cyan-500/25 dark:shadow-cyan-500/40',
-      textColor: 'text-cyan-500'
+      gradient: 'from-sky-400 to-[#0F4C81]',
+      glow: 'shadow-blue-500/25 dark:shadow-blue-500/40',
+      textColor: 'text-sky-400'
     },
     { 
       id: 'resume', 
-      label: 'Resume Analyzer', 
+      label: 'Recruiter Radar', 
       icon: FileSearch,
-      gradient: 'from-indigo-500 to-purple-600',
-      glow: 'shadow-indigo-500/25 dark:shadow-indigo-500/40',
-      textColor: 'text-indigo-500'
+      gradient: 'from-[#0F4C81] to-[#2DD4BF]',
+      glow: 'shadow-teal-500/25 dark:shadow-teal-500/40',
+      textColor: 'text-teal-500'
     },
     { 
       id: 'profile', 
-      label: 'Profile', 
+      label: 'Explorer Log', 
       icon: UserIcon,
-      gradient: 'from-fuchsia-500 to-pink-600',
-      glow: 'shadow-fuchsia-500/25 dark:shadow-fuchsia-500/40',
-      textColor: 'text-fuchsia-500'
+      gradient: 'from-cyan-500 to-blue-600',
+      glow: 'shadow-cyan-500/25 dark:shadow-cyan-500/40',
+      textColor: 'text-cyan-500'
     },
   ];
 
@@ -127,23 +115,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isO
 
   const readinessScore = user?.scores?.careerReadiness || 0;
 
-  // Level System
-  const getLevel = (score: number) => {
-    if (score < 25) return { name: 'Beginner', lvl: 1, color: 'text-violet-500 bg-violet-500/10' };
-    if (score < 50) return { name: 'Explorer', lvl: 10, color: 'text-sky-500 bg-sky-500/10' };
-    if (score < 75) return { name: 'Builder', lvl: 25, color: 'text-amber-500 bg-amber-500/10' };
-    return { name: 'Future Engineer', lvl: 50, color: 'text-emerald-500 bg-emerald-500/10' };
-  };
-
-  const userLevel = getLevel(readinessScore);
-
   return (
     <>
       {/* Mobile Backdrop */}
       {isOpen && (
         <div 
           onClick={() => setIsOpen(false)}
-          className="fixed inset-0 z-40 bg-black/40 dark:bg-black/75 md:hidden backdrop-blur-xs transition-opacity duration-300"
+          className="fixed inset-0 z-40 bg-[#0A2540]/40 dark:bg-black/75 md:hidden backdrop-blur-xs transition-opacity duration-300"
           id="sidebar-backdrop"
         />
       )}
@@ -152,12 +130,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isO
       <aside 
         id="sidebar-container"
         className={`
-          fixed top-0 bottom-0 left-0 z-50 flex w-66 flex-col border-r border-slate-200/80 dark:border-[#1E293B] bg-white dark:bg-[#0E0E10] text-slate-800 dark:text-[#E5E5E7] transition-all duration-300 ease-in-out
+          fixed top-0 bottom-0 left-0 z-50 flex w-66 flex-col border-r border-[#D2E1ED] dark:border-[#123456] bg-white dark:bg-[#061524] text-slate-800 dark:text-[#E5E5E7] transition-all duration-300 ease-in-out
           md:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
       >
         {/* Header Logo & Theme Toggle */}
-        <div className="flex h-18 items-center justify-between px-5 border-b border-slate-100 dark:border-[#1C1C1E]">
+        <div className="flex h-18 items-center justify-between px-5 border-b border-[#D2E1ED] dark:border-[#123456]">
           <SidebarLogo />
 
           <div className="flex items-center gap-1">
@@ -167,21 +145,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isO
               onClick={toggleTheme}
               id="theme-toggle-button"
               type="button"
-              aria-label="Toggle Theme"
-              className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-[#1C1C1E] dark:hover:bg-[#2D2D30] text-slate-700 dark:text-amber-400 cursor-pointer transition-colors"
+              className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-[#0A2540] dark:hover:bg-[#123456] text-slate-700 dark:text-cyan-400 cursor-pointer transition-colors"
               title={`Switch to ${currentTheme === 'dark' ? 'Light' : 'Dark'} Mode`}
             >
               {currentTheme === 'dark' ? (
-                <Sun className="h-4.5 w-4.5 text-amber-400 animate-pulse" />
+                <Sun className="h-4.5 w-4.5 text-cyan-400 animate-pulse" />
               ) : (
-                <Moon className="h-4.5 w-4.5 text-violet-600" />
+                <Moon className="h-4.5 w-4.5 text-[#0F4C81]" />
               )}
             </motion.button>
 
             <button 
               type="button"
               onClick={() => setIsOpen(false)}
-              className="rounded p-1 text-slate-400 hover:bg-slate-100 dark:hover:bg-[#1C1C1E] hover:text-slate-800 dark:hover:text-white md:hidden"
+              className="rounded p-1 text-slate-400 hover:bg-slate-100 dark:hover:bg-[#123456] hover:text-slate-800 dark:hover:text-white md:hidden"
             >
               <X className="h-5 w-5" />
             </button>
@@ -190,23 +167,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isO
 
         {/* Gamification Level Stats Card at top of Sidebar */}
         {user?.onboarded && (
-          <div className="px-5 pt-4 pb-2 border-b border-slate-100 dark:border-[#1C1C1E] bg-slate-50/50 dark:bg-[#09090B]/40">
-            <div className="flex items-center gap-2">
-              <div className="h-7 w-7 rounded-lg bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-white text-xs shadow-xs shrink-0 font-bold">
-                🔥
-              </div>
-              <div className="overflow-hidden">
-                <div className="flex items-center gap-1.5">
-                  <span className={`text-[10px] font-extrabold px-1.5 py-0.5 rounded-full ${userLevel.color}`}>
-                    Level {userLevel.lvl}
-                  </span>
-                  <span className="text-[11px] text-slate-500 dark:text-slate-400 font-bold truncate">
-                    {userLevel.name}
-                  </span>
-                </div>
-                <p className="text-[9px] text-[#8E8E93] truncate">12 Day Coding Streak 🔥</p>
-              </div>
-            </div>
+          <div className="px-5 pt-4 pb-2 border-b border-[#D2E1ED] dark:border-[#123456] bg-teal-50/20 dark:bg-[#030D18]/40">
+            <CareerShip readiness={readinessScore} compact />
           </div>
         )}
 
@@ -224,8 +186,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isO
                 className={`
                   relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-xs font-semibold tracking-tight transition-all duration-300 group cursor-pointer
                   ${isActive 
-                    ? 'text-slate-900 dark:text-white font-extrabold bg-slate-100 dark:bg-[#1C1C1E] border border-slate-200/50 dark:border-[#2D2D30]/60' 
-                    : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-[#151518]/60 hover:text-slate-800 dark:hover:text-white'
+                    ? 'text-slate-900 dark:text-white font-extrabold bg-[#EAF2F8]/80 dark:bg-[#123456]/40 border border-[#D2E1ED] dark:border-[#123456]' 
+                    : 'text-[#5C768D] dark:text-[#84A9C8] hover:bg-teal-50/20 dark:hover:bg-[#0A2540]/40 hover:text-cyan-600 dark:hover:text-cyan-400'
                   }
                 `}
               >
@@ -233,7 +195,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isO
                 {isActive && (
                   <motion.div
                     layoutId="activeIndicator"
-                    className={`absolute left-0 top-2 bottom-2 w-1.5 rounded-r-full bg-gradient-to-b ${item.gradient} shadow-[0_0_10px_rgba(139,92,246,0.5)]`}
+                    className={`absolute left-0 top-2 bottom-2 w-1.5 rounded-r-full bg-gradient-to-b ${item.gradient} shadow-[0_0_10px_rgba(0,184,217,0.5)]`}
                     transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                   />
                 )}
@@ -243,7 +205,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isO
                   flex h-8 w-8 items-center justify-center rounded-xl transition-all duration-300 shrink-0
                   ${isActive 
                     ? `bg-gradient-to-br ${item.gradient} text-white shadow-md ${item.glow}` 
-                    : `bg-slate-100 dark:bg-[#18181B] text-slate-500 dark:text-slate-400 group-hover:scale-105 group-hover:text-slate-800 dark:group-hover:text-white`
+                    : `bg-slate-100 dark:bg-[#0A2540] text-slate-500 dark:text-[#84A9C8] group-hover:scale-105 group-hover:text-[#00B8D9] dark:group-hover:text-cyan-400`
                   }
                 `}>
                   <Icon className="h-4 w-4 transition-transform duration-300 group-hover:rotate-6" />
@@ -252,7 +214,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isO
                 <span className="truncate">{item.label}</span>
 
                 {isActive && (
-                  <span className="ml-auto flex h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 shadow-sm" />
+                  <span className="ml-auto flex h-1.5 w-1.5 rounded-full bg-cyan-500 dark:bg-cyan-400 shadow-sm" />
                 )}
               </button>
             );
@@ -261,18 +223,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isO
 
         {/* Dynamic Metric Display card inside Sidebar */}
         {user?.onboarded && (
-          <div className="px-4 py-4 mx-4 mb-3 rounded-2xl border border-slate-150 dark:border-[#2D2D30] bg-[#F8FAFC]/90 dark:bg-[#141416]/40 shadow-xs">
+          <div className="px-4 py-4 mx-4 mb-3 rounded-2xl border border-[#D2E1ED] dark:border-[#123456] bg-cyan-50/15 dark:bg-[#030D18]/60 shadow-xs">
             <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[9.5px] font-mono tracking-wider text-slate-500 dark:text-[#8E8E93] uppercase font-bold flex items-center gap-1">
-                <Sparkles className="h-3 w-3 text-violet-500" />
-                <span>Readiness Score</span>
+              <span className="text-[9.5px] font-mono tracking-wider text-slate-500 dark:text-cyan-400 uppercase font-bold flex items-center gap-1">
+                <Sparkles className="h-3 w-3 text-cyan-500" />
+                <span>Voyage Route Readiness</span>
               </span>
-              <span className="text-xs font-black text-violet-600 dark:text-emerald-400 font-mono">{readinessScore}%</span>
+              <span className="text-xs font-black text-[#0F4C81] dark:text-cyan-400 font-mono">{readinessScore}%</span>
+            </div>
+            <div className="flex items-center gap-1.5 mb-1">
+              <Compass className="h-3 w-3 text-[#00B8D9] animate-pulse" />
+              <span className="text-[8px] font-mono text-[#5C768D] dark:text-cyan-400 font-bold">Career Compass Bearing</span>
             </div>
             {/* Linear Progress Indicator */}
-            <div className="h-2 w-full rounded-full bg-slate-200 dark:bg-[#1C1C1E] overflow-hidden">
+            <div className="h-2 w-full rounded-full bg-slate-200 dark:bg-[#0A2540] overflow-hidden">
               <div 
-                className="h-full rounded-full bg-gradient-to-r from-violet-500 via-sky-400 to-emerald-400 transition-all duration-1000"
+                className="h-full rounded-full bg-gradient-to-r from-[#0F4C81] via-[#00B8D9] to-[#2DD4BF] transition-all duration-1000"
                 style={{ width: `${readinessScore}%` }}
               />
             </div>
@@ -280,7 +246,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isO
         )}
 
         {/* Footer Settings & Logout */}
-        <div className="border-t border-slate-100 dark:border-[#1C1C1E] p-4 flex flex-col gap-1 bg-slate-50 dark:bg-[#0A0A0C]">
+        <div className="border-t border-[#D2E1ED] dark:border-[#123456] p-4 flex flex-col gap-1 bg-[#F8FAFC] dark:bg-[#030D18]">
           <button
             type="button"
             id="nav-settings"
@@ -288,13 +254,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isO
             className={`
               flex w-full items-center gap-3 rounded-lg px-3 py-2 text-xs font-semibold cursor-pointer transition-colors duration-200
               ${activePage === 'settings' 
-                ? 'bg-slate-200 dark:bg-[#1C1C1E] text-violet-600 dark:text-emerald-400' 
-                : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-[#151518] hover:text-slate-800 dark:hover:text-[#E5E5E7]'
+                ? 'bg-[#EAF2F8] dark:bg-[#123456] text-cyan-600 dark:text-cyan-400' 
+                : 'text-[#5C768D] dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-[#0A2540] hover:text-[#00B8D9] dark:hover:text-cyan-400'
               }
             `}
           >
             <SettingsIcon className="h-4 w-4" />
-            <span>Settings</span>
+            <span>Deck Settings</span>
           </button>
           
           <button
@@ -303,18 +269,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage, setActivePage, isO
             className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-xs font-semibold text-rose-500 hover:bg-rose-500/10 cursor-pointer transition-colors duration-200"
           >
             <LogOut className="h-4 w-4" />
-            <span>Sign Out</span>
+            <span>Abandon Ship</span>
           </button>
 
           {/* Connected User Summary */}
           {user && (
-            <div className="flex items-center gap-2.5 mt-2 pt-2.5 border-t border-slate-200/60 dark:border-[#1C1C1E]/55 px-1">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 font-bold text-white text-xs shadow-xs shrink-0 uppercase">
+            <div className="flex items-center gap-2.5 mt-2 pt-2.5 border-t border-[#D2E1ED] dark:border-[#123456] px-1">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#0F4C81] to-[#00B8D9] font-bold text-white text-xs shadow-xs shrink-0 uppercase">
                 {user.name.charAt(0)}
               </div>
               <div className="overflow-hidden">
-                <p className="text-xs font-extrabold text-slate-850 dark:text-white truncate max-w-[140px]">{user.name}</p>
-                <p className="text-[10px] text-slate-500 dark:text-[#8E8E93] truncate max-w-[140px]">{user.email}</p>
+                <p className="text-xs font-extrabold text-slate-800 dark:text-white truncate max-w-[140px]">{user.name}</p>
+                <p className="text-[10px] text-[#5C768D] dark:text-[#84A9C8] truncate max-w-[140px]">{user.email}</p>
               </div>
             </div>
           )}

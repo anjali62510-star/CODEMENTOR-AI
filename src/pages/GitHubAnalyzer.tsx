@@ -19,15 +19,20 @@ import {
   GitPullRequest,
   CheckCircle,
   XCircle,
-  Info,
   Calendar,
   AlertTriangle,
   GitBranch,
   FileCode,
-  Award
+  Award,
+  Waves,
+  Anchor,
+  Compass,
+  Ship,
+  Droplet
 } from 'lucide-react';
 import { PolarCategoriesChart, CircularProgress } from '../components/DashboardCharts';
 import { motion } from 'motion/react';
+import { OceanPageShell, OceanPageHeader, OceanLoadingScreen } from '../components/ocean/OceanUI';
 
 export const GitHubAnalyzer: React.FC = () => {
   const { user, apiFetch, refreshUser } = useAuth();
@@ -65,7 +70,7 @@ export const GitHubAnalyzer: React.FC = () => {
         body: JSON.stringify({ githubUsername: username.trim() })
       });
       setAnalysis(data.analysis);
-      await refreshUser(); // Update scores inside Auth context too
+      await refreshUser(); 
     } catch (err: any) {
       console.error(err);
       setError(err.message || 'Audit of credentials failed. This might have hit temporary quotas.');
@@ -75,53 +80,50 @@ export const GitHubAnalyzer: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in pb-12">
-      {/* Header */}
-      <div className="border-b border-[#1C1C1E] pb-6">
-        <h1 className="font-sans text-2xl font-extrabold tracking-tight text-white flex items-center gap-2.5 md:text-3xl">
-          <Github className="h-7 w-7 text-emerald-400" />
-          <span>GitHub Profile Auditing Engine</span>
-        </h1>
-        <p className="text-xs text-[#8E8E93] mt-1.5 leading-relaxed">
-          Evaluate repository readme clarity, codebase packaging, and historic contribution density through an automated AI recruiter diagnostic model.
-        </p>
-      </div>
+    <OceanPageShell>
+      <OceanPageHeader
+        title="Code Ocean Analytics"
+        subtitle="Scrutinize repository currents, language distribution tides, and contribution wave patterns."
+        icon={Waves}
+        badge="SONAR DEPTH"
+      />
 
       {/* Audit Trigger Core Input */}
-      <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-5 shadow-xs">
-        <form onSubmit={handleAnalyze} className="flex flex-col sm:flex-row items-stretch gap-3">
+      <div className="premium-card p-6 relative overflow-hidden bg-white dark:bg-[#061524]/60">
+        <div className="absolute top-0 right-0 h-24 w-24 bg-[#00B8D9]/5 rounded-full blur-xl pointer-events-none" />
+        <form onSubmit={handleAnalyze} className="flex flex-col sm:flex-row items-stretch gap-3 relative z-10">
           <div className="relative flex-1">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8E8E93]" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#5C768D] dark:text-cyan-400" />
             <input
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter GitHub handle (e.g. octocat)"
-              className="w-full bg-[#1C1C1E] border border-[#2D2D30] rounded-lg pl-10 pr-4 py-2.5 text-sm text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
+              placeholder="Enter GitHub username (e.g. torvalds)"
+              className="w-full bg-[#F8FAFC] dark:bg-[#030D18] border border-[#D2E1ED] dark:border-[#123456] rounded-xl pl-10 pr-4 py-2.5 text-sm text-[#0A2540] dark:text-white focus:outline-hidden focus:ring-1 focus:ring-[#00B8D9] focus:border-[#00B8D9] transition-colors font-mono"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="flex items-center justify-center gap-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black px-5 py-2.5 text-xs font-bold transition shadow-[0_0_15px_rgba(16,185,129,0.25)] disabled:opacity-50"
+            className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#00B8D9] to-[#0F4C81] text-white px-6 py-2.5 text-xs font-bold shadow-xs disabled:opacity-50 cursor-pointer hover:scale-101 active:scale-99 transition-all"
           >
             {loading ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Running Recruiter Audit...</span>
+                <Loader2 className="h-4 w-4 animate-spin text-cyan-200" />
+                <span>Navigating Current Tides...</span>
               </>
             ) : (
               <>
-                <Sparkles className="h-4 w-4" />
-                <span>Analyze Platform Metadata</span>
+                <Anchor className="h-4 w-4 text-cyan-255" />
+                <span>Scour Public Harbors</span>
               </>
             )}
           </button>
         </form>
 
         {error && (
-          <div className="mt-4 rounded-lg border border-rose-500/10 bg-rose-500/5 p-3.5 text-xs text-rose-400 flex items-start gap-2">
-            <AlertCircle className="h-4.5 w-4.5 mt-0.5 shrink-0" />
+          <div className="mt-4 rounded-xl border border-rose-500/20 bg-rose-500/5 p-3.5 text-xs text-rose-600 dark:text-rose-400 flex items-start gap-2 font-semibold">
+            <AlertCircle className="h-4.5 w-4.5 mt-0.5 shrink-0 text-rose-500" />
             <p className="flex-1 leading-normal">{error}</p>
           </div>
         )}
@@ -132,96 +134,98 @@ export const GitHubAnalyzer: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Diagnostic Key Metadata Column */}
           <div className="lg:col-span-1 space-y-6">
+            
             {/* User Profile Info Card */}
-            <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-6 flex flex-col items-center text-center shadow-xs">
+            <div className="premium-card p-6 flex flex-col items-center text-center relative overflow-hidden bg-white dark:bg-[#061524]/60">
+              <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#00B8D9] to-[#0F4C81]" />
               <div className="relative mb-4">
                 <img 
                   src={analysis.avatarUrl || `https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200`} 
                   alt={analysis.name || analysis.username}
                   referrerPolicy="no-referrer"
-                  className="h-20 w-20 rounded-full border border-emerald-500/30 object-cover" 
+                  className="h-20 w-20 rounded-full border-2 border-[#00B8D9] object-cover shadow-sm" 
                 />
-                <span className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-[11px] font-bold text-black border border-[#141416]">
+                <span className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-[#0F4C81] font-mono text-[9px] font-black text-white border-2 border-[#D2E1ED] dark:border-[#030D18]">
                   {analysis.readmeRating}
                 </span>
               </div>
-              <h2 className="font-sans text-lg font-bold text-white leading-tight">{analysis.name || analysis.username}</h2>
-              <span className="text-xs text-emerald-400 font-mono mt-0.5">@{analysis.username}</span>
+              <h2 className="font-display text-lg font-black text-[#0A2540] dark:text-white leading-tight">{analysis.name || analysis.username}</h2>
+              <span className="text-xs text-[#00B8D9] font-mono font-bold mt-1">@{analysis.username}</span>
               
               {analysis.bio && (
-                <p className="text-xs text-[#8E8E93] mt-3.5 leading-relaxed italic border-t border-b border-[#1C1C1E]/50 py-2.5 w-full">
+                <p className="text-xs text-[#5C768D] dark:text-cyan-100 mt-4 leading-relaxed font-semibold italic border-t border-b border-[#D2E1ED]/50 dark:border-[#123456]/40 py-3 w-full">
                   "{analysis.bio}"
                 </p>
               )}
 
               {/* Company & Location */}
-              <div className="w-full mt-3.5 space-y-2 text-left font-mono text-[10.5px] text-[#8E8E93]">
+              <div className="w-full mt-4 space-y-2 text-left font-mono text-[10px] text-[#5C768D] dark:text-cyan-400 font-bold">
                 {analysis.company && (
                   <div className="flex items-center gap-2">
-                    <Building2 className="h-3.5 w-3.5 text-emerald-500/70" />
+                    <Building2 className="h-3.5 w-3.5 text-[#0F4C81]" />
                     <span className="truncate">{analysis.company}</span>
                   </div>
                 )}
                 {analysis.location && (
                   <div className="flex items-center gap-2">
-                    <MapPin className="h-3.5 w-3.5 text-emerald-500/70" />
+                    <MapPin className="h-3.5 w-3.5 text-[#0F4C81]" />
                     <span className="truncate">{analysis.location}</span>
                   </div>
                 )}
                 <div className="flex items-center gap-2">
-                  <Users className="h-3.5 w-3.5 text-emerald-500/70" />
-                  <span>{analysis.followers || 0} followers • {analysis.following || 0} following</span>
+                  <Users className="h-3.5 w-3.5 text-[#0F4C81]" />
+                  <span>{analysis.followers || 0} crew followers • {analysis.following || 0} sailing</span>
                 </div>
-                <div className="flex items-center gap-2 border-t border-[#1C1C1E]/30 pt-2 float-right w-full justify-between">
-                  <span>Last Audit:</span>
-                  <span className="text-[#AEAEB2] font-bold">{new Date(analysis.lastAnalyzed).toLocaleDateString()}</span>
+                <div className="flex items-center justify-between border-t border-[#D2E1ED]/30 dark:border-[#123456]/30 pt-3 mt-3 w-full font-sans text-[10px]">
+                  <span className="text-slate-400 dark:text-slate-500 font-bold">Last Recorded Audit:</span>
+                  <span className="text-slate-800 dark:text-cyan-150 font-black">{new Date(analysis.lastAnalyzed).toLocaleDateString()}</span>
                 </div>
               </div>
             </div>
 
             {/* General Repositories & Star Metadata counts */}
-            <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-5 shadow-xs grid grid-cols-5 gap-1.5 text-center font-mono text-[9px] text-[#8E8E93]">
+            <div className="premium-card p-4.5 grid grid-cols-5 gap-1 text-center font-mono text-[8px] text-[#5C768D] dark:text-cyan-400 font-bold bg-white dark:bg-[#061524]/60">
               <div className="p-1">
-                <BookOpen className="h-3.5 w-3.5 text-emerald-400 mx-auto mb-1.5" />
-                <span className="block text-white font-bold font-sans text-xs leading-none">{analysis.repositoriesCount}</span>
-                <span className="mt-0.5 block">Repos</span>
+                <Anchor className="h-4 w-4 text-[#00B8D9] mx-auto mb-1" />
+                <span className="block text-[#0A2540] dark:text-white font-extrabold font-sans text-xs tracking-tight leading-none">{analysis.repositoriesCount}</span>
+                <span className="mt-1 block">Islands</span>
               </div>
-              <div className="border-l border-[#1C1C1E]/55 p-1">
-                <Activity className="h-3.5 w-3.5 text-emerald-400 mx-auto mb-1.5" />
-                <span className="block text-white font-bold font-sans text-xs leading-none">{analysis.contributionsCount}</span>
-                <span className="mt-0.5 block">Commits</span>
+              <div className="border-l border-[#D2E1ED] dark:border-[#123456]/50 p-1">
+                <Waves className="h-4 w-4 text-[#00B8D9] mx-auto mb-1" />
+                <span className="block text-[#0A2540] dark:text-white font-extrabold font-sans text-xs tracking-tight leading-none">{analysis.contributionsCount}</span>
+                <span className="mt-1 block">Waves</span>
               </div>
-              <div className="border-l border-[#1C1C1E]/55 p-1">
-                <Star className="h-3.5 w-3.5 text-emerald-400 mx-auto mb-1.5" />
-                <span className="block text-white font-bold font-sans text-xs leading-none">{analysis.starsCount}</span>
-                <span className="mt-0.5 block">Stars</span>
+              <div className="border-l border-[#D2E1ED] dark:border-[#123456]/50 p-1">
+                <Star className="h-4 w-4 text-amber-500 mx-auto mb-1" />
+                <span className="block text-[#0A2540] dark:text-white font-extrabold font-sans text-xs tracking-tight leading-none">{analysis.starsCount}</span>
+                <span className="mt-1 block">Stars</span>
               </div>
-              <div className="border-l border-[#1C1C1E]/55 p-1">
-                <GitPullRequest className="h-3.5 w-3.5 text-emerald-400 mx-auto mb-1.5" />
-                <span className="block text-white font-bold font-sans text-xs leading-none">{analysis.pullRequestsCount || 0}</span>
-                <span className="mt-0.5 block">PRs</span>
+              <div className="border-l border-[#D2E1ED] dark:border-[#123456]/50 p-1">
+                <GitPullRequest className="h-4 w-4 text-[#00B8D9] mx-auto mb-1" />
+                <span className="block text-[#0A2540] dark:text-white font-extrabold font-sans text-xs tracking-tight leading-none">{analysis.pullRequestsCount || 0}</span>
+                <span className="mt-1 block">PR Merges</span>
               </div>
-              <div className="border-l border-[#1C1C1E]/55 p-1">
-                <AlertCircle className="h-3.5 w-3.5 text-emerald-400 mx-auto mb-1.5" />
-                <span className="block text-white font-bold font-sans text-xs leading-none">{analysis.issuesCount || 0}</span>
-                <span className="mt-0.5 block">Issues</span>
+              <div className="border-l border-[#D2E1ED] dark:border-[#123456]/50 p-1">
+                <AlertCircle className="h-4 w-4 text-[#0F4C81] mx-auto mb-1" />
+                <span className="block text-[#0A2540] dark:text-white font-extrabold font-sans text-xs tracking-tight leading-none">{analysis.issuesCount || 0}</span>
+                <span className="mt-1 block">Storms</span>
               </div>
             </div>
 
             {/* Open Source Readiness Panel */}
-            <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-6 flex flex-col items-center text-center shadow-xs">
-              <span className="block text-[10px] font-mono tracking-widest text-[#8E8E93] uppercase mb-4 self-start">Open Source Performance</span>
+            <div className="premium-card p-6 flex flex-col items-center text-center bg-white dark:bg-[#061524]/60">
+              <span className="block text-[9.5px] font-mono tracking-widest text-[#5C768D] dark:text-cyan-400 uppercase mb-4 self-start font-black">⚓ Open Source Readiness</span>
               <CircularProgress score={analysis.openSourceReadinessScore || 75} />
-              <p className="text-xs text-[#8E8E93] mt-4 leading-relaxed font-sans px-1">
-                Based on active issue resolution, public repo documentation, licensing rigor, and cross-repo contributions history.
+              <p className="text-xs text-[#5C768D] dark:text-cyan-100 mt-4 leading-relaxed font-sans font-semibold">
+                Measures issue resolution velocities, license inclusion patterns, and public code layout documentation standards.
               </p>
             </div>
 
-            {/* Polar Category breakdown for code language proportions */}
-            <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-6 shadow-xs">
-              <h3 className="font-mono text-[10px] uppercase tracking-wider text-[#AEAEB2] mb-4 flex items-center gap-1.5 border-b border-[#1C1C1E] pb-2">
-                <Code className="h-4 w-4 text-emerald-400" />
-                <span>Language Diversity match</span>
+            {/* Language distribution as ocean currents */}
+            <div className="premium-card p-6 bg-white dark:bg-[#061524]/60">
+              <h3 className="font-mono text-[9px] uppercase tracking-wider text-[#0F4C81] dark:text-cyan-400 mb-4 flex items-center gap-1.5 border-b border-zinc-150 dark:border-[#123456]/40 pb-2 font-black">
+                <Droplet className="h-4 w-4 text-[#00B8D9]" />
+                <span>Language Currents</span>
               </h3>
               <PolarCategoriesChart 
                 categories={analysis.languages.map(l => ({ label: l.name, score: Math.round(l.percentage) }))} 
@@ -231,26 +235,27 @@ export const GitHubAnalyzer: React.FC = () => {
 
           {/* Detailed Optimizations & Recommendations Columns */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Required Recruiter Optimizations */}
-            <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-6 shadow-xs">
-              <div className="flex items-center justify-between mb-5 border-b border-[#1C1C1E] pb-3">
+            
+            {/* Rudder Alignment Optimizations */}
+            <div className="premium-card p-6 bg-white dark:bg-[#061524]/60">
+              <div className="flex items-center justify-between mb-5 border-b border-[#D2E1ED]/55 dark:border-[#123456]/40 pb-3">
                 <div className="flex items-center gap-2">
-                  <TrendingUp className="h-4.5 w-4.5 text-emerald-400" />
-                  <span className="font-sans font-bold text-white text-base">Required Optimizations</span>
+                  <Compass className="h-4.5 w-4.5 text-[#00B8D9]" />
+                  <span className="font-display font-black text-[#0A2540] dark:text-white text-base">Course Corrections & Improvements</span>
                 </div>
-                <span className="font-mono text-[10px] uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/15">
-                  Readiness Percentile: {analysis.readinessContribution}%
+                <span className="font-mono text-[9.5px] font-black uppercase tracking-wider text-[#00B8D9] bg-cyan-100/50 dark:text-cyan-300 dark:bg-cyan-500/10 px-2.5 py-1 rounded border border-cyan-200 dark:border-cyan-400/20">
+                  Current Yield: {analysis.readinessContribution}%
                 </span>
               </div>
 
               {/* Recommendation item cards list */}
               <div className="space-y-4">
                 {analysis.recommendations.map((rec, i) => (
-                  <div key={i} className="rounded-lg border border-[#262629] bg-[#1B1B1E]/40 p-4 relative overflow-hidden group hover:border-[#3D3D42] transition">
-                    <span className="absolute top-3 right-3 text-[10px] font-mono font-bold text-emerald-400/35 group-hover:text-emerald-400/80 transition">0{i+1}</span>
-                    <h4 className="font-sans text-sm font-bold text-white pr-6 mb-1.5">{rec}</h4>
-                    <p className="text-xs text-[#8E8E93] leading-relaxed select-all">
-                      {analysis.recommendationsReasons[i] || 'Recruiters prioritized this based on hiring consistency filters.'}
+                  <div key={i} className="rounded-xl border border-[#D2E1ED] dark:border-[#123456] bg-[#F8FAFC]/55 dark:bg-[#030D18]/30 p-4 relative overflow-hidden group hover:border-[#00B8D9]/40 transition">
+                    <span className="absolute top-3 right-3 text-[10px] font-mono font-bold text-slate-300 dark:text-slate-700">COORD 0{i+1}</span>
+                    <h4 className="font-display text-sm font-bold text-[#0A2540] dark:text-white pr-6 mb-1.5">{rec}</h4>
+                    <p className="text-xs text-[#5C768D] dark:text-cyan-100 leading-relaxed font-semibold">
+                      {analysis.recommendationsReasons[i] || 'Anchor systems identified this coordinate gap during public API deep scans.'}
                     </p>
                   </div>
                 ))}
@@ -258,22 +263,22 @@ export const GitHubAnalyzer: React.FC = () => {
             </div>
 
             {/* AI Career Portfolio Insights */}
-            <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-6 shadow-xs">
-              <h3 className="font-sans font-bold text-white text-base flex items-center gap-2 mb-5 border-b border-[#1C1C1E] pb-3">
-                <Sparkles className="h-4.5 w-4.5 text-emerald-400" />
-                <span>AI Developer Portfolio Insights</span>
+            <div className="premium-card p-6 bg-white dark:bg-[#061524]/60">
+              <h3 className="font-display font-black text-[#0A2540] dark:text-white text-base flex items-center gap-2 mb-5 border-b border-[#D2E1ED]/55 dark:border-[#123456]/45 pb-3">
+                <Sparkles className="h-4.5 w-4.5 text-[#00B8D9]" />
+                <span>Ocean Guard AI Diagnostic Sonar</span>
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-mono text-[10px] uppercase tracking-wider text-emerald-400 mb-3 flex items-center gap-1.5">
-                    <CheckCircle className="h-4 w-4" />
-                    <span>Technical Strengths</span>
+                  <h4 className="font-mono text-[9.5px] uppercase tracking-wider text-teal-650 dark:text-[#2DD4BF] mb-3 flex items-center gap-1.5 font-black">
+                    <CheckCircle className="h-4 w-4 text-teal-500" />
+                    <span>Coastal Strengths</span>
                   </h4>
-                  <ul className="space-y-2.5 text-xs text-[#8E8E93] list-none">
+                  <ul className="space-y-2.5 text-xs text-[#5C768D] dark:text-cyan-100 list-none font-semibold">
                     {analysis.strengths?.map((str, idx) => (
                       <li key={idx} className="flex gap-2">
-                        <span className="text-emerald-500 font-bold">•</span>
+                        <span className="text-teal-500 font-extrabold">•</span>
                         <span>{str}</span>
                       </li>
                     ))}
@@ -281,29 +286,29 @@ export const GitHubAnalyzer: React.FC = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-mono text-[10px] uppercase tracking-wider text-amber-500 mb-3 flex items-center gap-1.5">
+                  <h4 className="font-mono text-[9.5px] uppercase tracking-wider text-amber-600 dark:text-amber-450 mb-3 flex items-center gap-1.5 font-black">
                     <AlertTriangle className="h-4 w-4" />
-                    <span>Hiring Vulnerabilities</span>
+                    <span>Hiring Reef Hazards</span>
                   </h4>
-                  <ul className="space-y-2.5 text-xs text-[#8E8E93] list-none">
+                  <ul className="space-y-2.5 text-xs text-[#5C768D] dark:text-cyan-100 list-none font-semibold">
                     {analysis.weaknesses?.map((wk, idx) => (
                       <li key={idx} className="flex gap-2">
-                        <span className="text-amber-500 font-bold">•</span>
+                        <span className="text-amber-500 font-extrabold">•</span>
                         <span>{wk}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="md:col-span-2 border-t border-[#1C1C1E]/80 pt-5 mt-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="md:col-span-2 border-t border-[#D2E1ED]/40 dark:border-[#123456]/40 pt-5 mt-2 grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h4 className="font-mono text-[10px] uppercase tracking-wider text-rose-400 mb-3 flex items-center gap-1.5">
-                      <XCircle className="h-4 w-4" />
-                      <span>Missing Career Skills</span>
+                    <h4 className="font-mono text-[9.5px] uppercase tracking-wider text-rose-500 mb-3 flex items-center gap-1.5 font-black">
+                      <XCircle className="h-4 w-4 text-rose-500" />
+                      <span>Missing Fleet Skills</span>
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {analysis.missingSkills?.map((ms, idx) => (
-                        <span key={idx} className="bg-rose-500/10 border border-rose-500/15 text-rose-400 rounded-md px-2 py-1 text-[10px] font-mono">
+                        <span key={idx} className="bg-rose-500/10 border border-rose-500/15 text-rose-600 dark:text-rose-450 rounded-lg px-2.5 py-1 text-[10px] font-mono font-extrabold">
                           {ms}
                         </span>
                       ))}
@@ -311,13 +316,13 @@ export const GitHubAnalyzer: React.FC = () => {
                   </div>
 
                   <div>
-                    <h4 className="font-mono text-[10px] uppercase tracking-wider text-emerald-400 mb-3 flex items-center gap-1.5">
-                      <Award className="h-4 w-4" />
-                      <span>Technology Roadmap Recs</span>
+                    <h4 className="font-mono text-[9.5px] uppercase tracking-wider text-teal-650 dark:text-teal-450 mb-3 flex items-center gap-1.5 font-black">
+                      <Award className="h-4 w-4 text-teal-500" />
+                      <span>Suggested Island Expansions</span>
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {analysis.technologyRecommendations?.map((tr, idx) => (
-                        <span key={idx} className="bg-emerald-500/10 border border-emerald-500/15 text-emerald-400 rounded-md px-2 py-1 text-[10px] font-mono">
+                        <span key={idx} className="bg-teal-500/10 border border-teal-500/15 text-teal-600 dark:text-teal-400 rounded-lg px-2.5 py-1 text-[10px] font-mono font-extrabold">
                           {tr}
                         </span>
                       ))}
@@ -327,81 +332,81 @@ export const GitHubAnalyzer: React.FC = () => {
               </div>
             </div>
 
-            {/* Interactive Contribution Heatmap representation */}
-            <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-6 shadow-xs font-mono">
-              <div className="flex items-center justify-between mb-4 border-b border-[#1C1C1E] pb-3">
-                <span className="text-[10px] uppercase tracking-widest text-[#8E8E93] block">52-Week Contribution Intensity Heatmap</span>
-                <span className="text-[9.5px] text-[#8E8E93]">{analysis.repositoriesCount} repositories scrutinized</span>
+            {/* Activity heatmap inspired by water depth */}
+            <div className="premium-card p-6 font-mono bg-white dark:bg-[#061524]/60">
+              <div className="flex items-center justify-between mb-4 border-b border-[#D2E1ED]/40 dark:border-[#123456]/40 pb-3">
+                <span className="text-[9.5px] uppercase tracking-wider text-[#0F4C81] dark:text-cyan-400 block font-black">52-Week Marine Depth Heatmap</span>
+                <span className="text-[10px] text-[#5C768D] dark:text-cyan-300 font-bold">{analysis.repositoriesCount} repository trenches scoured</span>
               </div>
-              <div className="flex flex-wrap gap-1 w-full max-w-full justify-between p-1.5 bg-[#0E0E10] border border-[#1C1C1E] rounded-lg">
+              <div className="flex flex-wrap gap-1 w-full max-w-full justify-between p-2 bg-[#F8FAFC] dark:bg-[#030D18] border border-[#D2E1ED] dark:border-[#123456] rounded-xl">
                 {analysis.heatmapData?.map((val, idx) => {
-                  let colorClass = 'bg-[#1C1C1E]'; // 0
-                  if (val > 0 && val <= 3) colorClass = 'bg-emerald-950/40 text-emerald-400/20';
-                  else if (val > 3 && val <= 7) colorClass = 'bg-emerald-900/60 text-emerald-400/40';
-                  else if (val > 7 && val <= 11) colorClass = 'bg-emerald-600/60 text-emerald-200';
-                  else if (val > 11) colorClass = 'bg-emerald-400 text-black';
+                  let colorClass = 'bg-slate-100 dark:bg-[#061524]'; 
+                  if (val > 0 && val <= 3) colorClass = 'bg-[#E0F7FA] dark:bg-[#0F4C81]/25 text-[#00B8D9]/40';
+                  else if (val > 3 && val <= 7) colorClass = 'bg-[#B2EBF2] dark:bg-[#0F4C81]/50 text-white';
+                  else if (val > 7 && val <= 11) colorClass = 'bg-[#00B8D9] text-white';
+                  else if (val > 11) colorClass = 'bg-[#0F4C81] text-white shadow-xs';
 
                   return (
                     <div 
                       key={idx}
-                      title={`Week ${idx+1}: ${val} public contributions`}
-                      className={`h-4.5 w-4.5 rounded-[3px] flex items-center justify-center text-[8px] font-bold cursor-default transition-transform hover:scale-115 ${colorClass}`}
+                      title={`Week ${idx+1}: ${val} knots of activity`}
+                      className={`h-4.5 w-4.5 rounded-[3px] flex items-center justify-center text-[8px] font-extrabold cursor-default transition-transform hover:scale-120 ${colorClass}`}
                     >
                       {val > 0 ? val : ''}
                     </div>
                   );
                 })}
               </div>
-              <div className="flex items-center justify-end gap-2 text-[9px] text-[#8E8E93] mt-2.5">
-                <span>Less</span>
-                <div className="h-3 w-3 rounded bg-[#1C1C1E]" />
-                <div className="h-3 w-3 rounded bg-emerald-950/40" />
-                <div className="h-3 w-3 rounded bg-emerald-900/60" />
-                <div className="h-3 w-3 rounded bg-emerald-600/60" />
-                <div className="h-3 w-3 rounded bg-emerald-400" />
-                <span>More</span>
+              <div className="flex items-center justify-end gap-2 text-[9px] text-[#5C768D] dark:text-slate-400 mt-3 font-bold">
+                <span>Shallow Current</span>
+                <div className="h-3 w-3 rounded bg-slate-100 dark:bg-[#061524] border border-slate-205" />
+                <div className="h-3 w-3 rounded bg-[#E0F7FA] dark:bg-[#0F4C81]/25" />
+                <div className="h-3 w-3 rounded bg-[#B2EBF2] dark:bg-[#0F4C81]/50" />
+                <div className="h-3 w-3 rounded bg-[#00B8D9]" />
+                <div className="h-3 w-3 rounded bg-[#0F4C81]" />
+                <span>Ocean Abyss</span>
               </div>
             </div>
 
-            {/* Top Repositories Grid */}
+            {/* Scrutinized Repository Islands Grid */}
             <div className="space-y-4">
-              <span className="block text-[10px] font-mono tracking-widest text-[#8E8E93] uppercase pl-1">Scrutinized Top Repositories</span>
+              <span className="block text-[10px] font-mono tracking-widest text-[#5C768D] dark:text-cyan-400 uppercase pl-1 font-black">Scrutinized Repository Islands</span>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {analysis.topRepos?.map((repo, idx) => (
-                  <div key={idx} className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-5 hover:bg-[#1C1C1E]/55 transition flex flex-col justify-between group">
+                  <div key={idx} className="premium-card p-5 hover:border-[#00B8D9]/40 transition flex flex-col justify-between group bg-white dark:bg-[#061524]/60">
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-sans font-bold text-white text-sm tracking-tight truncate flex items-center gap-2">
-                          <FileCode className="h-4 w-4 text-emerald-400" />
+                        <h4 className="font-display font-bold text-[#0A2540] dark:text-white text-sm truncate flex items-center gap-2">
+                          <FileCode className="h-4 w-4 text-[#00B8D9]" />
                           <span>{repo.name}</span>
                         </h4>
                         <a 
                           href={repo.url} 
                           target="_blank" 
                           rel="noreferrer" 
-                          className="text-[#8E8E93] hover:text-emerald-400 transition"
+                          className="text-[#5C768D] hover:text-[#00B8D9] dark:hover:text-white transition"
                         >
                           <ArrowUpRight className="h-4 w-4" />
                         </a>
                       </div>
-                      <p className="text-xs text-[#8E8E93] leading-relaxed font-sans line-clamp-2">
+                      <p className="text-xs text-[#5C768D] dark:text-cyan-100 leading-relaxed line-clamp-2 font-semibold">
                         {repo.description}
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-4 mt-4 pt-3.5 border-t border-[#1C1C1E]/40 font-mono text-[10px] text-[#8E8E93]">
+                    <div className="flex items-center gap-4 mt-4 pt-3.5 border-t border-[#D2E1ED]/40 dark:border-[#123456]/40 font-mono text-[9px] text-[#5C768D] dark:text-cyan-400 font-bold">
                       {repo.language && (
-                        <span className="text-white text-semibold bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/10">
+                        <span className="text-cyan-800 dark:text-cyan-300 bg-cyan-100/60 dark:bg-cyan-500/10 border border-cyan-200/50 dark:border-cyan-450/10 px-1.5 py-0.5 rounded">
                           {repo.language}
                         </span>
                       )}
                       <span className="flex items-center gap-1">
                         <Star className="h-3.5 w-3.5 text-amber-500" />
-                        <span>{repo.stars} stars</span>
+                        <span>{repo.stars} knots</span>
                       </span>
                       <span className="flex items-center gap-1">
-                        <GitBranch className="h-3.5 w-3.5 text-emerald-500/70" />
-                        <span>{repo.forks} forks</span>
+                        <GitBranch className="h-3.5 w-3.5 text-teal-500" />
+                        <span>{repo.forks} channels</span>
                       </span>
                     </div>
                   </div>
@@ -410,28 +415,28 @@ export const GitHubAnalyzer: React.FC = () => {
             </div>
 
             {/* Chronological Activity Timeline */}
-            <div className="rounded-xl border border-[#2D2D30] bg-[#141416]/50 p-6 shadow-xs space-y-4">
-              <span className="block text-[10px] font-mono tracking-widest text-[#8E8E93] uppercase pl-1 border-b border-[#1C1C1E] pb-2">Historic Portfolio Activity Log</span>
+            <div className="premium-card p-6 bg-white dark:bg-[#061524]/60 space-y-4">
+              <span className="block text-[10px] font-mono tracking-widest text-[#5C768D] dark:text-cyan-400 uppercase pl-1 border-b border-zinc-150 dark:border-[#123456]/40 pb-2 font-black">Maritime Voyage Log</span>
               
-              <div className="relative pl-6 border-l border-[#1C1C1E] space-y-5 py-2">
+              <div className="relative pl-6 border-l border-[#D2E1ED] dark:border-[#123456]/40 space-y-5 py-2">
                 {analysis.recentActivity?.map((act, idx) => (
                   <div key={idx} className="relative">
                     {/* Circle Node indicator */}
-                    <div className="absolute -left-[30px] top-1 h-4 w-4 rounded-full bg-[#0E0E10] border-2 border-emerald-400 flex items-center justify-center text-[7px]" />
+                    <div className="absolute -left-[31px] top-1 h-3.5 w-3.5 rounded-full bg-white dark:bg-[#030D18] border-2 border-[#00B8D9] flex items-center justify-center" />
                     
                     <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-1">
                       <div>
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="font-mono text-[9px] uppercase tracking-wider text-emerald-400 font-bold bg-emerald-500/10 px-1.5 py-0.2 rounded">
+                          <span className="font-mono text-[8px] uppercase tracking-wider text-cyan-800 bg-cyan-100/60 dark:text-cyan-300 dark:bg-cyan-500/10 px-1.5 py-0.2 rounded font-black border border-cyan-200/30 dark:border-cyan-455/10">
                             {act.type}
                           </span>
-                          <span className="text-white font-sans font-bold text-xs">{act.repo}</span>
+                          <span className="text-[#0D2E4D] dark:text-cyan-200 font-display font-black text-xs">{act.repo}</span>
                         </div>
-                        <p className="text-xs text-[#8E8E93] leading-relaxed">
+                        <p className="text-xs text-[#5C768D] dark:text-cyan-100 leading-relaxed font-semibold">
                           {act.message}
                         </p>
                       </div>
-                      <span className="text-[10px] font-mono text-[#8E8E93] whitespace-nowrap self-start">
+                      <span className="text-[9px] font-mono text-[#5C768D] dark:text-cyan-405 font-bold whitespace-nowrap self-start">
                         {act.date}
                       </span>
                     </div>
@@ -443,15 +448,16 @@ export const GitHubAnalyzer: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="rounded-xl border border-[#2D2D30] border-dashed bg-[#141416]/20 p-12 text-center">
-          <Github className="h-10 w-10 text-[#8E8E93] mx-auto mb-4 opacity-50" />
-          <h3 className="font-sans font-bold text-white text-base">Ready for audit formulation</h3>
-          <p className="text-xs text-[#8E8E93] max-w-sm mx-auto mt-1 leading-relaxed">
-            Provide your GitHub profile username on top and let CodeMentor AI conduct professional repository structuring audits.
+        <div className="premium-card border-dashed p-12 text-center bg-white dark:bg-[#061524]/60">
+          <Ship className="h-10 w-10 text-[#00B8D9] mx-auto mb-4 opacity-70 animate-bounce" />
+          <h3 className="font-display font-black text-[#0A2540] dark:text-white text-base">Initialize Maritime Evaluation</h3>
+          <p className="text-xs text-[#5C768D] dark:text-cyan-300 max-w-sm mx-auto mt-1 leading-relaxed font-semibold">
+            Input your public handle above. Code Ocean algorithms will map your repository patterns into navigable currents and readiness percentages.
           </p>
         </div>
       )}
-    </div>
+    </OceanPageShell>
   );
 };
+
 export default GitHubAnalyzer;
