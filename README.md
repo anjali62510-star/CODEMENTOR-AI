@@ -125,40 +125,6 @@ CodeMentor AI solves these challenges through intelligent recommendations, progr
 * Tablet optimization
 * Cross-device compatibility
 
----
-
-## 📸 Screenshots
-
-### 🌊 Ocean Command Center Dashboard
-
-![Dashboard](screenshots/dashboard.png)
-
-### 📊 GitHub Profile Analyzer
-
-![GitHub Analyzer](screenshots/github-analyzer.png)
-
-### 🤖 Ocean Guide AI Career Coach
-
-![AI Career Coach](screenshots/ai-career-coach.png)
-
-### 🧭 AI Roadmap Generator
-
-![Roadmap Generator](screenshots/roadmap-generator.png)
-
-### 📄 Recruiter Radar Resume Analyzer
-
-![Resume Analyzer](screenshots/resume-analyzer.png)
-
-### 📱 Responsive Mobile Experience
-
-![Mobile View](screenshots/mobile-view.png)
-
-### 🌙 Ocean Dark Mode
-
-![Dark Mode](screenshots/dark-mode.png)
-
----
-
 ## 🛠️ Tech Stack
 
 ### Frontend
